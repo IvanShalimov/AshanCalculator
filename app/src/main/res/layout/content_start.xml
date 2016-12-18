@@ -36,4 +36,12 @@
         android:layout_below="@+id/add_tag_button"
         android:layout_centerHorizontal="true"
         android:id="@+id/clear_bag_buton" />
+
+    <TextView
+        android:text="-1"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_above="@+id/add_item_button"
+        android:layout_centerHorizontal="true"
+        android:id="@+id/test_status_click" />
 </RelativeLayout>
