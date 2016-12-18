@@ -8,14 +8,25 @@ import android.support.v7.widget.Toolbar;
 import android.view.View;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.widget.Button;
+
+import butterknife.BindView;
 
 public class StartActivity extends AppCompatActivity {
+
+    @BindView(R.id.add_item_button)
+    Button addItemButton;
+    @BindView(R.id.add_tag_button)
+    Button addTagButton;
+    @BindView(R.id.clear_bag_buton)
+    Button clearItemsButton;
+    @BindView(R.id.toolbar)
+    Toolbar toolbar;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_start);
-        Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
     }
 
