@@ -1,4 +1,7 @@
 <resources>
-    <string name="app_name">AshanCalculator</string>
+    <string name="app_name">АшанКалькулятор</string>
     <string name="action_settings">Settings</string>
+    <string name="create_tag">Добавить тэг</string>
+    <string name="add_bag" >Добавить товары</string>
+    <string name="clear_bag">Очистить корзину</string>
 </resources>
