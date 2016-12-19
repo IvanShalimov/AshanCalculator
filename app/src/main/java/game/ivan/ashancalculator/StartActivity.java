@@ -10,93 +10,50 @@ import android.util.Log;
 import android.view.View;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.TextView;
 
+import com.bluelinelabs.conductor.Conductor;
+import com.bluelinelabs.conductor.Router;
+import com.bluelinelabs.conductor.RouterTransaction;
 import com.hannesdorfmann.mosby.mvp.MvpActivity;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
+import game.ivan.ashancalculator.controller.StartController;
 import game.ivan.ashancalculator.presenter.StartPresenter;
 import game.ivan.ashancalculator.view.StartView;
 
-public class StartActivity extends MvpActivity<StartView,StartPresenter> implements StartView {
+public class StartActivity extends AppCompatActivity {
 
-    @BindView(R.id.add_item_button)
-    Button addItemButton;
-    @BindView(R.id.add_tag_button)
-    Button addTagButton;
-    @BindView(R.id.clear_bag_buton)
-    Button clearItemsButton;
     @BindView(R.id.toolbar)
     Toolbar toolbar;
-    @BindView(R.id.test_status_click)
-    TextView testTextView;
+    @BindView(R.id.container)
+    ViewGroup container;
+
+    Router router;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_start);
-        setSupportActionBar(toolbar);
         ButterKnife.bind(this);
+        setSupportActionBar(toolbar);
 
-    }
-
-    @NonNull
-    @Override
-    public StartPresenter createPresenter() {
-        return new StartPresenter();
-    }
-
-    @Override
-    public boolean onCreateOptionsMenu(Menu menu) {
-        // Inflate the menu; this adds items to the action bar if it is present.
-        getMenuInflater().inflate(R.menu.menu_start, menu);
-        return true;
-    }
-
-    @Override
-    public boolean onOptionsItemSelected(MenuItem item) {
-        // Handle action bar item clicks here. The action bar will
-        // automatically handle clicks on the Home/Up button, so long
-        // as you specify a parent activity in AndroidManifest.xml.
-        int id = item.getItemId();
-
-        //noinspection SimplifiableIfStatement
-        if (id == R.id.action_settings) {
-            return true;
+        router = Conductor.attachRouter(this, container, savedInstanceState);
+        if (!router.hasRootController()) {
+            router.setRoot(RouterTransaction.with(new StartController()));
         }
 
-        return super.onOptionsItemSelected(item);
-    }
 
-    @OnClick(R.id.add_item_button)
-    public void addItemButtonClick(View view){
-        Log.d("Test","0");
-        presenter.returnText(0);
-    }
-
-    @OnClick(R.id.add_tag_button)
-    public void addTagButtonClick(View view){
-        Log.d("Test","1");
-        presenter.returnText(1);
-    }
-
-    @OnClick(R.id.clear_bag_buton)
-    public void clearingButtonClick(View view){
-        Log.d("Test","2");
-        presenter.returnText(2);
     }
 
     @Override
-    protected void onDestroy() {
-        super.onDestroy();
-        presenter.detachView(false);
-    }
-
-    @Override
-    public void showText(String text) {
-        testTextView.setText(text);
+    public void onBackPressed() {
+        if (!router.handleBack()) {
+            super.onBackPressed();
+        }
     }
 }

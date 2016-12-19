@@ -1,0 +1,12 @@
+<component name="libraryTable">
+  <library name="viewstate-conductor-0.8.2">
+    <CLASSES>
+      <root url="file://$PROJECT_DIR$/app/build/intermediates/exploded-aar/com.hannesdorfmann.mosby/viewstate-conductor/0.8.2/res" />
+      <root url="jar://$PROJECT_DIR$/app/build/intermediates/exploded-aar/com.hannesdorfmann.mosby/viewstate-conductor/0.8.2/jars/classes.jar!/" />
+    </CLASSES>
+    <JAVADOC />
+    <SOURCES>
+      <root url="jar://$USER_HOME$/.gradle/caches/modules-2/files-2.1/com.hannesdorfmann.mosby/viewstate-conductor/0.8.2/8177fa1e6640690283e2e654fb528bb789af02a7/viewstate-conductor-0.8.2-sources.jar!/" />
+    </SOURCES>
+  </library>
+</component>

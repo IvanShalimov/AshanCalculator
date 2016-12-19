@@ -1,0 +1,40 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/content_start"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:showIn="@layout/activity_start">
+
+    <Button
+        android:id="@+id/add_tag_button"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_centerHorizontal="true"
+        android:layout_centerVertical="true"
+        android:text="@string/create_tag" />
+
+    <Button
+        android:id="@+id/add_item_button"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_above="@+id/add_tag_button"
+        android:layout_centerHorizontal="true"
+        android:text="@string/add_bag" />
+
+    <Button
+        android:id="@+id/clear_bag_buton"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/add_tag_button"
+        android:layout_centerHorizontal="true"
+        android:text="@string/clear_bag" />
+
+    <TextView
+        android:id="@+id/test_status_click"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_above="@+id/add_item_button"
+        android:layout_centerHorizontal="true"
+        android:text="-1" />
+</RelativeLayout>
