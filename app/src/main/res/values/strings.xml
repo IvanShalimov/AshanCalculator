@@ -4,4 +4,9 @@
     <string name="create_tag">Добавить тэг</string>
     <string name="add_bag" >Добавить товары</string>
     <string name="clear_bag">Очистить корзину</string>
+    <string name="divider">Коэффициент деления</string>
+    <string name="tag_name_edit_field">Наименование тэга</string>
+    <string name="editor_ok_button_label">ОК</string>
+    <string name="editor_cancel_button_label">Cancel</string>
+    <string name="content_label">content</string>
 </resources>
