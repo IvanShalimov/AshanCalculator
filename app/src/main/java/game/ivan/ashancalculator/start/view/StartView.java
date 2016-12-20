@@ -1,4 +1,4 @@
-package game.ivan.ashancalculator.view;
+package game.ivan.ashancalculator.start.view;
 
 import com.hannesdorfmann.mosby.mvp.MvpView;
 

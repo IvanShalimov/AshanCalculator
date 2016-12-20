@@ -1,45 +1,33 @@
-package game.ivan.ashancalculator.controller;
+package game.ivan.ashancalculator.items.controller;
 
 import android.support.annotation.NonNull;
+import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.Button;
-import android.widget.TextView;
 
 import com.hannesdorfmann.mosby.mvp.conductor.MvpController;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
-import butterknife.OnClick;
 import butterknife.Unbinder;
 import game.ivan.ashancalculator.R;
-import game.ivan.ashancalculator.presenter.StartPresenter;
-import game.ivan.ashancalculator.view.StartView;
+import game.ivan.ashancalculator.items.presenter.ItemsPresenter;
+import game.ivan.ashancalculator.items.view.ItemsView;
 
 /**
- * Created by ivan on 19.12.16.
+ * Created by ivan on 21.12.16.
  */
 
-public class StartController extends MvpController<StartView,StartPresenter> implements StartView {
+public class ItemsController extends MvpController<ItemsView,ItemsPresenter> implements ItemsView {
 
-    @BindView(R.id.add_item_button)
-    Button addItemButton;
-    @BindView(R.id.add_tag_button)
-    Button addTagButton;
-    @BindView(R.id.clear_bag_buton)
-    Button clearItemsButton;
-    @BindView(R.id.test_status_click)
-    TextView testTextView;
     private Unbinder unbinder;
-
-    @Override
-    public void showText(String text) {
-        testTextView.setText(text);
-    }
+    @BindView(R.id.list)
+    RecyclerView list;
+    RecyclerView.LayoutManager layoutManager;
 
     @NonNull
     @Override
@@ -51,27 +39,12 @@ public class StartController extends MvpController<StartView,StartPresenter> imp
 
     @NonNull
     @Override
-    public StartPresenter createPresenter() {
-        return new StartPresenter();
+    public ItemsPresenter createPresenter() {
+        return new ItemsPresenter();
     }
 
     protected  View inflateView(@NonNull LayoutInflater inflater, @NonNull ViewGroup container){
-        return inflater.inflate(R.layout.start_controller_layout, container, false);
-    }
-
-    @OnClick(R.id.add_item_button)
-    public void addItemButtonClick(View view){
-        presenter.returnText(0);
-    }
-
-    @OnClick(R.id.add_tag_button)
-    public void addTagButtonClick(View view){
-        presenter.returnText(1);
-    }
-
-    @OnClick(R.id.clear_bag_buton)
-    public void clearingButtonClick(View view){
-        presenter.returnText(2);
+        return inflater.inflate(R.layout.list_layout, container, false);
     }
 
     @Override
@@ -83,7 +56,7 @@ public class StartController extends MvpController<StartView,StartPresenter> imp
     @Override
     public void onCreateOptionsMenu(@NonNull Menu menu, @NonNull MenuInflater inflater) {
         super.onCreateOptionsMenu(menu, inflater);
-        inflater.inflate(R.menu.menu_start, menu);
+        inflater.inflate(R.menu.menu_tags, menu);
     }
 
     @Override

@@ -1,11 +1,12 @@
-package game.ivan.ashancalculator.presenter;
+package game.ivan.ashancalculator.start.presenter;
 
 import android.util.Log;
 
+import com.bluelinelabs.conductor.RouterTransaction;
+import com.bluelinelabs.conductor.changehandler.FadeChangeHandler;
 import com.hannesdorfmann.mosby.mvp.MvpBasePresenter;
-import com.hannesdorfmann.mosby.mvp.MvpPresenter;
 
-import game.ivan.ashancalculator.view.StartView;
+import game.ivan.ashancalculator.start.view.StartView;
 
 /**
  * Created by ivan on 19.12.16.
