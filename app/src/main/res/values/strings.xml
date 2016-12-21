@@ -9,4 +9,5 @@
     <string name="editor_ok_button_label">ОК</string>
     <string name="editor_cancel_button_label">Cancel</string>
     <string name="content_label">content</string>
+    <string name="add_label_menu_item">add</string>
 </resources>
