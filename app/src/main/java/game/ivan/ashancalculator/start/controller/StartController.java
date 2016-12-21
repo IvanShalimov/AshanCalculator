@@ -16,6 +16,7 @@ import com.bluelinelabs.conductor.ControllerChangeHandler;
 import com.bluelinelabs.conductor.ControllerChangeType;
 import com.bluelinelabs.conductor.RouterTransaction;
 import com.bluelinelabs.conductor.changehandler.FadeChangeHandler;
+import com.bluelinelabs.conductor.changehandler.HorizontalChangeHandler;
 import com.hannesdorfmann.mosby.mvp.conductor.MvpController;
 
 import butterknife.BindView;
@@ -90,18 +91,16 @@ public class StartController extends MvpController<StartView,StartPresenter> imp
     public void addItemButtonClick(View view){
         getRouter().pushController(
                 RouterTransaction.with(new ItemsController())
-                        .pushChangeHandler(new FadeChangeHandler())
-                        .popChangeHandler(new FadeChangeHandler()));
-        //presenter.returnText(0);
+                        .pushChangeHandler(new HorizontalChangeHandler())
+                        .popChangeHandler(new HorizontalChangeHandler()));
     }
 
     @OnClick(R.id.add_tag_button)
     public void addTagButtonClick(View view){
         getRouter().pushController(
                 RouterTransaction.with(new TagsController())
-                        .pushChangeHandler(new FadeChangeHandler())
-                        .popChangeHandler(new FadeChangeHandler()));
-        //presenter.returnText(1);
+                        .pushChangeHandler(new HorizontalChangeHandler())
+                        .popChangeHandler(new HorizontalChangeHandler()));
     }
 
     @OnClick(R.id.clear_bag_buton)
@@ -143,7 +142,5 @@ public class StartController extends MvpController<StartView,StartPresenter> imp
     @Override
     protected void onChangeEnded(@NonNull ControllerChangeHandler changeHandler, @NonNull ControllerChangeType changeType) {
         super.onChangeEnded(changeHandler, changeType);
-        if(isAttached()){
-        }
     }
 }
