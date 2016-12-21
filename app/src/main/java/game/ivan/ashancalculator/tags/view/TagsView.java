@@ -7,4 +7,5 @@ import com.hannesdorfmann.mosby.mvp.MvpView;
  */
 
 public interface TagsView extends MvpView {
+    public void scanBarcode();
 }

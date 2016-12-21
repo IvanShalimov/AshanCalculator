@@ -1,5 +1,6 @@
 package game.ivan.ashancalculator.tags.controller;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.v7.widget.RecyclerView;
@@ -13,6 +14,7 @@ import android.widget.Toast;
 
 import com.afollestad.materialdialogs.DialogAction;
 import com.afollestad.materialdialogs.MaterialDialog;
+import com.google.zxing.integration.android.IntentIntegrator;
 import com.hannesdorfmann.mosby.mvp.conductor.MvpController;
 
 import butterknife.BindView;
@@ -105,5 +107,15 @@ public class TagsController extends MvpController<TagsView,TagsPresenter> implem
     @Override
     public void onClick(@NonNull MaterialDialog dialog, @NonNull DialogAction which) {
         Toast.makeText(getApplicationContext(), "Success", Toast.LENGTH_SHORT).show();
+    }
+
+    @Override
+    public void onActivityResult(int requestCode, int resultCode, Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+    }
+
+    @Override
+    public void scanBarcode() {
+        new IntentIntegrator(getActivity()).initiateScan();
     }
 }
