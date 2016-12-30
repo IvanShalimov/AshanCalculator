@@ -2,6 +2,8 @@ package game.ivan.ashancalculator.tags.presenter;
 
 import com.hannesdorfmann.mosby.mvp.MvpBasePresenter;
 
+import game.ivan.ashancalculator.database.DatabaseManager;
+import game.ivan.ashancalculator.database.models.Tags;
 import game.ivan.ashancalculator.tags.view.TagsView;
 
 /**
@@ -9,6 +11,30 @@ import game.ivan.ashancalculator.tags.view.TagsView;
  */
 
 public class TagsPresenter extends MvpBasePresenter<TagsView> {
+    DatabaseManager databaseManager;
+
+    public TagsPresenter(){
+        databaseManager = new DatabaseManager();
+    }
+
+    public void addTag(Tags tag){
+        databaseManager.insertTag(tag);
+        loadTags();
+    }
+
+    public void getTag(int position){
+
+    }
+
+    public void loadTags(){
+        if(isViewAttached()){
+            getView().refreshList(databaseManager.readAllRecord());
+            //костыль организуй Wrapper
+            //databaseManager.
+        }
+
+
+    }
 
     // Called when Activity gets destroyed, so cancel running background task
     public void detachView(boolean retainPresenterInstance){

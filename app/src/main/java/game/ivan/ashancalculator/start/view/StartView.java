@@ -7,5 +7,7 @@ import com.hannesdorfmann.mosby.mvp.MvpView;
  */
 
 public interface StartView extends MvpView {
-    void showText(String text);
+    void openProductBag();
+    void openTagEditor();
+    void openCalculater();
 }

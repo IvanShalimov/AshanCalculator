@@ -1,26 +1,31 @@
 package game.ivan.ashancalculator.tags.controller;
 
+import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
+import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.Toast;
+import android.widget.EditText;
 
 import com.afollestad.materialdialogs.DialogAction;
 import com.afollestad.materialdialogs.MaterialDialog;
-import com.google.zxing.integration.android.IntentIntegrator;
 import com.hannesdorfmann.mosby.mvp.conductor.MvpController;
+
+import java.util.List;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.Unbinder;
 import game.ivan.ashancalculator.R;
+import game.ivan.ashancalculator.database.models.Tags;
 import game.ivan.ashancalculator.tags.presenter.TagsPresenter;
 import game.ivan.ashancalculator.tags.view.TagsView;
 
@@ -34,6 +39,8 @@ public class TagsController extends MvpController<TagsView,TagsPresenter> implem
     @BindView(R.id.list)
     RecyclerView list;
     RecyclerView.LayoutManager layoutManager;
+    TagsListAdapter adapter;
+
 
     public  TagsController(){
         setHasOptionsMenu(true);
@@ -54,6 +61,18 @@ public class TagsController extends MvpController<TagsView,TagsPresenter> implem
 
     protected void onViewBound(View view){
 
+        layoutManager = new LinearLayoutManager(getApplicationContext());
+        list.setLayoutManager(layoutManager);
+        adapter = new TagsListAdapter();
+        list.setAdapter(adapter);
+    }
+
+    @Override
+    protected void onActivityResumed(Activity activity) {
+        super.onActivityResumed(activity);
+
+
+        presenter.loadTags();
     }
 
     @NonNull
@@ -106,7 +125,19 @@ public class TagsController extends MvpController<TagsView,TagsPresenter> implem
 
     @Override
     public void onClick(@NonNull MaterialDialog dialog, @NonNull DialogAction which) {
-        Toast.makeText(getApplicationContext(), "Success", Toast.LENGTH_SHORT).show();
+        View layout = dialog.getCustomView();
+        String name =
+                ((EditText)layout.findViewById(R.id.name_edit_field))
+                .getText()
+                .toString();
+        if(name == null) Log.d("Test","null is name");
+
+        int division = Integer
+                .valueOf(
+                ((EditText)layout.findViewById(R.id.count_edit_field))
+                        .getText()
+                        .toString());
+        presenter.addTag(new Tags(name, division));
     }
 
     @Override
@@ -115,7 +146,7 @@ public class TagsController extends MvpController<TagsView,TagsPresenter> implem
     }
 
     @Override
-    public void scanBarcode() {
-        new IntentIntegrator(getActivity()).initiateScan();
+    public void refreshList(List<Tags> list) {
+        adapter.setTags(list);
     }
 }

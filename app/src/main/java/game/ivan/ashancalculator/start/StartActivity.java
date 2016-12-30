@@ -40,7 +40,6 @@ public class StartActivity extends AppCompatActivity implements ActionBarProvide
             router.setRoot(RouterTransaction.with(new StartController()));
         }
 
-
     }
 
     @Override
