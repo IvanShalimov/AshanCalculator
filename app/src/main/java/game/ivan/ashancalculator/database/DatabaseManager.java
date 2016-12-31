@@ -29,6 +29,12 @@ public class DatabaseManager {
         closeConnection();
     }
 
+    public void delteTag(Tags tag){
+        openConnection(AshanApplication.getInstante());
+        cupboard().withDatabase(database).delete(tag);
+        closeConnection();
+    }
+
     public List<Tags> readAllRecord(){
         openConnection(AshanApplication.getInstante());
         List<Tags> list = cupboard().withDatabase(database).query(Tags.class).list();

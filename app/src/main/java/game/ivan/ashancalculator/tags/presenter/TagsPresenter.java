@@ -22,10 +22,6 @@ public class TagsPresenter extends MvpBasePresenter<TagsView> {
         loadTags();
     }
 
-    public void getTag(int position){
-
-    }
-
     public void loadTags(){
         if(isViewAttached()){
             getView().refreshList(databaseManager.readAllRecord());
@@ -33,7 +29,11 @@ public class TagsPresenter extends MvpBasePresenter<TagsView> {
             //databaseManager.
         }
 
+    }
 
+    public void deleteTag(Tags tag){
+        databaseManager.delteTag(tag);
+        loadTags();
     }
 
     // Called when Activity gets destroyed, so cancel running background task

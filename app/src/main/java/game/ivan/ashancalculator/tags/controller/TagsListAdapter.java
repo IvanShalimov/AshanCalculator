@@ -6,6 +6,8 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.LinearLayout;
+import android.widget.ListView;
 import android.widget.TextView;
 
 import java.util.ArrayList;
@@ -23,6 +25,7 @@ import game.ivan.ashancalculator.database.models.Tags;
 public class TagsListAdapter extends RecyclerView.Adapter<TagsListAdapter.ViewHolder> {
 
     List<Tags> tags;
+    TagsListAdapterCallback callback;
 
     public TagsListAdapter(){
         tags = new ArrayList<>();
@@ -33,7 +36,6 @@ public class TagsListAdapter extends RecyclerView.Adapter<TagsListAdapter.ViewHo
     }
 
     public void setTags(List<Tags> tags) {
-        Log.d("Test","tags.size = "+tags.size());
         if(tags != null)
             this.tags = tags;
         else
@@ -49,13 +51,15 @@ public class TagsListAdapter extends RecyclerView.Adapter<TagsListAdapter.ViewHo
     }
 
     @Override
-    public void onBindViewHolder(ViewHolder holder, int position) {
-        Log.d("Test",""+tags.get(position)._id);
-        if (tags.get(position).nameTags != null)
-            holder.itemTagLabel.setText(""+tags.get(position).nameTags);
-        else
-            Log.d("Test","null");
+    public void onBindViewHolder(ViewHolder holder, final int position) {
+        holder.itemTagLabel.setText(""+tags.get(position).nameTags);
         holder.itemTagLabel.setTextColor(Color.BLACK);
+
+        holder.item_container.setOnClickListener(view -> {
+            if(callback != null){
+                callback.onListItemSelect(tags.get(position));
+            }
+        });
     }
 
     @Override
@@ -67,10 +71,21 @@ public class TagsListAdapter extends RecyclerView.Adapter<TagsListAdapter.ViewHo
 
         @BindView(R.id.item_tag_label)
         TextView itemTagLabel;
+        @BindView(R.id.tag_item_container)
+        LinearLayout item_container;
 
         public ViewHolder(View itemView) {
             super(itemView);
             ButterKnife.bind(this,itemView);
         }
     }
+
+    interface TagsListAdapterCallback {
+        void onListItemSelect(Tags tag);
+    }
+
+    public void setCallback(TagsListAdapterCallback callback) {
+        this.callback = callback;
+    }
+
 }

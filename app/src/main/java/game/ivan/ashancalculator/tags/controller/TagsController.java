@@ -1,6 +1,5 @@
 package game.ivan.ashancalculator.tags.controller;
 
-import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
@@ -33,20 +32,24 @@ import game.ivan.ashancalculator.tags.view.TagsView;
  * Created by ivan on 20.12.16.
  */
 
-public class TagsController extends MvpController<TagsView,TagsPresenter> implements TagsView,MaterialDialog.SingleButtonCallback {
+public class TagsController extends MvpController<TagsView, TagsPresenter> implements TagsView,
+        MaterialDialog.SingleButtonCallback, TagsListAdapter.TagsListAdapterCallback {
 
     private Unbinder unbinder;
     @BindView(R.id.list)
     RecyclerView list;
     RecyclerView.LayoutManager layoutManager;
+    /*Адптер списка*/
     TagsListAdapter adapter;
+    /*Маке идалога*/
+    View dialogAdd;
 
 
-    public  TagsController(){
+    public TagsController() {
         setHasOptionsMenu(true);
     }
 
-    public TagsController(Bundle args){
+    public TagsController(Bundle args) {
         setHasOptionsMenu(true);
     }
 
@@ -54,25 +57,25 @@ public class TagsController extends MvpController<TagsView,TagsPresenter> implem
     @Override
     protected View onCreateView(@NonNull LayoutInflater inflater, @NonNull ViewGroup container) {
         View view = inflateView(inflater, container);
-        unbinder = ButterKnife.bind(this,view);
+        unbinder = ButterKnife.bind(this, view);
         onViewBound(view);
         return view;
     }
 
-    protected void onViewBound(View view){
+    @Override
+    protected void onAttach(@NonNull View view) {
+        super.onAttach(view);
+        presenter.loadTags();
+    }
+
+    protected void onViewBound(View view) {
 
         layoutManager = new LinearLayoutManager(getApplicationContext());
         list.setLayoutManager(layoutManager);
         adapter = new TagsListAdapter();
+        adapter.setCallback(this);
         list.setAdapter(adapter);
-    }
 
-    @Override
-    protected void onActivityResumed(Activity activity) {
-        super.onActivityResumed(activity);
-
-
-        presenter.loadTags();
     }
 
     @NonNull
@@ -81,7 +84,7 @@ public class TagsController extends MvpController<TagsView,TagsPresenter> implem
         return new TagsPresenter();
     }
 
-    protected  View inflateView(@NonNull LayoutInflater inflater, @NonNull ViewGroup container){
+    protected View inflateView(@NonNull LayoutInflater inflater, @NonNull ViewGroup container) {
         return inflater.inflate(R.layout.list_layout, container, false);
     }
 
@@ -102,14 +105,30 @@ public class TagsController extends MvpController<TagsView,TagsPresenter> implem
         int id = item.getItemId();
 
         if (id == R.id.add_item) {
+
             boolean wrapInScrollView = true;
-            new MaterialDialog.Builder(getActivity())
-                    .title("Добавить тэг")
-                    .customView(R.layout.editor_tag_layout, wrapInScrollView)
-                    .positiveText("Добавить")
-                    .negativeText("Отмена")
-                    .onPositive(this)
-                    .show();
+            MaterialDialog dialog;
+            if (dialogAdd == null)
+                dialog = new MaterialDialog.Builder(getActivity())
+                        .title("Добавить тэг")
+                        .customView(R.layout.editor_tag_layout, wrapInScrollView)
+                        .positiveText("Добавить")
+                        .negativeText("Отмена")
+                        .onPositive(this)
+                        .build();
+            else
+                dialog = new MaterialDialog.Builder(getActivity())
+                        .title("Добавить тэг")
+                        .customView(dialogAdd, wrapInScrollView)
+                        .positiveText("Добавить")
+                        .negativeText("Отмена")
+                        .onPositive(this)
+                        .build();
+
+            dialogAdd = dialog.getCustomView();
+
+            dialog.show();
+
             return true;
         }
 
@@ -127,16 +146,15 @@ public class TagsController extends MvpController<TagsView,TagsPresenter> implem
     public void onClick(@NonNull MaterialDialog dialog, @NonNull DialogAction which) {
         View layout = dialog.getCustomView();
         String name =
-                ((EditText)layout.findViewById(R.id.name_edit_field))
-                .getText()
-                .toString();
-        if(name == null) Log.d("Test","null is name");
+                ((EditText) layout.findViewById(R.id.name_edit_field))
+                        .getText()
+                        .toString();
 
         int division = Integer
                 .valueOf(
-                ((EditText)layout.findViewById(R.id.count_edit_field))
-                        .getText()
-                        .toString());
+                        ((EditText) layout.findViewById(R.id.count_edit_field))
+                                .getText()
+                                .toString());
         presenter.addTag(new Tags(name, division));
     }
 
@@ -148,5 +166,46 @@ public class TagsController extends MvpController<TagsView,TagsPresenter> implem
     @Override
     public void refreshList(List<Tags> list) {
         adapter.setTags(list);
+    }
+
+    @Override
+    public void onListItemSelect(final Tags tag) {
+        boolean wrapInScrollView = true;
+        MaterialDialog dialog;
+        if (dialogAdd == null) {
+            Log.d("Test","dialogAdd == null");
+
+            dialog = new MaterialDialog.Builder(getActivity())
+                    .title("Изменить тэг")
+                    .customView(R.layout.editor_tag_layout, wrapInScrollView)
+                    .positiveText("Изменить тэг")
+                    .negativeText("Удалить")
+                    .onPositive((dialog12, which) -> presenter.addTag(tag))
+                    .onNegative((dialog12, which) -> presenter.deleteTag(tag))
+                    .build();
+
+            dialogAdd = dialog.getCustomView();
+
+
+        } else {
+            Log.d("Test","dialogAdd != null");
+            dialog = new MaterialDialog.Builder(getActivity())
+                    .title("Изменить тэг")
+                    .customView(dialogAdd, wrapInScrollView)
+                    .positiveText("Изменить")
+                    .negativeText("Удалить")
+                    .onPositive((dialog1, which) -> presenter.addTag(tag))
+                    .onNegative((dialog12, which) -> presenter.deleteTag(tag))
+                    .build();
+
+        }
+            ((EditText) dialog.findViewById(R.id.name_edit_field)).setText(String.valueOf(tag.nameTags));
+            ((EditText) dialog.findViewById(R.id.count_edit_field)).setText(String.valueOf(tag.divisionFactor));
+
+
+        dialog.show();
+
+
+
     }
 }
