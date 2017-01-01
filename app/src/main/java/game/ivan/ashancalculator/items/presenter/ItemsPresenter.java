@@ -17,4 +17,6 @@ public class ItemsPresenter extends MvpBasePresenter<ItemsView> {
             cancelGreetingTaskIfRunning();
         }*/
     }
+
+
 }

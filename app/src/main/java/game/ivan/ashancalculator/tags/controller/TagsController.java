@@ -173,7 +173,6 @@ public class TagsController extends MvpController<TagsView, TagsPresenter> imple
         boolean wrapInScrollView = true;
         MaterialDialog dialog;
         if (dialogAdd == null) {
-            Log.d("Test","dialogAdd == null");
 
             dialog = new MaterialDialog.Builder(getActivity())
                     .title("Изменить тэг")
@@ -188,7 +187,6 @@ public class TagsController extends MvpController<TagsView, TagsPresenter> imple
 
 
         } else {
-            Log.d("Test","dialogAdd != null");
             dialog = new MaterialDialog.Builder(getActivity())
                     .title("Изменить тэг")
                     .customView(dialogAdd, wrapInScrollView)

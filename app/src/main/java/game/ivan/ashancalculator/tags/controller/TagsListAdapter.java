@@ -55,9 +55,12 @@ public class TagsListAdapter extends RecyclerView.Adapter<TagsListAdapter.ViewHo
         holder.itemTagLabel.setText(""+tags.get(position).nameTags);
         holder.itemTagLabel.setTextColor(Color.BLACK);
 
-        holder.item_container.setOnClickListener(view -> {
-            if(callback != null){
-                callback.onListItemSelect(tags.get(position));
+        holder.item_container.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                if(callback != null){
+                    callback.onListItemSelect(tags.get(position));
+                }
             }
         });
     }

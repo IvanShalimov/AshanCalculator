@@ -4,6 +4,7 @@ import android.content.Context;
 import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
 
+import game.ivan.ashancalculator.database.models.Item;
 import game.ivan.ashancalculator.database.models.Tags;
 
 import static nl.qbusict.cupboard.CupboardFactory.cupboard;
@@ -20,6 +21,7 @@ public class DatabaseHelper extends SQLiteOpenHelper {
     static {
         // register our models
         cupboard().register(Tags.class);
+        cupboard().register(Item.class);
     }
 
     public DatabaseHelper(Context context, String name, SQLiteDatabase.CursorFactory factory, int version) {
