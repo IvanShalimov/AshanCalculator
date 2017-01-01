@@ -2,7 +2,7 @@ package game.ivan.ashancalculator.tags.presenter;
 
 import com.hannesdorfmann.mosby.mvp.MvpBasePresenter;
 
-import game.ivan.ashancalculator.database.DatabaseManager;
+import game.ivan.ashancalculator.database.DatabaseTagsManager;
 import game.ivan.ashancalculator.database.models.Tags;
 import game.ivan.ashancalculator.tags.view.TagsView;
 
@@ -11,10 +11,10 @@ import game.ivan.ashancalculator.tags.view.TagsView;
  */
 
 public class TagsPresenter extends MvpBasePresenter<TagsView> {
-    DatabaseManager databaseManager;
+    DatabaseTagsManager databaseManager;
 
     public TagsPresenter(){
-        databaseManager = new DatabaseManager();
+        databaseManager = new DatabaseTagsManager();
     }
 
     public void addTag(Tags tag){

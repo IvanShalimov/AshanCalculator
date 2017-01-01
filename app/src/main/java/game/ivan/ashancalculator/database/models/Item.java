@@ -11,4 +11,16 @@ public class Item {
     public long tagId;
     public int count;
     public double price;
+
+    public Item(){
+
+    }
+
+    public Item(String name, String photoPath, long tagId, int count, double price){
+        this.name = name;
+        this.photoPath = photoPath;
+        this.tagId = tagId;
+        this.count = count;
+        this.price = price;
+    }
 }

@@ -2,6 +2,12 @@ package game.ivan.ashancalculator.items.presenter;
 
 import com.hannesdorfmann.mosby.mvp.MvpBasePresenter;
 
+import java.util.ArrayList;
+import java.util.List;
+
+import game.ivan.ashancalculator.database.DatabaseItemsManager;
+import game.ivan.ashancalculator.database.models.Item;
+import game.ivan.ashancalculator.database.models.Tags;
 import game.ivan.ashancalculator.items.view.ItemsView;
 
 /**
@@ -10,12 +16,26 @@ import game.ivan.ashancalculator.items.view.ItemsView;
 
 public class ItemsPresenter extends MvpBasePresenter<ItemsView> {
 
+    DatabaseItemsManager databaseManager;
+    public ItemsPresenter(){
+        databaseManager = new DatabaseItemsManager();
+    }
+
     // Called when Activity gets destroyed, so cancel running background task
     public void detachView(boolean retainPresenterInstance){
         super.detachView(retainPresenterInstance);
 /*        if (!retainPresenterInstance){
             cancelGreetingTaskIfRunning();
         }*/
+    }
+
+    public List<String> getListTag(){
+        List<Tags> listTags = databaseManager.getTagsList();
+        List<String> labels = new ArrayList<>();
+        for(Tags tag: listTags){
+            labels.add(tag.nameTags);
+        }
+        return labels;
     }
 
 

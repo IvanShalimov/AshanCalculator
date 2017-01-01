@@ -1,8 +1,10 @@
 package game.ivan.ashancalculator.start;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
+import android.util.Log;
 import android.view.ViewGroup;
 
 import com.bluelinelabs.conductor.Conductor;
@@ -47,5 +49,12 @@ public class StartActivity extends AppCompatActivity implements ActionBarProvide
         if (!router.handleBack()) {
             super.onBackPressed();
         }
+    }
+
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+        //super.onActivityResult(requestCode, resultCode, data);
+        Log.d("Test","activity result");
+        router.onActivityResult(requestCode, resultCode, data);
     }
 }

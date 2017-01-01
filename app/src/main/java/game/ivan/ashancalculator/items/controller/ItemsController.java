@@ -2,16 +2,20 @@ package game.ivan.ashancalculator.items.controller;
 
 import android.Manifest;
 import android.content.Intent;
+import android.graphics.Bitmap;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ArrayAdapter;
+import android.widget.Spinner;
 import android.widget.Toast;
 
 import com.afollestad.materialdialogs.DialogAction;
@@ -19,6 +23,7 @@ import com.afollestad.materialdialogs.MaterialDialog;
 import com.gun0912.tedpermission.PermissionListener;
 import com.gun0912.tedpermission.TedPermission;
 import com.hannesdorfmann.mosby.mvp.conductor.MvpController;
+import com.mindorks.paracamera.Camera;
 
 import java.util.ArrayList;
 
@@ -45,6 +50,8 @@ public class ItemsController extends MvpController<ItemsView,ItemsPresenter> imp
     RecyclerView.LayoutManager layoutManager;
     ItemListAdapter adapter;
     View dialogAdd;
+    ConductorCamera camera;
+    String picturePath="";
 
     public ItemsController(){
         setHasOptionsMenu(true);
@@ -59,6 +66,7 @@ public class ItemsController extends MvpController<ItemsView,ItemsPresenter> imp
     protected View onCreateView(@NonNull LayoutInflater inflater, @NonNull ViewGroup container) {
         View view = inflateView(inflater, container);
         unbinder = ButterKnife.bind(this,view);
+        camera = new ConductorCamera(this);
         onViewBound(view);
         return view;
     }
@@ -69,6 +77,14 @@ public class ItemsController extends MvpController<ItemsView,ItemsPresenter> imp
         adapter = new ItemListAdapter();
         adapter.setCallback(this);
         list.setAdapter(adapter);
+
+        // Build the camera
+        camera.builder()
+                .resetToCorrectOrientation(false)
+                .setDirectory("pics")
+                .setName("item_" + System.currentTimeMillis())
+                .setImageFormat(Camera.IMAGE_JPEG)
+                .setCompression(75);
     }
 
     @Override
@@ -126,7 +142,7 @@ public class ItemsController extends MvpController<ItemsView,ItemsPresenter> imp
 
     @Override
     public void onClick(@NonNull MaterialDialog dialog, @NonNull DialogAction which) {
-        Toast.makeText(getApplicationContext(), "Success", Toast.LENGTH_SHORT).show();
+
     }
 
     @Override
@@ -136,7 +152,11 @@ public class ItemsController extends MvpController<ItemsView,ItemsPresenter> imp
 
     @Override
     public void onPermissionGranted() {
-
+        try {
+            picturePath =  camera.takePicture(true);
+        }catch (Exception e){
+            e.printStackTrace();
+        }
     }
 
     @Override
@@ -148,13 +168,46 @@ public class ItemsController extends MvpController<ItemsView,ItemsPresenter> imp
     @Override
     public void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
-                   /* boolean wrapInScrollView = true;
-            new MaterialDialog.Builder(getActivity())
-                    .title("Тестовый диалог")
-                    .customView(R.layout.editor_tag_layout, wrapInScrollView)
-                    .positiveText("Хорошо")
-                    .negativeText("Отмена")
-                    .onPositive(this)
-                    .show();*/
+        Log.d("Test","onActivityResult");
+        if(requestCode == Camera.REQUEST_TAKE_PHOTO){
+            Log.d("Test","requestCode == Camera.REQUEST_TAKE_PHOTO");
+            Bitmap bitmap =(Bitmap) data.getExtras().get("data");  //camera.getCameraBitmap(picturePath);
+            if(bitmap != null) {
+                camera.saveBitmap(picturePath,bitmap);
+                Log.d("Test","bitmap != null");
+                MaterialDialog dialog;
+                boolean wrapInScrollView = true;
+
+                if(dialogAdd == null){
+                    dialog = new MaterialDialog.Builder(getActivity())
+                            .title("Добавить товар")
+                            .customView(R.layout.add_item_dialog_layout, wrapInScrollView)
+                            .positiveText("Сохранить")
+                            .negativeText("Отмена")
+                            .onPositive(this)
+                            .build();
+
+                    dialogAdd = dialog.getCustomView();
+                } else {
+                    dialog = new MaterialDialog.Builder(getActivity())
+                            .title("Добавить товар")
+                            .customView(dialogAdd, wrapInScrollView)
+                            .positiveText("Сохранить")
+                            .negativeText("Отмена")
+                            .onPositive(this)
+                            .build();
+                }
+
+                ArrayAdapter<String> spinnerAdapter = new ArrayAdapter<String>(
+                        getApplicationContext(),
+                        android.R.layout.simple_spinner_item, presenter.getListTag());
+                ((Spinner)dialogAdd.findViewById(R.id.tag_spinner_list)).setAdapter(spinnerAdapter);
+
+                dialog.show();
+            }else{
+                Toast.makeText(this.getApplicationContext(),"Picture not taken!",Toast.LENGTH_SHORT).show();
+            }
+        }
+
     }
 }
