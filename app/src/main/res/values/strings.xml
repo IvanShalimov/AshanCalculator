@@ -10,4 +10,8 @@
     <string name="editor_cancel_button_label">Cancel</string>
     <string name="content_label">content</string>
     <string name="add_label_menu_item">add</string>
+    <string name="count_label">Количество</string>
+    <string name="name_item_label">Наименование продукта</string>
+    <string name="tag_label">Тэг</string>
+    <string name="price_for_one_label">Цена за штуку/кг/л</string>
 </resources>

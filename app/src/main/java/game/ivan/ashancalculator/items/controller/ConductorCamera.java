@@ -150,7 +150,7 @@ public class ConductorCamera extends Camera {
                         if (cameraBitmapPath == null){
                             Log.d("Test","cameraPath is null");
                         } else Log.d("Test",cameraBitmapPath);
-                        takePictureIntent.putExtra(MediaStore.ACTION_IMAGE_CAPTURE, Uri.fromFile(photoFile));
+                        takePictureIntent.putExtra(MediaStore.EXTRA_OUTPUT, Uri.fromFile(photoFile));
                         controller.startActivityForResult(takePictureIntent, REQUEST_TAKE_PHOTO);
                     } else {
                         throw new NullPointerException("Image file could not be created");
@@ -202,12 +202,16 @@ public class ConductorCamera extends Camera {
             case CONTROLLER:
                 if (takePictureIntent.resolveActivity(controller.getActivity().getPackageManager()) != null) {
                     File photoFile = Utils.createImageFile(context, dirName, imageName, imageType);
+                    if(photoFile.getAbsolutePath().equals("")){
+                        Log.d("Test","fuckig empty");
+                    }
+
                     if (photoFile != null) {
                         cameraBitmapPath = photoFile.getAbsolutePath();
                         if (cameraBitmapPath == null){
                             Log.d("Test","cameraPath is null");
                         } else Log.d("Test",cameraBitmapPath);
-                        takePictureIntent.putExtra(MediaStore.EXTRA_OUTPUT, Uri.fromFile(photoFile));
+                    //    takePictureIntent.putExtra(MediaStore.EXTRA_OUTPUT, Uri.fromFile(photoFile));
                         controller.startActivityForResult(takePictureIntent, REQUEST_TAKE_PHOTO);
                     } else {
                         throw new NullPointerException("Image file could not be created");

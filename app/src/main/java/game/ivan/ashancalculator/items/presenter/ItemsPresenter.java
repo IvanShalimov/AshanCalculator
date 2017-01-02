@@ -38,5 +38,20 @@ public class ItemsPresenter extends MvpBasePresenter<ItemsView> {
         return labels;
     }
 
+    public void saveItem(Item item){
+        databaseManager.insertItem(item);
+        loadItems();
+    }
+
+    public void loadItems(){
+        if(isViewAttached())
+            getView().refreshView(databaseManager.readAllRecord());
+    }
+
+    public void deleteItem(Item item){
+        databaseManager.delteItem(item);
+        loadItems();
+    }
+
 
 }
