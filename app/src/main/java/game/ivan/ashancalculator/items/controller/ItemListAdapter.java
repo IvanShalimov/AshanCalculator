@@ -72,7 +72,6 @@ public class ItemListAdapter extends RecyclerView.Adapter<ItemListAdapter.ViewHo
                     .centerCrop()
                     .error(R.mipmap.ic_launcher)
                     .into(holder.itemIcon);
-           // Picasso.with(AshanApplication.getInstante())
 
         }catch(Exception exception){
             exception.printStackTrace();

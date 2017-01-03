@@ -1,7 +1,13 @@
 package game.ivan.ashancalculator.items.presenter;
 
+import android.graphics.Bitmap;
+import android.os.Environment;
+import android.util.Log;
+
 import com.hannesdorfmann.mosby.mvp.MvpBasePresenter;
 
+import java.io.File;
+import java.io.FileOutputStream;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -54,4 +60,30 @@ public class ItemsPresenter extends MvpBasePresenter<ItemsView> {
     }
 
 
+    public void saveImageFile(Bitmap bitmap){
+        String root = Environment.getExternalStorageDirectory().toString();
+        File myDirectory = new File(root + "/saved_images");
+        if(!myDirectory.exists()){
+            boolean result = myDirectory.mkdir();
+            Log.d("Test","result of mkdir = "+result);
+        }
+
+
+        String fileName = "Image-"+ System.nanoTime() +".jpg";
+        File file = new File (myDirectory, fileName);
+/*        if (file.exists ())
+            file.delete ();*/
+        try {
+            FileOutputStream out = new FileOutputStream(file);
+            bitmap.compress(Bitmap.CompressFormat.JPEG, 90, out);
+            out.flush();
+            out.close();
+
+            if(isViewAttached())
+                getView().setImagePath(file.getAbsolutePath());
+        } catch (Exception e) {
+            Log.d("Test","exception - " + e.toString());
+            e.printStackTrace();
+        }
+    }
 }

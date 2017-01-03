@@ -12,5 +12,7 @@ import game.ivan.ashancalculator.database.models.Item;
 
 public interface ItemsView extends MvpView {
 
-    public  void refreshView(List<Item> list);
+    void refreshView(List<Item> list);
+
+    void setImagePath(String path);
 }
