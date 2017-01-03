@@ -53,7 +53,6 @@ public class ItemsController extends MvpController<ItemsView, ItemsPresenter> im
     RecyclerView.LayoutManager layoutManager;
     ItemListAdapter adapter;
     View dialogAdd;
-    //ConductorCamera camera;
     String picturePath = "";
 
     public ItemsController() {
@@ -69,7 +68,6 @@ public class ItemsController extends MvpController<ItemsView, ItemsPresenter> im
     protected View onCreateView(@NonNull LayoutInflater inflater, @NonNull ViewGroup container) {
         View view = inflateView(inflater, container);
         unbinder = ButterKnife.bind(this, view);
-        //camera = new ConductorCamera(this);
         onViewBound(view);
         return view;
     }
@@ -80,14 +78,6 @@ public class ItemsController extends MvpController<ItemsView, ItemsPresenter> im
         adapter = new ItemListAdapter();
         adapter.setCallback(this);
         list.setAdapter(adapter);
-
-        // Build the camera
-/*        camera.builder()
-                .resetToCorrectOrientation(false)
-                .setDirectory("pics")
-                .setName("item_" + System.nanoTime())
-                .setImageFormat(Camera.IMAGE_JPEG)
-                .setCompression(75);*/
     }
 
     @Override
