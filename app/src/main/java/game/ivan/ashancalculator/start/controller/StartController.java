@@ -21,6 +21,7 @@ import butterknife.ButterKnife;
 import butterknife.OnClick;
 import butterknife.Unbinder;
 import game.ivan.ashancalculator.R;
+import game.ivan.ashancalculator.calculate.controller.CalculateController;
 import game.ivan.ashancalculator.items.controller.ItemsController;
 import game.ivan.ashancalculator.service.ActionBarProvider;
 import game.ivan.ashancalculator.start.PicassoCallback;
@@ -124,7 +125,9 @@ public class StartController extends MvpController<StartView,StartPresenter> imp
 
     @OnClick(R.id.clear_bag_button)
     @Override
-    public void openCalculater() {
-        //future
+    public void openCalculated() {
+        getRouter().pushController(RouterTransaction.with(new CalculateController())
+                .pushChangeHandler(new HorizontalChangeHandler())
+                .popChangeHandler(new HorizontalChangeHandler()));
     }
 }

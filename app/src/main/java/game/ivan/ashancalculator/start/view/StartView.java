@@ -9,5 +9,5 @@ import com.hannesdorfmann.mosby.mvp.MvpView;
 public interface StartView extends MvpView {
     void openProductBag();
     void openTagEditor();
-    void openCalculater();
+    void openCalculated();
 }
