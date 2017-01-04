@@ -139,7 +139,7 @@ public class ItemsController extends MvpController<ItemsView, ItemsPresenter> im
         String name = ((EditText) dialogAdd.findViewById(R.id.name_item_edit_field))
                 .getText().toString();
         long tagId = ((Spinner) dialogAdd.findViewById(R.id.tag_spinner_list)).getSelectedItemId();
-        int count = Integer.valueOf(((EditText) dialogAdd.findViewById(R.id.count_item_picker))
+        double count = Double.valueOf(((EditText) dialogAdd.findViewById(R.id.count_item_picker))
                 .getText().toString());
         double price = Double.valueOf(((EditText) dialogAdd.findViewById(R.id.price_item_field))
                 .getText().toString());
@@ -166,8 +166,8 @@ public class ItemsController extends MvpController<ItemsView, ItemsPresenter> im
                 .onPositive((dialog12, which) -> {
                     item.name = ((EditText) dialogAdd.findViewById(R.id.name_item_edit_field))
                             .getText().toString();
-                    item.tagId = ((Spinner) dialogAdd.findViewById(R.id.tag_spinner_list)).getSelectedItemId();
-                    item.count = Integer.valueOf(((EditText) dialogAdd.findViewById(R.id.count_item_picker))
+                    item.tag_id = ((Spinner) dialogAdd.findViewById(R.id.tag_spinner_list)).getSelectedItemId();
+                    item.count = Double.valueOf(((EditText) dialogAdd.findViewById(R.id.count_item_picker))
                             .getText().toString());
                     item.price = Double.valueOf(((EditText) dialogAdd.findViewById(R.id.price_item_field))
                             .getText().toString());
@@ -185,7 +185,7 @@ public class ItemsController extends MvpController<ItemsView, ItemsPresenter> im
                 getApplicationContext(),
                 R.layout.spinner_item, presenter.getListTag());
         ((Spinner) dialogAdd.findViewById(R.id.tag_spinner_list)).setAdapter(spinnerAdapter);
-        ((Spinner) dialogAdd.findViewById(R.id.tag_spinner_list)).setSelection((int) item.tagId);
+        ((Spinner) dialogAdd.findViewById(R.id.tag_spinner_list)).setSelection((int) item.tag_id);
         ((EditText) dialogAdd.findViewById(R.id.name_item_edit_field)).setText(String.valueOf(item.name));
         ((EditText) dialogAdd.findViewById(R.id.count_item_picker)).setText(String.valueOf(item.count));
         ((EditText) dialogAdd.findViewById(R.id.price_item_field)).setText(String.valueOf(item.price));

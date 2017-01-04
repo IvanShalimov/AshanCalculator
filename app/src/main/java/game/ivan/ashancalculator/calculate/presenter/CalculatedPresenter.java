@@ -7,7 +7,9 @@ import java.util.List;
 
 import game.ivan.ashancalculator.calculate.view.CalculaterView;
 import game.ivan.ashancalculator.database.DatabaseCalculateManager;
+import game.ivan.ashancalculator.database.models.Item;
 import game.ivan.ashancalculator.database.models.Tags;
+import game.ivan.ashancalculator.service.Calculator;
 
 /**
  * Created by ivan on 03.01.17.
@@ -16,8 +18,11 @@ import game.ivan.ashancalculator.database.models.Tags;
 public class CalculatedPresenter extends MvpBasePresenter<CalculaterView> {
 
     DatabaseCalculateManager databaseManager;
+    Calculator calculator;
     public CalculatedPresenter(){
         databaseManager = new DatabaseCalculateManager();
+        calculator = new Calculator();
+
     }
 
     public void getTags(){
@@ -35,6 +40,11 @@ public class CalculatedPresenter extends MvpBasePresenter<CalculaterView> {
     }
 
     public void getDateForScreen(int position){
-
+        List<Item> items = databaseManager.getItemForTag(position);
+        if (isViewAttached()){
+            getView().refreshList(items);
+            getView().showOneManPrice(calculator.oneManSum(items,databaseManager.getDivider(position)));
+            getView().showSum(calculator.sum(items));
+        }
     }
 }

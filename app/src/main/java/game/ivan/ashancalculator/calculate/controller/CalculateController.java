@@ -22,6 +22,7 @@ import butterknife.Unbinder;
 import game.ivan.ashancalculator.R;
 import game.ivan.ashancalculator.calculate.presenter.CalculatedPresenter;
 import game.ivan.ashancalculator.calculate.view.CalculaterView;
+import game.ivan.ashancalculator.database.models.Item;
 import game.ivan.ashancalculator.items.controller.ItemListAdapter;
 
 /**
@@ -43,6 +44,7 @@ public class CalculateController extends MvpController<CalculaterView,Calculated
     @BindView(R.id.list_item_position)
     RecyclerView itemPositionList;
     RecyclerView.LayoutManager layoutManager;
+    CalculatedListItemAdapter adapter;
 
     @NonNull
     @Override
@@ -54,7 +56,10 @@ public class CalculateController extends MvpController<CalculaterView,Calculated
     }
 
     protected void onViewBound(View view) {
-
+        layoutManager = new LinearLayoutManager(getApplicationContext());
+        itemPositionList.setLayoutManager(layoutManager);
+        adapter = new CalculatedListItemAdapter();
+        itemPositionList.setAdapter(adapter);
     }
 
     @NonNull
@@ -93,6 +98,21 @@ public class CalculateController extends MvpController<CalculaterView,Calculated
                 R.layout.spinner_item, list);
         tagSpinner.setAdapter(spinnerAdapter);
         tagSpinner.setOnItemSelectedListener(this);
+    }
+
+    @Override
+    public void refreshList(List<Item> list) {
+        adapter.setItems(list);
+    }
+
+    @Override
+    public void showOneManPrice(double price) {
+        oneManPrice.setText("С одного человека: "+price);
+    }
+
+    @Override
+    public void showSum(double price) {
+        sum.setText("Общее: "+price);
     }
 
     @Override

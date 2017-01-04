@@ -65,7 +65,6 @@ public class ItemsPresenter extends MvpBasePresenter<ItemsView> {
         File myDirectory = new File(root + "/saved_images");
         if(!myDirectory.exists()){
             boolean result = myDirectory.mkdir();
-            Log.d("Test","result of mkdir = "+result);
         }
 
 
