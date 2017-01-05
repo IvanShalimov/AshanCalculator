@@ -13,4 +13,8 @@ import game.ivan.ashancalculator.database.models.Tags;
 public interface TagsView extends MvpView {
 
     void refreshList(List<Tags> list);
+
+    public void showEditDialog(Tags tag);
+
+    void showCreateDialog();
 }

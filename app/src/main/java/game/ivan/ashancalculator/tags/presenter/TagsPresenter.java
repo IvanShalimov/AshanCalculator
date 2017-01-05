@@ -19,28 +19,25 @@ public class TagsPresenter extends MvpBasePresenter<TagsView> {
 
     public void addTag(Tags tag){
         databaseManager.insertTag(tag);
-        loadTags();
+        loadTags(false);
     }
 
-    public void loadTags(){
-        if(isViewAttached()){
-            getView().refreshList(databaseManager.readAllRecord());
-            //костыль организуй Wrapper
-            //databaseManager.
+    public void loadTags(boolean lock){
+        if(!lock){
+            if(isViewAttached()){
+                getView().refreshList(databaseManager.readAllRecord());
+            }
         }
 
     }
 
     public void deleteTag(Tags tag){
         databaseManager.delteTag(tag);
-        loadTags();
+        loadTags(false);
     }
 
     // Called when Activity gets destroyed, so cancel running background task
     public void detachView(boolean retainPresenterInstance){
         super.detachView(retainPresenterInstance);
-/*        if (!retainPresenterInstance){
-            cancelGreetingTaskIfRunning();
-        }*/
     }
 }

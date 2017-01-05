@@ -12,6 +12,7 @@ import android.widget.ArrayAdapter;
 import android.widget.Spinner;
 import android.widget.TextView;
 
+import com.hannesdorfmann.mosby.conductor.viewstate.MvpViewStateController;
 import com.hannesdorfmann.mosby.mvp.conductor.MvpController;
 
 import java.util.List;
@@ -29,7 +30,7 @@ import game.ivan.ashancalculator.items.controller.ItemListAdapter;
  * Created by ivan on 03.01.17.
  */
 
-public class CalculateController extends MvpController<CalculaterView,CalculatedPresenter>
+public class CalculateController extends MvpViewStateController<CalculaterView,CalculatedPresenter,CalculatorViewState>
         implements CalculaterView,AdapterView.OnItemSelectedListener {
 
     private Unbinder unbinder;
@@ -45,6 +46,12 @@ public class CalculateController extends MvpController<CalculaterView,Calculated
     RecyclerView itemPositionList;
     RecyclerView.LayoutManager layoutManager;
     CalculatedListItemAdapter adapter;
+    double onePrice,sumPrice;
+
+
+    public CalculateController(){
+        setRetainViewMode(RetainViewMode.RETAIN_DETACH);
+    }
 
     @NonNull
     @Override
@@ -58,7 +65,11 @@ public class CalculateController extends MvpController<CalculaterView,Calculated
     protected void onViewBound(View view) {
         layoutManager = new LinearLayoutManager(getApplicationContext());
         itemPositionList.setLayoutManager(layoutManager);
-        adapter = new CalculatedListItemAdapter();
+        if(getViewState().currentState == CalculatorViewState.SHOW_CONTENT){
+
+        } else {
+            adapter = new CalculatedListItemAdapter();
+        }
         itemPositionList.setAdapter(adapter);
     }
 
@@ -71,7 +82,12 @@ public class CalculateController extends MvpController<CalculaterView,Calculated
     @Override
     protected void onAttach(@NonNull View view) {
         super.onAttach(view);
-        presenter.getTags();
+        if(getViewState().currentState == CalculatorViewState.SHOW_CONTENT){
+            setSpinnerData(null);
+        } else{
+            presenter.getTags();
+        }
+
     }
 
     protected View inflateView(@NonNull LayoutInflater inflater, @NonNull ViewGroup container) {
@@ -107,11 +123,13 @@ public class CalculateController extends MvpController<CalculaterView,Calculated
 
     @Override
     public void showOneManPrice(double price) {
+        onePrice = price;
         oneManPrice.setText("С одного человека: "+price);
     }
 
     @Override
     public void showSum(double price) {
+        sumPrice = price;
         sum.setText("Общее: "+price);
     }
 
@@ -123,5 +141,21 @@ public class CalculateController extends MvpController<CalculaterView,Calculated
     @Override
     public void onNothingSelected(AdapterView<?> parent) {
 
+    }
+
+    @NonNull
+    @Override
+    public CalculatorViewState createViewState() {
+        return new CalculatorViewState();
+    }
+
+    @Override
+    public void onViewStateInstanceRestored(boolean instanceStateRetained) {
+
+    }
+
+    @Override
+    public void onNewViewStateInstance() {
+        viewState = new CalculatorViewState();
     }
 }

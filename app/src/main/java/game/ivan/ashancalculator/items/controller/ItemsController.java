@@ -57,6 +57,7 @@ public class ItemsController extends MvpController<ItemsView, ItemsPresenter> im
 
     public ItemsController() {
         setHasOptionsMenu(true);
+        setRetainViewMode(RetainViewMode.RETAIN_DETACH);
     }
 
     public ItemsController(Bundle args) {

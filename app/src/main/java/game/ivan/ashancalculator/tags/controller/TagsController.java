@@ -16,6 +16,7 @@ import android.widget.EditText;
 
 import com.afollestad.materialdialogs.DialogAction;
 import com.afollestad.materialdialogs.MaterialDialog;
+import com.hannesdorfmann.mosby.conductor.viewstate.MvpViewStateController;
 import com.hannesdorfmann.mosby.mvp.conductor.MvpController;
 
 import java.util.List;
@@ -32,7 +33,7 @@ import game.ivan.ashancalculator.tags.view.TagsView;
  * Created by ivan on 20.12.16.
  */
 
-public class TagsController extends MvpController<TagsView, TagsPresenter> implements TagsView,
+public class TagsController extends MvpViewStateController<TagsView, TagsPresenter,TagStateView> implements TagsView,
         MaterialDialog.SingleButtonCallback, TagsListAdapter.TagsListAdapterCallback {
 
     private Unbinder unbinder;
@@ -43,10 +44,12 @@ public class TagsController extends MvpController<TagsView, TagsPresenter> imple
     TagsListAdapter adapter;
     /*Маке идалога*/
     View dialogAdd;
+    MaterialDialog dialog;
 
 
     public TagsController() {
         setHasOptionsMenu(true);
+        setRetainViewMode(RetainViewMode.RETAIN_DETACH);
     }
 
     public TagsController(Bundle args) {
@@ -65,7 +68,6 @@ public class TagsController extends MvpController<TagsView, TagsPresenter> imple
     @Override
     protected void onAttach(@NonNull View view) {
         super.onAttach(view);
-        presenter.loadTags();
     }
 
     protected void onViewBound(View view) {
@@ -105,30 +107,8 @@ public class TagsController extends MvpController<TagsView, TagsPresenter> imple
         int id = item.getItemId();
 
         if (id == R.id.add_item) {
-
-            boolean wrapInScrollView = true;
-            MaterialDialog dialog;
-            if (dialogAdd == null)
-                dialog = new MaterialDialog.Builder(getActivity())
-                        .title("Добавить тэг")
-                        .customView(R.layout.editor_tag_layout, wrapInScrollView)
-                        .positiveText("Добавить")
-                        .negativeText("Отмена")
-                        .onPositive(this)
-                        .build();
-            else
-                dialog = new MaterialDialog.Builder(getActivity())
-                        .title("Добавить тэг")
-                        .customView(dialogAdd, wrapInScrollView)
-                        .positiveText("Добавить")
-                        .negativeText("Отмена")
-                        .onPositive(this)
-                        .build();
-
-            dialogAdd = dialog.getCustomView();
-
-            dialog.show();
-
+            getViewState().setShowCreateDialogState();
+            showCreateDialog();
             return true;
         }
 
@@ -166,12 +146,13 @@ public class TagsController extends MvpController<TagsView, TagsPresenter> imple
     @Override
     public void refreshList(List<Tags> list) {
         adapter.setTags(list);
+        getViewState().setShowContentState();
+        getViewState().setTags(list);
     }
 
     @Override
-    public void onListItemSelect(final Tags tag) {
+    public void showEditDialog(Tags tag) {
         boolean wrapInScrollView = true;
-        MaterialDialog dialog;
         if (dialogAdd == null) {
 
             dialog = new MaterialDialog.Builder(getActivity())
@@ -197,13 +178,61 @@ public class TagsController extends MvpController<TagsView, TagsPresenter> imple
                     .build();
 
         }
-            ((EditText) dialog.findViewById(R.id.name_edit_field)).setText(String.valueOf(tag.nameTags));
-            ((EditText) dialog.findViewById(R.id.count_edit_field)).setText(String.valueOf(tag.divisionFactor));
-
-
+        ((EditText) dialog.findViewById(R.id.name_edit_field)).setText(String.valueOf(tag.nameTags));
+        ((EditText) dialog.findViewById(R.id.count_edit_field)).setText(String.valueOf(tag.divisionFactor));
         dialog.show();
+    }
 
+    @Override
+    public void showCreateDialog() {
+        boolean wrapInScrollView = true;
+        if (dialogAdd == null)
+            dialog = new MaterialDialog.Builder(getActivity())
+                    .title("Добавить тэг")
+                    .customView(R.layout.editor_tag_layout, wrapInScrollView)
+                    .positiveText("Добавить")
+                    .negativeText("Отмена")
+                    .onPositive(this)
+                    .build();
+        else
+            dialog = new MaterialDialog.Builder(getActivity())
+                    .title("Добавить тэг")
+                    .customView(dialogAdd, wrapInScrollView)
+                    .positiveText("Добавить")
+                    .negativeText("Отмена")
+                    .onPositive(this)
+                    .build();
 
+        dialogAdd = dialog.getCustomView();
+
+        ((EditText) dialog.findViewById(R.id.name_edit_field)).setText("");
+        ((EditText) dialog.findViewById(R.id.count_edit_field)).setText("");
+        dialog.show();
+    }
+
+    @Override
+    public void onListItemSelect(final Tags tag) {
+        Log.d("Test","tag item list select");
+        getViewState().setShowEditDialogState();
+        getViewState().setEditableTag(tag);
+        showEditDialog(tag);
+    }
+
+    @NonNull
+    @Override
+    public TagStateView createViewState() {
+        return new TagStateView();
+    }
+
+    @Override
+    public void onViewStateInstanceRestored(boolean instanceStateRetained) {
 
     }
+
+    @Override
+    public void onNewViewStateInstance() {
+        presenter.loadTags(false);
+    }
+
+
 }
