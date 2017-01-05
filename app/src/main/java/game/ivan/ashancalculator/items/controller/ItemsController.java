@@ -24,6 +24,7 @@ import com.afollestad.materialdialogs.DialogAction;
 import com.afollestad.materialdialogs.MaterialDialog;
 import com.gun0912.tedpermission.PermissionListener;
 import com.gun0912.tedpermission.TedPermission;
+import com.hannesdorfmann.mosby.conductor.viewstate.MvpViewStateController;
 import com.hannesdorfmann.mosby.mvp.conductor.MvpController;
 
 import java.util.ArrayList;
@@ -41,7 +42,7 @@ import game.ivan.ashancalculator.items.view.ItemsView;
  * Created by ivan on 21.12.16.
  */
 
-public class ItemsController extends MvpController<ItemsView, ItemsPresenter> implements ItemsView,
+public class ItemsController extends MvpViewStateController<ItemsView, ItemsPresenter,ItemViewState> implements ItemsView,
         MaterialDialog.SingleButtonCallback, ItemListAdapter.ItemsListAdapterCallback,
         PermissionListener {
 
@@ -84,8 +85,6 @@ public class ItemsController extends MvpController<ItemsView, ItemsPresenter> im
     @Override
     protected void onAttach(@NonNull View view) {
         super.onAttach(view);
-        //подгрузка пунктов
-        presenter.loadItems();
     }
 
     @NonNull
@@ -157,6 +156,58 @@ public class ItemsController extends MvpController<ItemsView, ItemsPresenter> im
 
     @Override
     public void onListItemSelect(Item item) {
+        getViewState().setShowEditDialog();
+        getViewState().setEditableItem(item);
+        showEditDialog(item);
+    }
+
+    @Override
+    public void onPermissionGranted() {
+        try {
+            Intent takePictureIntent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
+            startActivityForResult(takePictureIntent, REQUEST_TAKE_PHOTO);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
+
+    @Override
+    public void onPermissionDenied(ArrayList<String> deniedPermissions) {
+        Toast.makeText(getActivity(), "Permission Denied\n" + deniedPermissions.toString(),
+                Toast.LENGTH_SHORT).show();
+    }
+
+    @Override
+    public void onActivityResult(int requestCode, int resultCode, Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+        if (requestCode == REQUEST_TAKE_PHOTO) {
+            Bitmap bitmap = (Bitmap) data.getExtras().get("data");
+            if (bitmap != null) {
+                //camera.saveBitmap(picturePath, bitmap);
+                presenter.saveImageFile(bitmap);
+                getViewState().setShowCreateDialog();
+                showCreateDialog();
+            } else {
+                Toast.makeText(this.getApplicationContext(), "Picture not taken!", Toast.LENGTH_SHORT).show();
+            }
+        }
+
+    }
+
+    @Override
+    public void refreshView(List<Item> list) {
+        adapter.setItems(list);
+        getViewState().setItems(list);
+        getViewState().setShowContent();
+    }
+
+    @Override
+    public void setImagePath(String path) {
+        this.picturePath = path;
+    }
+
+    @Override
+    public void showEditDialog(Item item) {
         MaterialDialog dialog;
         boolean wrapInScrollView = true;
         dialog = new MaterialDialog.Builder(getActivity())
@@ -195,64 +246,43 @@ public class ItemsController extends MvpController<ItemsView, ItemsPresenter> im
     }
 
     @Override
-    public void onPermissionGranted() {
-        try {
-            Intent takePictureIntent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
-            startActivityForResult(takePictureIntent, REQUEST_TAKE_PHOTO);
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
+    public void showCreateDialog() {
+        MaterialDialog dialog;
+        boolean wrapInScrollView = true;
+
+        dialog = new MaterialDialog.Builder(getActivity())
+                .title("Добавить товар")
+                .customView(R.layout.add_item_dialog_layout, wrapInScrollView)
+                .positiveText("Добавить")
+                .negativeText("Отмена")
+                .onPositive(this)
+                .build();
+
+        dialogAdd = dialog.getCustomView();
+
+        ArrayAdapter<String> spinnerAdapter = new ArrayAdapter<String>(
+                getApplicationContext(),
+                R.layout.spinner_item, presenter.getListTag());
+        ((Spinner) dialogAdd.findViewById(R.id.tag_spinner_list)).setAdapter(spinnerAdapter);
+
+
+        dialog.show();
+    }
+
+    @NonNull
+    @Override
+    public ItemViewState createViewState() {
+        return new ItemViewState();
     }
 
     @Override
-    public void onPermissionDenied(ArrayList<String> deniedPermissions) {
-        Toast.makeText(getActivity(), "Permission Denied\n" + deniedPermissions.toString(),
-                Toast.LENGTH_SHORT).show();
-    }
-
-    @Override
-    public void onActivityResult(int requestCode, int resultCode, Intent data) {
-        super.onActivityResult(requestCode, resultCode, data);
-        if (requestCode == REQUEST_TAKE_PHOTO) {
-            Bitmap bitmap = (Bitmap) data.getExtras().get("data");
-            if (bitmap != null) {
-                //camera.saveBitmap(picturePath, bitmap);
-                presenter.saveImageFile(bitmap);
-                MaterialDialog dialog;
-                boolean wrapInScrollView = true;
-
-                dialog = new MaterialDialog.Builder(getActivity())
-                        .title("Добавить товар")
-                        .customView(R.layout.add_item_dialog_layout, wrapInScrollView)
-                        .positiveText("Добавить")
-                        .negativeText("Отмена")
-                        .onPositive(this)
-                        .build();
-
-                dialogAdd = dialog.getCustomView();
-
-                ArrayAdapter<String> spinnerAdapter = new ArrayAdapter<String>(
-                        getApplicationContext(),
-                        R.layout.spinner_item, presenter.getListTag());
-                ((Spinner) dialogAdd.findViewById(R.id.tag_spinner_list)).setAdapter(spinnerAdapter);
-
-
-                dialog.show();
-            } else {
-                Toast.makeText(this.getApplicationContext(), "Picture not taken!", Toast.LENGTH_SHORT).show();
-            }
-        }
+    public void onViewStateInstanceRestored(boolean instanceStateRetained) {
 
     }
 
     @Override
-    public void refreshView(List<Item> list) {
-        adapter.setItems(list);
+    public void onNewViewStateInstance() {
+        //подгрузка пунктов
+        presenter.loadItems(false);
     }
-
-    @Override
-    public void setImagePath(String path) {
-        this.picturePath = path;
-    }
-
 }

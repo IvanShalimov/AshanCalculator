@@ -46,17 +46,19 @@ public class ItemsPresenter extends MvpBasePresenter<ItemsView> {
 
     public void saveItem(Item item){
         databaseManager.insertItem(item);
-        loadItems();
+        loadItems(false);
     }
 
-    public void loadItems(){
-        if(isViewAttached())
-            getView().refreshView(databaseManager.readAllRecord());
+    public void loadItems(boolean lock){
+        if(!lock){
+            if(isViewAttached())
+                getView().refreshView(databaseManager.readAllRecord());
+        }
     }
 
     public void deleteItem(Item item){
         databaseManager.delteItem(item);
-        loadItems();
+        loadItems(false);
     }
 
 
@@ -66,7 +68,6 @@ public class ItemsPresenter extends MvpBasePresenter<ItemsView> {
         if(!myDirectory.exists()){
             boolean result = myDirectory.mkdir();
         }
-
 
         String fileName = "Image-"+ System.nanoTime() +".jpg";
         File file = new File (myDirectory, fileName);

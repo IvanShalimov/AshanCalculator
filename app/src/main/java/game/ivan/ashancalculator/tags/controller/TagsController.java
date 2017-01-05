@@ -212,7 +212,6 @@ public class TagsController extends MvpViewStateController<TagsView, TagsPresent
 
     @Override
     public void onListItemSelect(final Tags tag) {
-        Log.d("Test","tag item list select");
         getViewState().setShowEditDialogState();
         getViewState().setEditableTag(tag);
         showEditDialog(tag);

@@ -15,4 +15,8 @@ public interface ItemsView extends MvpView {
     void refreshView(List<Item> list);
 
     void setImagePath(String path);
+
+    void showEditDialog(Item item);
+
+    void showCreateDialog();
 }
