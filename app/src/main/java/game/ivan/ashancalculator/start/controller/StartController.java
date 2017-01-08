@@ -7,6 +7,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
+import android.widget.Toast;
 
 import com.bluelinelabs.conductor.ControllerChangeHandler;
 import com.bluelinelabs.conductor.ControllerChangeType;
@@ -109,10 +110,14 @@ public class StartController extends MvpController<StartView,StartPresenter> imp
     @OnClick(R.id.add_item_button)
     @Override
     public void openProductBag() {
-        getRouter().pushController(
-                RouterTransaction.with(new ItemsController())
-                        .pushChangeHandler(new HorizontalChangeHandler())
-                        .popChangeHandler(new HorizontalChangeHandler()));
+        if (presenter.isTagsListNotEmpty()){
+            getRouter().pushController(
+                    RouterTransaction.with(new ItemsController())
+                            .pushChangeHandler(new HorizontalChangeHandler())
+                            .popChangeHandler(new HorizontalChangeHandler()));
+        } else {
+            Toast.makeText(getApplicationContext(),  R.string.please_add_tags, Toast.LENGTH_SHORT).show();
+        }
     }
 
     @OnClick(R.id.add_tag_button)
@@ -126,8 +131,12 @@ public class StartController extends MvpController<StartView,StartPresenter> imp
     @OnClick(R.id.clear_bag_button)
     @Override
     public void openCalculated() {
-        getRouter().pushController(RouterTransaction.with(new CalculateController())
-                .pushChangeHandler(new HorizontalChangeHandler())
-                .popChangeHandler(new HorizontalChangeHandler()));
+        if (presenter.isTagsListNotEmpty()){
+            getRouter().pushController(RouterTransaction.with(new CalculateController())
+                    .pushChangeHandler(new HorizontalChangeHandler())
+                    .popChangeHandler(new HorizontalChangeHandler()));
+        } else {
+            Toast.makeText(getApplicationContext(), R.string.please_add_tags, Toast.LENGTH_SHORT).show();
+        }
     }
 }

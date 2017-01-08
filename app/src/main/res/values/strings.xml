@@ -2,7 +2,7 @@
     <string name="app_name">Ашан Калькулятор</string>
     <string name="action_settings">Settings</string>
     <string name="create_tag">Добавить тэг</string>
-    <string name="add_bag" >Добавить товары</string>
+    <string name="add_bag" >Добавить товар</string>
     <string name="clear_bag">Очистить корзину</string>
     <string name="divider">Коэффициент деления</string>
     <string name="tag_name_edit_field">Наименование тэга</string>
@@ -18,5 +18,12 @@
     <string name="edit_tag">Изменить тэг</string>
     <string name="edit">Изменить</string>
     <string name="delete">Удалить</string>
+    <string name="add">Добавить</string>
+    <string name="edit_title_item_dialog">Изменить товар</string>
+    <string name="save">Сохранить</string>
+    <string name="picture_not_taken">Изображение не сделано!</string>
+    <string name="permission_denied">Разрешение откланено</string>
+    <string name="no_name_item">Товар без имени</string>
+    <string name="please_add_tags">Пожалуйста, добавьте тэги</string>
 
 </resources>

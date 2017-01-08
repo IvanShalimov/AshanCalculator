@@ -30,6 +30,7 @@ import com.hannesdorfmann.mosby.mvp.conductor.MvpController;
 import java.util.ArrayList;
 import java.util.List;
 
+import butterknife.BindString;
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.Unbinder;
@@ -46,15 +47,19 @@ public class ItemsController extends MvpViewStateController<ItemsView, ItemsPres
         MaterialDialog.SingleButtonCallback, ItemListAdapter.ItemsListAdapterCallback,
         PermissionListener {
 
-    public static int REQUEST_TAKE_PHOTO = 1234;
+    private static final String EMPTY_STRING = "";
+    public static final int DEFAULT_DOUBLE_VALUE = 1;
+    private static int REQUEST_TAKE_PHOTO = 1234;
 
+    @BindString(R.string.no_name_item)
+    String noNameItem;
     private Unbinder unbinder;
     @BindView(R.id.list)
     RecyclerView list;
-    RecyclerView.LayoutManager layoutManager;
-    ItemListAdapter adapter;
-    View dialogAdd;
-    String picturePath = "";
+    private RecyclerView.LayoutManager layoutManager;
+    private ItemListAdapter adapter;
+    private View dialogAdd;
+    private String picturePath = EMPTY_STRING;
 
     public ItemsController() {
         setHasOptionsMenu(true);
@@ -74,7 +79,7 @@ public class ItemsController extends MvpViewStateController<ItemsView, ItemsPres
         return view;
     }
 
-    protected void onViewBound(View view) {
+    private void onViewBound(View view) {
         layoutManager = new LinearLayoutManager(getApplicationContext());
         list.setLayoutManager(layoutManager);
         adapter = new ItemListAdapter();
@@ -114,11 +119,10 @@ public class ItemsController extends MvpViewStateController<ItemsView, ItemsPres
         int id = item.getItemId();
 
         if (id == R.id.add_item) {
-            //
             new TedPermission(getApplicationContext())
                     .setPermissionListener(this)
-                    .setDeniedMessage("If you reject permission,you can not use " +
-                            "this service\n\nPlease turn on permissions at [Setting] > [Permission]")
+                    .setDeniedMessage("Если вы отвергаете разрешение, вы не можете воспользоваться этой услугой" +
+                            "\n\nПожалуйста, включите разрешения на [Настройки] > [Разрешение]")
                     .setPermissions(Manifest.permission.WRITE_EXTERNAL_STORAGE)
                     .check();
             return true;
@@ -136,20 +140,32 @@ public class ItemsController extends MvpViewStateController<ItemsView, ItemsPres
 
     @Override
     public void onClick(@NonNull MaterialDialog dialog, @NonNull DialogAction which) {
+
         String name = ((EditText) dialogAdd.findViewById(R.id.name_item_edit_field))
                 .getText().toString();
+        if(name.equals(EMPTY_STRING)){
+            name = noNameItem;
+        }
         long tagId = ((Spinner) dialogAdd.findViewById(R.id.tag_spinner_list)).getSelectedItemId();
-        double count = Double.valueOf(((EditText) dialogAdd.findViewById(R.id.count_item_picker))
-                .getText().toString());
-        double price = Double.valueOf(((EditText) dialogAdd.findViewById(R.id.price_item_field))
-                .getText().toString());
+            double count;
+        try{
+             count = Double.valueOf(((EditText) dialogAdd.findViewById(R.id.count_item_picker))
+                    .getText().toString());
+        }catch(NumberFormatException | NullPointerException exception){
+            count= DEFAULT_DOUBLE_VALUE;
+        }
+            double price;
+        try{
+            price = Double.valueOf(((EditText) dialogAdd.findViewById(R.id.price_item_field))
+                    .getText().toString());
+        }catch(NumberFormatException | NullPointerException exception){
+            price = 1;
+        }
 
-        if(!picturePath.equals("")) {
+        if(!picturePath.equals(EMPTY_STRING)) {
             presenter.saveItem(new Item(name, picturePath, tagId, count, price));
 
-            picturePath = "";
-        } else {
-            Log.d("Test","puth is empty");
+            picturePath = EMPTY_STRING;
         }
 
     }
@@ -173,7 +189,7 @@ public class ItemsController extends MvpViewStateController<ItemsView, ItemsPres
 
     @Override
     public void onPermissionDenied(ArrayList<String> deniedPermissions) {
-        Toast.makeText(getActivity(), "Permission Denied\n" + deniedPermissions.toString(),
+        Toast.makeText(getActivity(), R.string.permission_denied + deniedPermissions.toString(),
                 Toast.LENGTH_SHORT).show();
     }
 
@@ -183,12 +199,12 @@ public class ItemsController extends MvpViewStateController<ItemsView, ItemsPres
         if (requestCode == REQUEST_TAKE_PHOTO) {
             Bitmap bitmap = (Bitmap) data.getExtras().get("data");
             if (bitmap != null) {
-                //camera.saveBitmap(picturePath, bitmap);
                 presenter.saveImageFile(bitmap);
-                getViewState().setShowCreateDialog();
+                if (getViewState()!= null)
+                    getViewState().setShowCreateDialog();
                 showCreateDialog();
             } else {
-                Toast.makeText(this.getApplicationContext(), "Picture not taken!", Toast.LENGTH_SHORT).show();
+                Toast.makeText(this.getApplicationContext(), R.string.picture_not_taken, Toast.LENGTH_SHORT).show();
             }
         }
 
@@ -211,18 +227,32 @@ public class ItemsController extends MvpViewStateController<ItemsView, ItemsPres
         MaterialDialog dialog;
         boolean wrapInScrollView = true;
         dialog = new MaterialDialog.Builder(getActivity())
-                .title("Добавить товар")
+                .title(R.string.edit_title_item_dialog)
                 .customView(R.layout.add_item_dialog_layout, wrapInScrollView)
-                .positiveText("Сохранить")
-                .negativeText("Удалить")
+                .positiveText(R.string.save)
+                .negativeText(R.string.delete)
                 .onPositive((dialog12, which) -> {
-                    item.name = ((EditText) dialogAdd.findViewById(R.id.name_item_edit_field))
+                    String name = ((EditText) dialogAdd.findViewById(R.id.name_item_edit_field))
                             .getText().toString();
+                    if(name.equals(EMPTY_STRING)){
+                        name = noNameItem;
+                    }
+                    item.name = name;
                     item.tag_id = ((Spinner) dialogAdd.findViewById(R.id.tag_spinner_list)).getSelectedItemId();
-                    item.count = Double.valueOf(((EditText) dialogAdd.findViewById(R.id.count_item_picker))
-                            .getText().toString());
-                    item.price = Double.valueOf(((EditText) dialogAdd.findViewById(R.id.price_item_field))
-                            .getText().toString());
+                    try {
+                        item.count = Double.valueOf(((EditText) dialogAdd.findViewById(R.id.count_item_picker))
+                                .getText().toString());
+                    }catch(NumberFormatException | NullPointerException exception){
+                        item.count = DEFAULT_DOUBLE_VALUE;
+                    }
+
+
+                    try {
+                        item.price = Double.valueOf(((EditText) dialogAdd.findViewById(R.id.price_item_field))
+                                .getText().toString());
+                    }catch(NumberFormatException | NullPointerException exception){
+                        item.price = DEFAULT_DOUBLE_VALUE;
+                    }
 
                     presenter.saveItem(item);
                 })
@@ -251,10 +281,10 @@ public class ItemsController extends MvpViewStateController<ItemsView, ItemsPres
         boolean wrapInScrollView = true;
 
         dialog = new MaterialDialog.Builder(getActivity())
-                .title("Добавить товар")
+                .title(R.string.add_bag)
                 .customView(R.layout.add_item_dialog_layout, wrapInScrollView)
-                .positiveText("Добавить")
-                .negativeText("Отмена")
+                .positiveText(R.string.add)
+                .negativeText(R.string.editor_cancel_button_label)
                 .onPositive(this)
                 .build();
 
@@ -282,7 +312,6 @@ public class ItemsController extends MvpViewStateController<ItemsView, ItemsPres
 
     @Override
     public void onNewViewStateInstance() {
-        //подгрузка пунктов
         presenter.loadItems(false);
     }
 }

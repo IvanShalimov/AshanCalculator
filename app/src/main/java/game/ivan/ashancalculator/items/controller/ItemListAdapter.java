@@ -53,16 +53,15 @@ public class ItemListAdapter extends RecyclerView.Adapter<ItemListAdapter.ViewHo
         holder.priceLabel.setText(String.valueOf(
                 items.get(position).price*items.get(position).count));
 
-
         Picasso.Builder builder = new Picasso.Builder(AshanApplication.getInstante());
         builder.listener((picasso, uri, exception) -> {
-            Log.d("Test","imageLoadFailed");
             exception.printStackTrace();
         });
 
         try {
             builder.build().load("file://"+items.get(position).photoPath)
-                    .resize(50, 50)
+                    .resize(100,100)
+                    .rotate(90)
                     .centerCrop()
                     .error(R.mipmap.ic_launcher)
                     .into(holder.itemIcon);

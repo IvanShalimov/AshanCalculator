@@ -15,6 +15,7 @@ import game.ivan.ashancalculator.database.DatabaseItemsManager;
 import game.ivan.ashancalculator.database.models.Item;
 import game.ivan.ashancalculator.database.models.Tags;
 import game.ivan.ashancalculator.items.view.ItemsView;
+import game.ivan.ashancalculator.service.RotateManager;
 
 /**
  * Created by ivan on 21.12.16.
@@ -71,8 +72,7 @@ public class ItemsPresenter extends MvpBasePresenter<ItemsView> {
 
         String fileName = "Image-"+ System.nanoTime() +".jpg";
         File file = new File (myDirectory, fileName);
-/*        if (file.exists ())
-            file.delete ();*/
+
         try {
             FileOutputStream out = new FileOutputStream(file);
             bitmap.compress(Bitmap.CompressFormat.JPEG, 90, out);
@@ -81,9 +81,12 @@ public class ItemsPresenter extends MvpBasePresenter<ItemsView> {
 
             if(isViewAttached())
                 getView().setImagePath(file.getAbsolutePath());
+
         } catch (Exception e) {
             Log.d("Test","exception - " + e.toString());
             e.printStackTrace();
         }
+
+        RotateManager.checkRotation(file.getAbsolutePath(),bitmap);
     }
 }
