@@ -62,12 +62,17 @@ public class ItemsPresenter extends MvpBasePresenter<ItemsView> {
         loadItems(false);
     }
 
+    public void clearAll(){
+        databaseManager.deleteAll();
+        loadItems(false);
+    }
+
 
     public void saveImageFile(Bitmap bitmap){
         String root = Environment.getExternalStorageDirectory().toString();
         File myDirectory = new File(root + "/saved_images");
         if(!myDirectory.exists()){
-            boolean result = myDirectory.mkdir();
+             myDirectory.mkdir();
         }
 
         String fileName = "Image-"+ System.nanoTime() +".jpg";

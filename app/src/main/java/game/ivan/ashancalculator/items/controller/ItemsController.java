@@ -111,21 +111,24 @@ public class ItemsController extends MvpViewStateController<ItemsView, ItemsPres
     @Override
     public void onCreateOptionsMenu(@NonNull Menu menu, @NonNull MenuInflater inflater) {
         super.onCreateOptionsMenu(menu, inflater);
-        inflater.inflate(R.menu.menu_tags, menu);
+        inflater.inflate(R.menu.menu_item, menu);
     }
 
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
         int id = item.getItemId();
-
-        if (id == R.id.add_item) {
-            new TedPermission(getApplicationContext())
-                    .setPermissionListener(this)
-                    .setDeniedMessage("Если вы отвергаете разрешение, вы не можете воспользоваться этой услугой" +
-                            "\n\nПожалуйста, включите разрешения на [Настройки] > [Разрешение]")
-                    .setPermissions(Manifest.permission.WRITE_EXTERNAL_STORAGE)
-                    .check();
-            return true;
+        switch (id) {
+            case R.id.delete_all_item:
+                presenter.clearAll();
+                break;
+            case R.id.add_item:
+                new TedPermission(getApplicationContext())
+                        .setPermissionListener(this)
+                        .setDeniedMessage("Если вы отвергаете разрешение, вы не можете воспользоваться этой услугой" +
+                                "\n\nПожалуйста, включите разрешения на [Настройки] > [Разрешение]")
+                        .setPermissions(Manifest.permission.WRITE_EXTERNAL_STORAGE)
+                        .check();
+                break;
         }
 
         return super.onOptionsItemSelected(item);

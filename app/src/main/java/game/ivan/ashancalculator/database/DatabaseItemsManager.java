@@ -44,6 +44,12 @@ public class DatabaseItemsManager  {
         return list;
     }
 
+    public void deleteAll(){
+        openConnection(AshanApplication.getInstante());
+        cupboard().withDatabase(database).delete(Item.class,null);
+        closeConnection();
+    }
+
     public List<Item> readAllRecord(){
         openConnection(AshanApplication.getInstante());
         List<Item> list = cupboard().withDatabase(database).query(Item.class).list();
