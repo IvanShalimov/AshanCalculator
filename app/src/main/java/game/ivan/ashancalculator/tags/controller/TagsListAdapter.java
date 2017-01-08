@@ -21,7 +21,6 @@ import game.ivan.ashancalculator.database.models.Tags;
 /**
  * Created by ivan on 27.12.16.
  */
-
 public class TagsListAdapter extends RecyclerView.Adapter<TagsListAdapter.ViewHolder> {
 
     List<Tags> tags;
@@ -52,15 +51,11 @@ public class TagsListAdapter extends RecyclerView.Adapter<TagsListAdapter.ViewHo
 
     @Override
     public void onBindViewHolder(ViewHolder holder, final int position) {
-        holder.itemTagLabel.setText(""+tags.get(position).nameTags);
-        holder.itemTagLabel.setTextColor(Color.BLACK);
+        holder.itemTagLabel.setText(String.valueOf(tags.get(position).nameTags));
 
-        holder.item_container.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                if(callback != null){
-                    callback.onListItemSelect(tags.get(position));
-                }
+        holder.item_container.setOnClickListener(view -> {
+            if(callback != null){
+                callback.onListItemSelect(tags.get(position));
             }
         });
     }
@@ -77,9 +72,10 @@ public class TagsListAdapter extends RecyclerView.Adapter<TagsListAdapter.ViewHo
         @BindView(R.id.tag_item_container)
         LinearLayout item_container;
 
-        public ViewHolder(View itemView) {
+        ViewHolder(View itemView) {
             super(itemView);
             ButterKnife.bind(this,itemView);
+            itemTagLabel.setTextColor(Color.BLACK);
         }
     }
 
@@ -87,7 +83,7 @@ public class TagsListAdapter extends RecyclerView.Adapter<TagsListAdapter.ViewHo
         void onListItemSelect(Tags tag);
     }
 
-    public void setCallback(TagsListAdapterCallback callback) {
+    void setCallback(TagsListAdapterCallback callback) {
         this.callback = callback;
     }
 

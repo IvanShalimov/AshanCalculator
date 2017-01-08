@@ -65,11 +65,7 @@ public class CalculateController extends MvpViewStateController<CalculaterView,C
     protected void onViewBound(View view) {
         layoutManager = new LinearLayoutManager(getApplicationContext());
         itemPositionList.setLayoutManager(layoutManager);
-        if(getViewState().currentState == CalculatorViewState.SHOW_CONTENT){
-
-        } else {
-            adapter = new CalculatedListItemAdapter();
-        }
+        adapter = new CalculatedListItemAdapter();
         itemPositionList.setAdapter(adapter);
     }
 
@@ -82,12 +78,6 @@ public class CalculateController extends MvpViewStateController<CalculaterView,C
     @Override
     protected void onAttach(@NonNull View view) {
         super.onAttach(view);
-        if(getViewState().currentState == CalculatorViewState.SHOW_CONTENT){
-            setSpinnerData(null);
-        } else{
-            presenter.getTags();
-        }
-
     }
 
     protected View inflateView(@NonNull LayoutInflater inflater, @NonNull ViewGroup container) {
@@ -113,7 +103,9 @@ public class CalculateController extends MvpViewStateController<CalculaterView,C
                 getApplicationContext(),
                 R.layout.spinner_item, list);
         tagSpinner.setAdapter(spinnerAdapter);
+        tagSpinner.setSelection(getViewState().currentState);
         tagSpinner.setOnItemSelectedListener(this);
+        getViewState().setLabels(list);
     }
 
     @Override
@@ -135,7 +127,9 @@ public class CalculateController extends MvpViewStateController<CalculaterView,C
 
     @Override
     public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
+        getViewState().setCurrentSelectedSpinnerItem(position);
         presenter.getDateForScreen(position);
+
     }
 
     @Override
@@ -156,6 +150,6 @@ public class CalculateController extends MvpViewStateController<CalculaterView,C
 
     @Override
     public void onNewViewStateInstance() {
-        viewState = new CalculatorViewState();
+        presenter.getTags();
     }
 }

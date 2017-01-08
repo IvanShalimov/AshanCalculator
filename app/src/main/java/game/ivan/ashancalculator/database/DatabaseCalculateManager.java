@@ -30,6 +30,9 @@ public class DatabaseCalculateManager {
         openConnection(AshanApplication.getInstante());
         List<Tags> list = cupboard().withDatabase(database).query(Tags.class).list();
         closeConnection();
+        for (Tags tag:list){
+            Log.d("Test","tag.id ="+tag._id +" _ "+tag.divisionFactor);
+        }
         return list;
     }
 
@@ -39,7 +42,6 @@ public class DatabaseCalculateManager {
                 .withDatabase(database).query(Item.class)
                 .withSelection("tag_id = ?", String.valueOf(tagId))
                 .list();
-        Log.d("Test","items.size() = "+items.size());
         closeConnection();
         return items;
     }

@@ -2,6 +2,8 @@ package game.ivan.ashancalculator.calculate.controller;
 
 import com.hannesdorfmann.mosby.mvp.viewstate.ViewState;
 
+import java.util.List;
+
 import game.ivan.ashancalculator.calculate.view.CalculaterView;
 
 /**
@@ -14,11 +16,27 @@ public class CalculatorViewState implements ViewState<CalculaterView> {
 
     public final static int NOT_SHOW_CONTENT = 1;
 
-    int currentState;
+    public void setCurrentSelectedSpinnerItem(int currentSelectedSpinnerItem) {
+        this.currentSelectedSpinnerItem = currentSelectedSpinnerItem;
+    }
+
+    int currentSelectedSpinnerItem=0;
+
+    public void setLabels(List<String> labels) {
+        this.labels = labels;
+    }
+
+    List<String> labels;
+
+    int currentState=0;
 
     @Override
     public void apply(CalculaterView view, boolean retained) {
-
+        switch (currentState){
+            case SHOW_CONTENT:
+                view.setSpinnerData(labels);
+                break;
+        }
     }
 
 

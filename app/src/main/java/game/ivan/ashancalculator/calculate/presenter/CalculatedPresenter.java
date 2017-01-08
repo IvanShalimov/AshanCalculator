@@ -1,5 +1,7 @@
 package game.ivan.ashancalculator.calculate.presenter;
 
+import android.util.Log;
+
 import com.hannesdorfmann.mosby.mvp.MvpBasePresenter;
 
 import java.util.ArrayList;
@@ -40,6 +42,7 @@ public class CalculatedPresenter extends MvpBasePresenter<CalculaterView> {
     }
 
     public void getDateForScreen(int position){
+        Log.d("Test","position =" + position);
         List<Item> items = databaseManager.getItemForTag(position);
         if (isViewAttached()){
             getView().refreshList(items);

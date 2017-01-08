@@ -21,6 +21,7 @@ import com.hannesdorfmann.mosby.mvp.conductor.MvpController;
 
 import java.util.List;
 
+import butterknife.BindString;
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.Unbinder;
@@ -36,7 +37,10 @@ import game.ivan.ashancalculator.tags.view.TagsView;
 public class TagsController extends MvpViewStateController<TagsView, TagsPresenter,TagStateView> implements TagsView,
         MaterialDialog.SingleButtonCallback, TagsListAdapter.TagsListAdapterCallback {
 
+    public static final int DEFAULT_DIVISION_VALUE = 1;
     private Unbinder unbinder;
+    @BindString(R.string.nameless)
+    String namless;
     @BindView(R.id.list)
     RecyclerView list;
     RecyclerView.LayoutManager layoutManager;
@@ -125,16 +129,25 @@ public class TagsController extends MvpViewStateController<TagsView, TagsPresent
     @Override
     public void onClick(@NonNull MaterialDialog dialog, @NonNull DialogAction which) {
         View layout = dialog.getCustomView();
+
         String name =
                 ((EditText) layout.findViewById(R.id.name_edit_field))
                         .getText()
                         .toString();
+        if(name.equals(""))
+            name = namless;
 
-        int division = Integer
-                .valueOf(
-                        ((EditText) layout.findViewById(R.id.count_edit_field))
-                                .getText()
-                                .toString());
+        int division;
+        try {
+            division = Integer
+                    .valueOf(
+                            ((EditText) layout.findViewById(R.id.count_edit_field))
+                                    .getText()
+                                    .toString());
+        } catch(NumberFormatException | NullPointerException e){
+            division = DEFAULT_DIVISION_VALUE;
+        }
+
         presenter.addTag(new Tags(name, division));
     }
 
@@ -156,11 +169,25 @@ public class TagsController extends MvpViewStateController<TagsView, TagsPresent
         if (dialogAdd == null) {
 
             dialog = new MaterialDialog.Builder(getActivity())
-                    .title("Изменить тэг")
+                    .title(R.string.edit_tag)
                     .customView(R.layout.editor_tag_layout, wrapInScrollView)
-                    .positiveText("Изменить тэг")
-                    .negativeText("Удалить")
-                    .onPositive((dialog12, which) -> presenter.addTag(tag))
+                    .positiveText(R.string.edit)
+                    .negativeText(R.string.delete)
+                    .onPositive((dialog12, which) -> {
+                        String name = ((EditText)dialog.findViewById(R.id.name_edit_field)).getText().toString();
+                        if(name.equals("")){
+                            name = namless;
+                        } else {
+                            tag.nameTags = name;
+                        }
+
+                        String division = ((EditText) dialog.findViewById(R.id.count_edit_field)).getText().toString();
+                        if(division.equals("")){
+                            tag.divisionFactor = DEFAULT_DIVISION_VALUE;
+                        } else {
+                            tag.divisionFactor = Integer.valueOf(division);
+                        }
+                        presenter.addTag(tag);})
                     .onNegative((dialog12, which) -> presenter.deleteTag(tag))
                     .build();
 
@@ -169,11 +196,25 @@ public class TagsController extends MvpViewStateController<TagsView, TagsPresent
 
         } else {
             dialog = new MaterialDialog.Builder(getActivity())
-                    .title("Изменить тэг")
+                    .title(R.string.edit_tag)
                     .customView(dialogAdd, wrapInScrollView)
-                    .positiveText("Изменить")
-                    .negativeText("Удалить")
-                    .onPositive((dialog1, which) -> presenter.addTag(tag))
+                    .positiveText(R.string.edit)
+                    .negativeText(R.string.delete)
+                    .onPositive((dialog1, which) -> {
+                        String name = ((EditText)dialog.findViewById(R.id.name_edit_field)).getText().toString();
+                        if(name.equals("")){
+                            name = namless;
+                        } else {
+                            tag.nameTags = name;
+                        }
+
+                        String division = ((EditText) dialog.findViewById(R.id.count_edit_field)).getText().toString();
+                        if(division.equals("")){
+                            tag.divisionFactor = DEFAULT_DIVISION_VALUE;
+                        } else {
+                            tag.divisionFactor = Integer.valueOf(division);
+                        }
+                        presenter.addTag(tag);})
                     .onNegative((dialog12, which) -> presenter.deleteTag(tag))
                     .build();
 
@@ -188,18 +229,18 @@ public class TagsController extends MvpViewStateController<TagsView, TagsPresent
         boolean wrapInScrollView = true;
         if (dialogAdd == null)
             dialog = new MaterialDialog.Builder(getActivity())
-                    .title("Добавить тэг")
+                    .title(R.string.create_tag)
                     .customView(R.layout.editor_tag_layout, wrapInScrollView)
-                    .positiveText("Добавить")
-                    .negativeText("Отмена")
+                    .positiveText(R.string.add_label_menu_item)
+                    .negativeText(R.string.editor_cancel_button_label)
                     .onPositive(this)
                     .build();
         else
             dialog = new MaterialDialog.Builder(getActivity())
-                    .title("Добавить тэг")
+                    .title(R.string.create_tag)
                     .customView(dialogAdd, wrapInScrollView)
-                    .positiveText("Добавить")
-                    .negativeText("Отмена")
+                    .positiveText(R.string.add_label_menu_item)
+                    .negativeText(R.string.editor_cancel_button_label)
                     .onPositive(this)
                     .build();
 
