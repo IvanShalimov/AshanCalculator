@@ -2,6 +2,7 @@ package game.ivan.ashancalculator.start.controller;
 
 import android.os.Bundle;
 import android.support.annotation.NonNull;
+import android.support.design.widget.FloatingActionButton;
 import android.support.v7.app.ActionBar;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -37,11 +38,11 @@ import game.ivan.ashancalculator.tags.controller.TagsController;
 public class StartController extends MvpController<StartView,StartPresenter> implements StartView {
 
     @BindView(R.id.add_item_button)
-    ImageView addItemButton;
+    FloatingActionButton addItemButton;
     @BindView(R.id.add_tag_button)
-    ImageView addTagButton;
+    FloatingActionButton addTagButton;
     @BindView(R.id.clear_bag_button)
-    ImageView clearItemsButton;
+    FloatingActionButton clearItemsButton;
     private Unbinder unbinder;
 
     public StartController(){
@@ -63,16 +64,8 @@ public class StartController extends MvpController<StartView,StartPresenter> imp
     protected void onViewBound(View view){
         getActionBar().setIcon(R.mipmap.ic_launcher);
 
-        setUpImageButton(addItemButton, R.drawable.free_stock);
-        setUpImageButton(addTagButton, R.drawable.hands);
-        setUpImageButton(clearItemsButton, R.drawable.rko_free);
     }
 
-    public void setUpImageButton(ImageView view,int resources){
-        Picasso.with(getApplicationContext())
-                .load(resources)
-                .into(view, new PicassoCallback(view, resources));
-    }
 
     protected ActionBar getActionBar() {
         ActionBarProvider actionBarProvider = ((ActionBarProvider)getActivity());

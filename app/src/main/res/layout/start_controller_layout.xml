@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/content_start"
@@ -8,32 +8,41 @@
     android:orientation="vertical">
 
 
-    <ImageView
-        android:layout_width="match_parent"
+    <android.support.design.widget.FloatingActionButton
+        android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        app:srcCompat="@drawable/free_stock"
+        android:clickable="true"
+        app:fabSize="normal"
+        app:srcCompat="@drawable/tag_button_icon"
+        android:layout_centerVertical="true"
+        android:layout_centerHorizontal="true"
         android:id="@+id/add_item_button"
-        android:layout_weight="1"
-        android:scaleType="centerCrop"
-        android:contentDescription="" />
-    <!--app:srcCompat="@drawable/free_stock"-->
-    <ImageView
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
+        android:layout_margin="5dp"
+        app:rippleColor="@color/rippleAccent"/>
 
+    <android.support.design.widget.FloatingActionButton
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:clickable="true"
+        app:fabSize="normal"
+        app:srcCompat="@drawable/items_button_icon"
+        android:layout_toLeftOf="@+id/add_item_button"
+        android:layout_toStartOf="@+id/add_item_button"
         android:id="@+id/add_tag_button"
-        android:layout_weight="1"
-        android:scaleType="centerCrop"
-        tools:ignore="ContentDescription"
-        android:contentDescription=""/>
-    <!--app:srcCompat="@drawable/hands"-->
-    <ImageView
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
+        android:layout_margin="5dp"
+        android:layout_centerVertical="true"
+        app:rippleColor="@color/rippleAccent"/>
 
+    <android.support.design.widget.FloatingActionButton
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:clickable="true"
+        app:fabSize="normal"
+        app:srcCompat="@drawable/result_button_icon"
+        android:layout_toRightOf="@+id/add_item_button"
+        android:layout_toEndOf="@+id/add_item_button"
         android:id="@+id/clear_bag_button"
-        android:layout_weight="1"
-        android:scaleType="centerCrop"
-        android:contentDescription="" />
- <!--   app:srcCompat="@drawable/rko_free"-->
-</LinearLayout>
+        android:layout_margin="5dp"
+        android:layout_centerVertical="true"
+        app:rippleColor="@color/rippleAccent"/>
+</RelativeLayout>
