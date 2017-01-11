@@ -16,7 +16,7 @@
         app:srcCompat="@drawable/tag_button_icon"
         android:layout_centerVertical="true"
         android:layout_centerHorizontal="true"
-        android:id="@+id/add_item_button"
+        android:id="@+id/add_tag_button"
         android:layout_margin="5dp"
         app:rippleColor="@color/rippleAccent"/>
 
@@ -26,9 +26,9 @@
         android:clickable="true"
         app:fabSize="normal"
         app:srcCompat="@drawable/items_button_icon"
-        android:layout_toLeftOf="@+id/add_item_button"
-        android:layout_toStartOf="@+id/add_item_button"
-        android:id="@+id/add_tag_button"
+        android:layout_toLeftOf="@+id/add_tag_button"
+        android:layout_toStartOf="@+id/add_tag_button"
+        android:id="@+id/add_item_button"
         android:layout_margin="5dp"
         android:layout_centerVertical="true"
         app:rippleColor="@color/rippleAccent"/>
@@ -39,8 +39,8 @@
         android:clickable="true"
         app:fabSize="normal"
         app:srcCompat="@drawable/result_button_icon"
-        android:layout_toRightOf="@+id/add_item_button"
-        android:layout_toEndOf="@+id/add_item_button"
+        android:layout_toRightOf="@+id/add_tag_button"
+        android:layout_toEndOf="@+id/add_tag_button"
         android:id="@+id/clear_bag_button"
         android:layout_margin="5dp"
         android:layout_centerVertical="true"

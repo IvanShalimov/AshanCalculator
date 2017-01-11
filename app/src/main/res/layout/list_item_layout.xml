@@ -3,30 +3,40 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:id="@+id/item_list_container">
+    android:id="@+id/item_list_container"
+    android:layout_marginBottom="5dp"
+    android:layout_marginTop="5dp">
 
     <ImageView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         app:srcCompat="@drawable/gray_circle"
-        android:id="@+id/item_icon" />
+        android:id="@+id/item_icon"
+        android:layout_marginLeft="5dp"
+        android:layout_marginRight="5dp" />
 
     <TextView
-        android:text="TextView"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:id="@+id/name_label"
         android:layout_centerVertical="true"
         android:layout_toLeftOf="@+id/price_label"
         android:layout_toRightOf="@+id/item_icon"
-        android:layout_toEndOf="@+id/item_icon" />
+        android:layout_toEndOf="@+id/item_icon"
+        android:layout_marginLeft="5dp"
+        android:layout_marginRight="5dp"
+        android:textStyle="normal|bold"
+        android:fontFamily="sans-serif-smallcaps"/>
 
     <TextView
-        android:text="TextView"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:id="@+id/price_label"
         android:layout_centerVertical="true"
         android:layout_alignParentRight="true"
-        android:layout_alignParentEnd="true" />
+        android:layout_alignParentEnd="true"
+        android:layout_marginRight="5dp"
+        android:layout_marginLeft="5dp"
+        android:textStyle="normal|bold"
+        android:fontFamily="sans-serif-smallcaps"/>
 </RelativeLayout>

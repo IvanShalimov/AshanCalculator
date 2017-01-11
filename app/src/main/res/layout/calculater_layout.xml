@@ -1,7 +1,8 @@
 <?xml version="1.0" encoding="utf-8"?>
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
-    android:layout_height="match_parent">
+    android:layout_height="match_parent"
+    android:layout_margin="5dp">
 
     <Spinner
         android:layout_width="match_parent"
@@ -9,7 +10,8 @@
         android:layout_alignParentTop="true"
         android:layout_alignParentLeft="true"
         android:layout_alignParentStart="true"
-        android:id="@+id/tag_spinner" />
+        android:id="@+id/tag_spinner"
+        android:layout_marginBottom="5dp" />
 
     <RelativeLayout
         android:layout_width="match_parent"
@@ -17,12 +19,17 @@
         android:layout_alignParentBottom="true"
         android:layout_alignParentRight="true"
         android:layout_alignParentEnd="true"
-        android:id="@+id/bottom_container">
+        android:id="@+id/bottom_container"
+        android:layout_marginTop="5dp"
+        android:textStyle="normal|bold"
+        android:fontFamily="sans-serif-smallcaps">
 
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:id="@+id/one_man_label" />
+            android:id="@+id/one_man_label"
+            android:textStyle="normal|bold"
+            android:fontFamily="sans-serif-smallcaps" />
 
         <TextView
             android:layout_width="wrap_content"
@@ -30,7 +37,9 @@
             android:id="@+id/sum_label"
             android:layout_alignParentTop="true"
             android:layout_alignParentRight="true"
-            android:layout_alignParentEnd="true" />
+            android:layout_alignParentEnd="true"
+            android:textStyle="normal|bold"
+            android:fontFamily="sans-serif-smallcaps" />
     </RelativeLayout>
 
     <TextView
@@ -39,7 +48,11 @@
         android:layout_below="@+id/tag_spinner"
         android:layout_alignParentLeft="true"
         android:layout_alignParentStart="true"
-        android:id="@+id/list_header_label" />
+        android:id="@+id/list_header_label"
+        android:textStyle="normal|bold"
+        android:fontFamily="sans-serif-smallcaps"
+        android:layout_marginBottom="5dp"
+        android:layout_marginTop="5dp" />
 
     <android.support.v7.widget.RecyclerView
         android:layout_width="match_parent"
@@ -48,5 +61,7 @@
         android:layout_alignParentLeft="true"
         android:layout_alignParentStart="true"
         android:layout_above="@+id/bottom_container"
-        android:id="@+id/list_item_position" />
+        android:id="@+id/list_item_position"
+        android:layout_marginBottom="5dp"
+        android:layout_marginTop="5dp" />
 </RelativeLayout>

@@ -149,7 +149,7 @@ public class ItemsController extends MvpViewStateController<ItemsView, ItemsPres
         if(name.equals(EMPTY_STRING)){
             name = noNameItem;
         }
-        long tagId = ((Spinner) dialogAdd.findViewById(R.id.tag_spinner_list)).getSelectedItemId();
+        long tagId = ((fr.ganfra.materialspinner.MaterialSpinner) dialogAdd.findViewById(R.id.tag_spinner_list)).getSelectedItemId();
             double count;
         try{
              count = Double.valueOf(((EditText) dialogAdd.findViewById(R.id.count_item_picker))
@@ -200,14 +200,18 @@ public class ItemsController extends MvpViewStateController<ItemsView, ItemsPres
     public void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
         if (requestCode == REQUEST_TAKE_PHOTO) {
-            Bitmap bitmap = (Bitmap) data.getExtras().get("data");
-            if (bitmap != null) {
-                presenter.saveImageFile(bitmap);
-                if (getViewState()!= null)
-                    getViewState().setShowCreateDialog();
-                showCreateDialog();
-            } else {
-                Toast.makeText(this.getApplicationContext(), R.string.picture_not_taken, Toast.LENGTH_SHORT).show();
+            try{
+                Bitmap bitmap = (Bitmap) data.getExtras().get("data");
+                if (bitmap != null) {
+                    presenter.saveImageFile(bitmap);
+                    if (getViewState()!= null)
+                        getViewState().setShowCreateDialog();
+                    showCreateDialog();
+                } else {
+                    Toast.makeText(this.getApplicationContext(), R.string.picture_not_taken, Toast.LENGTH_SHORT).show();
+                }
+            }catch(NullPointerException exception){
+                //Press back button
             }
         }
 
@@ -269,8 +273,8 @@ public class ItemsController extends MvpViewStateController<ItemsView, ItemsPres
         ArrayAdapter<String> spinnerAdapter = new ArrayAdapter<String>(
                 getApplicationContext(),
                 R.layout.spinner_item, presenter.getListTag());
-        ((Spinner) dialogAdd.findViewById(R.id.tag_spinner_list)).setAdapter(spinnerAdapter);
-        ((Spinner) dialogAdd.findViewById(R.id.tag_spinner_list)).setSelection((int) item.tag_id);
+        ((fr.ganfra.materialspinner.MaterialSpinner) dialogAdd.findViewById(R.id.tag_spinner_list)).setAdapter(spinnerAdapter);
+        ((fr.ganfra.materialspinner.MaterialSpinner) dialogAdd.findViewById(R.id.tag_spinner_list)).setSelection((int) item.tag_id);
         ((EditText) dialogAdd.findViewById(R.id.name_item_edit_field)).setText(String.valueOf(item.name));
         ((EditText) dialogAdd.findViewById(R.id.count_item_picker)).setText(String.valueOf(item.count));
         ((EditText) dialogAdd.findViewById(R.id.price_item_field)).setText(String.valueOf(item.price));
@@ -296,7 +300,7 @@ public class ItemsController extends MvpViewStateController<ItemsView, ItemsPres
         ArrayAdapter<String> spinnerAdapter = new ArrayAdapter<String>(
                 getApplicationContext(),
                 R.layout.spinner_item, presenter.getListTag());
-        ((Spinner) dialogAdd.findViewById(R.id.tag_spinner_list)).setAdapter(spinnerAdapter);
+        ((fr.ganfra.materialspinner.MaterialSpinner) dialogAdd.findViewById(R.id.tag_spinner_list)).setAdapter(spinnerAdapter);
 
 
         dialog.show();
