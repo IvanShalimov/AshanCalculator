@@ -47,12 +47,20 @@ public class DatabaseCalculateManager {
     }
 
     public int getDivider(int tagId){
+        Log.d("Test","tagId = " + tagId);
+/*        int selectItem = tagId+1*/;
         openConnection(AshanApplication.getInstante());
         Tags tag = cupboard().withDatabase(database)
                 .query(Tags.class)
-                .withSelection("_id = ?", String.valueOf(tagId+1))
+                .withSelection("_id = ?", String.valueOf(tagId))
                 .get();
+/*        if (tag == null) {
+            tag = cupboard().withDatabase(database)
+                    .query(Tags.class)
+                    .get();
+        }*/
         closeConnection();
+
         return tag.divisionFactor;
     }
 

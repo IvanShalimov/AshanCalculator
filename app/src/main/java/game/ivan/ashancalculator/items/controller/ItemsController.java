@@ -150,6 +150,7 @@ public class ItemsController extends MvpViewStateController<ItemsView, ItemsPres
             name = noNameItem;
         }
         long tagId = ((fr.ganfra.materialspinner.MaterialSpinner) dialogAdd.findViewById(R.id.tag_spinner_list)).getSelectedItemId();
+        Log.d("Test","tagId create = " + tagId);
             double count;
         try{
              count = Double.valueOf(((EditText) dialogAdd.findViewById(R.id.count_item_picker))

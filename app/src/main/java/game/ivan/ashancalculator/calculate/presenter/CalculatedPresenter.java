@@ -43,7 +43,7 @@ public class CalculatedPresenter extends MvpBasePresenter<CalculaterView> {
 
     public void getDateForScreen(int position){
         Log.d("Test","position =" + position);
-        List<Item> items = databaseManager.getItemForTag(position);
+        List<Item> items = databaseManager.getItemForTag(++position);
         if (isViewAttached()){
             getView().refreshList(items);
             getView().showOneManPrice(calculator.oneManSum(items,databaseManager.getDivider(position)));

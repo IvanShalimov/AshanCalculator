@@ -128,6 +128,7 @@ public class CalculateController extends MvpViewStateController<CalculaterView,C
     @Override
     public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
         getViewState().setCurrentSelectedSpinnerItem(position);
+        Log.d("Test","position"+position);
         presenter.getDateForScreen(position);
 
     }
