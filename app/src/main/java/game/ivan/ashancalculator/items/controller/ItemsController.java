@@ -43,7 +43,8 @@ import game.ivan.ashancalculator.items.view.ItemsView;
  * Created by ivan on 21.12.16.
  */
 
-public class ItemsController extends MvpViewStateController<ItemsView, ItemsPresenter,ItemViewState> implements ItemsView,
+public class ItemsController extends MvpViewStateController<ItemsView, ItemsPresenter,ItemViewState>
+        implements ItemsView,
         MaterialDialog.SingleButtonCallback, ItemListAdapter.ItemsListAdapterCallback,
         PermissionListener {
 
@@ -149,7 +150,12 @@ public class ItemsController extends MvpViewStateController<ItemsView, ItemsPres
         if(name.equals(EMPTY_STRING)){
             name = noNameItem;
         }
-        long tagId = ((fr.ganfra.materialspinner.MaterialSpinner) dialogAdd.findViewById(R.id.tag_spinner_list)).getSelectedItemId();
+        long tagId = (
+                (fr.ganfra.materialspinner.MaterialSpinner) dialogAdd
+                .findViewById(R.id.tag_spinner_list)
+        )
+                .getSelectedItemId();
+
         Log.d("Test","tagId create = " + tagId);
             double count;
         try{
@@ -209,7 +215,8 @@ public class ItemsController extends MvpViewStateController<ItemsView, ItemsPres
                         getViewState().setShowCreateDialog();
                     showCreateDialog();
                 } else {
-                    Toast.makeText(this.getApplicationContext(), R.string.picture_not_taken, Toast.LENGTH_SHORT).show();
+                    Toast.makeText(this.getApplicationContext(), R.string.picture_not_taken, Toast.LENGTH_SHORT)
+                            .show();
                 }
             }catch(NullPointerException exception){
                 //Press back button
