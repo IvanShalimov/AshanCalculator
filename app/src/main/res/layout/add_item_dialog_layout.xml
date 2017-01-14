@@ -52,20 +52,49 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_below="@+id/container_tag_spinner"
-        android:id="@+id/count_item_container">
+        android:id="@+id/count_item_container"
+        android:layout_marginTop="5dp">
 
         <android.support.design.widget.TextInputLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:id="@+id/count__item_container">
+            android:id="@+id/count__item_container"
+            android:layout_toLeftOf="@+id/unit_spinner"
+            android:layout_toStartOf="@+id/unit_spinner"
+            android:layout_marginRight="5dp"
+            android:layout_marginEnd="5dp">
         <EditText
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:hint="@string/count_label"
             android:id="@+id/count_item_picker"
-            android:inputType="numberDecimal" />
+            android:inputType="numberDecimal"
+            android:layout_marginRight="5dp"
+            android:layout_marginEnd="5dp" />
         </android.support.design.widget.TextInputLayout>
 
+        <fr.ganfra.materialspinner.MaterialSpinner
+            android:id="@+id/unit_spinner"
+            android:layout_height="wrap_content"
+            app:ms_multiline="false"
+            app:ms_hint="Шт."
+            app:ms_enableFloatingLabel="false"
+            app:ms_enableErrorLabel="false"
+            app:ms_floatingLabelText="floating label"
+            app:ms_baseColor="@color/colorAccent"
+            app:ms_highlightColor="@color/rippleAccent"
+            app:ms_thickness="2dp"
+            app:ms_hintColor="@color/colorAccent"
+            app:ms_arrowColor="@color/colorAccent"
+            app:ms_arrowSize="18dp"
+            app:ms_alignLabels="false"
+            app:ms_floatingLabelColor="@color/rippleAccent"
+            android:layout_width="75dp"
+            android:layout_alignParentTop="true"
+            android:layout_alignParentRight="true"
+            android:layout_alignParentEnd="true"
+            android:layout_centerVertical="true"
+            android:layout_marginTop="5dp" />
     </RelativeLayout>
 
     <RelativeLayout

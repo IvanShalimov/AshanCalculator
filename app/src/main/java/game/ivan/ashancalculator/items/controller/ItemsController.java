@@ -30,6 +30,7 @@ import com.hannesdorfmann.mosby.mvp.conductor.MvpController;
 import java.util.ArrayList;
 import java.util.List;
 
+import butterknife.BindArray;
 import butterknife.BindString;
 import butterknife.BindView;
 import butterknife.ButterKnife;
@@ -54,6 +55,7 @@ public class ItemsController extends MvpViewStateController<ItemsView, ItemsPres
 
     @BindString(R.string.no_name_item)
     String noNameItem;
+    String[] unitLabel;
     private Unbinder unbinder;
     @BindView(R.id.list)
     RecyclerView list;
@@ -91,6 +93,7 @@ public class ItemsController extends MvpViewStateController<ItemsView, ItemsPres
     @Override
     protected void onAttach(@NonNull View view) {
         super.onAttach(view);
+        unitLabel = getActivity().getResources().getStringArray(R.array.unit_label);
     }
 
     @NonNull
@@ -156,7 +159,6 @@ public class ItemsController extends MvpViewStateController<ItemsView, ItemsPres
         )
                 .getSelectedItemId();
 
-        Log.d("Test","tagId create = " + tagId);
             double count;
         try{
              count = Double.valueOf(((EditText) dialogAdd.findViewById(R.id.count_item_picker))
@@ -172,8 +174,18 @@ public class ItemsController extends MvpViewStateController<ItemsView, ItemsPres
             price = 1;
         }
 
+        long unitLabelId = (
+                (fr.ganfra.materialspinner.MaterialSpinner) dialogAdd
+                        .findViewById(R.id.unit_spinner)
+        )
+                .getSelectedItemId();
+
+        Log.d("Test","unitLabel = "+unitLabelId+" label = "+unitLabel[(int)unitLabelId]);
+
+        int selectedItemUnit = (int)unitLabelId-1;
+        Log.d("Test","unitLabel = "+unitLabelId+" label = "+unitLabel[selectedItemUnit]);
         if(!picturePath.equals(EMPTY_STRING)) {
-            presenter.saveItem(new Item(name, picturePath, tagId, count, price));
+            presenter.saveItem(new Item(name, picturePath, tagId, count, price,unitLabel[selectedItemUnit]));
 
             picturePath = EMPTY_STRING;
         }
@@ -269,6 +281,17 @@ public class ItemsController extends MvpViewStateController<ItemsView, ItemsPres
                         item.price = DEFAULT_DOUBLE_VALUE;
                     }
 
+                    long unitLabelId = (
+                            (fr.ganfra.materialspinner.MaterialSpinner) dialogAdd
+                                    .findViewById(R.id.unit_spinner)
+                    )
+                            .getSelectedItemId();
+
+
+                    int selectedItemUnit = (int)unitLabelId-1;
+                    Log.d("Test","unitLabel = "+unitLabelId+" label = "+unitLabel[selectedItemUnit]);
+                    item.unit = unitLabel[selectedItemUnit];
+
                     presenter.saveItem(item);
                 })
                 .onNegative((dialog1, which) -> {
@@ -283,6 +306,22 @@ public class ItemsController extends MvpViewStateController<ItemsView, ItemsPres
                 R.layout.spinner_item, presenter.getListTag());
         ((fr.ganfra.materialspinner.MaterialSpinner) dialogAdd.findViewById(R.id.tag_spinner_list)).setAdapter(spinnerAdapter);
         ((fr.ganfra.materialspinner.MaterialSpinner) dialogAdd.findViewById(R.id.tag_spinner_list)).setSelection((int) item.tag_id);
+
+        ArrayAdapter<String> unitSpinnerAdapter = new ArrayAdapter<String>(
+                getApplicationContext(),
+                R.layout.spinner_item, unitLabel);
+        ((fr.ganfra.materialspinner.MaterialSpinner) dialogAdd.findViewById(R.id.unit_spinner)).setAdapter(unitSpinnerAdapter);
+
+        for(int i =0;i<unitLabel.length;i++){
+            if(unitLabel[i].equals(item.unit)){
+                Log.d("Test","i = " + i);
+                int select = i+1;
+                ((fr.ganfra.materialspinner.MaterialSpinner) dialogAdd.findViewById(R.id.unit_spinner)).setSelection(select);
+                break;
+            }
+        }
+
+
         ((EditText) dialogAdd.findViewById(R.id.name_item_edit_field)).setText(String.valueOf(item.name));
         ((EditText) dialogAdd.findViewById(R.id.count_item_picker)).setText(String.valueOf(item.count));
         ((EditText) dialogAdd.findViewById(R.id.price_item_field)).setText(String.valueOf(item.price));
@@ -309,6 +348,11 @@ public class ItemsController extends MvpViewStateController<ItemsView, ItemsPres
                 getApplicationContext(),
                 R.layout.spinner_item, presenter.getListTag());
         ((fr.ganfra.materialspinner.MaterialSpinner) dialogAdd.findViewById(R.id.tag_spinner_list)).setAdapter(spinnerAdapter);
+
+        ArrayAdapter<String> unitSpinnerAdapter = new ArrayAdapter<String>(
+                getApplicationContext(),
+                R.layout.spinner_item, unitLabel);
+        ((fr.ganfra.materialspinner.MaterialSpinner) dialogAdd.findViewById(R.id.unit_spinner)).setAdapter(unitSpinnerAdapter);
 
 
         dialog.show();

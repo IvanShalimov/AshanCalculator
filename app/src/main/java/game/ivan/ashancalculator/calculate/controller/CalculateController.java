@@ -116,19 +116,18 @@ public class CalculateController extends MvpViewStateController<CalculaterView,C
     @Override
     public void showOneManPrice(double price) {
         onePrice = price;
-        oneManPrice.setText("С одного человека: "+price);
+        oneManPrice.setText("С одного : "+price+" RUB");
     }
 
     @Override
     public void showSum(double price) {
         sumPrice = price;
-        sum.setText("Общее: "+price);
+        sum.setText("Общее: "+price+" RUB");
     }
 
     @Override
     public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
         getViewState().setCurrentSelectedSpinnerItem(position);
-        Log.d("Test","position"+position);
         presenter.getDateForScreen(position);
 
     }

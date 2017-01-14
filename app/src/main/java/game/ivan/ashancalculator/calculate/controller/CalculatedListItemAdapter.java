@@ -45,7 +45,7 @@ public class CalculatedListItemAdapter extends RecyclerView.Adapter<CalculatedLi
     @Override
     public void onBindViewHolder(ViewHolder holder, int position) {
         holder.name.setText(items.get(position).name);
-        holder.count.setText(String.valueOf(items.get(position).count));
+        holder.count.setText(String.valueOf(items.get(position).count)+" "+items.get(position).unit);
         holder.price.setText(String.valueOf(items.get(position).count*items.get(position).price));
     }
 

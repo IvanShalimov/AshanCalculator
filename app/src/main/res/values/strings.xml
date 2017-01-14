@@ -25,5 +25,11 @@
     <string name="permission_denied">Разрешение откланено</string>
     <string name="no_name_item">Товар без имени</string>
     <string name="please_add_tags">Пожалуйста, добавьте тэги</string>
+    <string-array name="unit_label">
+        <item>Шт.</item>
+        <item>Кг.</item>
+        <item>Л.</item>
+        <item>г.</item>
+    </string-array>
 
 </resources>
