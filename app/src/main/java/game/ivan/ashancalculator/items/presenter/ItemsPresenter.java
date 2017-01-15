@@ -11,6 +11,7 @@ import java.io.FileOutputStream;
 import java.util.ArrayList;
 import java.util.List;
 
+import game.ivan.ashancalculator.AshanApplication;
 import game.ivan.ashancalculator.database.DatabaseItemsManager;
 import game.ivan.ashancalculator.database.models.Item;
 import game.ivan.ashancalculator.database.models.Tags;
@@ -25,15 +26,18 @@ public class ItemsPresenter extends MvpBasePresenter<ItemsView> {
 
     DatabaseItemsManager databaseManager;
     public ItemsPresenter(){
-        databaseManager = new DatabaseItemsManager();
+
     }
 
-    // Called when Activity gets destroyed, so cancel running background task
     public void detachView(boolean retainPresenterInstance){
         super.detachView(retainPresenterInstance);
-/*        if (!retainPresenterInstance){
-            cancelGreetingTaskIfRunning();
-        }*/
+        databaseManager.destroy();
+    }
+
+    @Override
+    public void attachView(ItemsView view) {
+        super.attachView(view);
+        databaseManager = new DatabaseItemsManager(AshanApplication.getInstante());
     }
 
     public List<String> getListTag(){
@@ -58,7 +62,7 @@ public class ItemsPresenter extends MvpBasePresenter<ItemsView> {
     }
 
     public void deleteItem(Item item){
-        databaseManager.delteItem(item);
+        databaseManager.deleteItem(item);
         loadItems(false);
     }
 

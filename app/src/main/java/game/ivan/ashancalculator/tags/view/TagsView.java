@@ -1,5 +1,7 @@
 package game.ivan.ashancalculator.tags.view;
 
+import android.content.Context;
+
 import com.hannesdorfmann.mosby.mvp.MvpView;
 
 import java.util.List;
