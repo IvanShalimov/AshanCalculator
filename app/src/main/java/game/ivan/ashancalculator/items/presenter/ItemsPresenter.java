@@ -92,7 +92,6 @@ public class ItemsPresenter extends MvpBasePresenter<ItemsView> {
                 getView().setImagePath(file.getAbsolutePath());
 
         } catch (Exception e) {
-            Log.d("Test","exception - " + e.toString());
             e.printStackTrace();
         }
 
