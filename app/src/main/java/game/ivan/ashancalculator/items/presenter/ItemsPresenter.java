@@ -96,6 +96,6 @@ public class ItemsPresenter extends MvpBasePresenter<ItemsView> {
             e.printStackTrace();
         }
 
-        RotateManager.checkRotation(file.getAbsolutePath(),bitmap);
+        RotateManager.INSTANCE.checkRotation(file.getAbsolutePath(),bitmap);
     }
 }
