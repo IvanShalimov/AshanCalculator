@@ -7,5 +7,7 @@ import android.support.v7.app.ActionBar
  */
 
 interface ActionBarProvider {
-    val supportActionBar: ActionBar
+    fun getSupportActionBar(): ActionBar?{
+        return null
+    }
 }
