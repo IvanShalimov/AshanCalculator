@@ -2,7 +2,6 @@ package game.ivan.ashancalculator.items.presenter;
 
 import android.graphics.Bitmap;
 import android.os.Environment;
-import android.util.Log;
 
 import com.hannesdorfmann.mosby.mvp.MvpBasePresenter;
 
@@ -37,7 +36,7 @@ public class ItemsPresenter extends MvpBasePresenter<ItemsView> {
     @Override
     public void attachView(ItemsView view) {
         super.attachView(view);
-        databaseManager = new DatabaseItemsManager(AshanApplication.getInstante());
+        databaseManager = new DatabaseItemsManager(AshanApplication.instance);
     }
 
     public List<String> getListTag(){

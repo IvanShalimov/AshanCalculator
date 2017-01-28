@@ -1,8 +1,6 @@
 package game.ivan.ashancalculator.items.controller;
 
-import android.net.Uri;
 import android.support.v7.widget.RecyclerView;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -10,7 +8,6 @@ import android.widget.ImageView;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 
-import com.squareup.picasso.Callback;
 import com.squareup.picasso.Picasso;
 
 import java.util.ArrayList;
@@ -21,7 +18,6 @@ import butterknife.ButterKnife;
 import game.ivan.ashancalculator.AshanApplication;
 import game.ivan.ashancalculator.R;
 import game.ivan.ashancalculator.database.models.Item;
-import game.ivan.ashancalculator.database.models.Tags;
 
 /**
  * Created by ivan on 31.12.16.
@@ -53,7 +49,7 @@ public class ItemListAdapter extends RecyclerView.Adapter<ItemListAdapter.ViewHo
         holder.priceLabel.setText(String.valueOf(
                 items.get(position).price*items.get(position).count));
 
-        Picasso.Builder builder = new Picasso.Builder(AshanApplication.getInstante());
+        Picasso.Builder builder = new Picasso.Builder(AshanApplication.instance);
         builder.listener((picasso, uri, exception) -> {
             exception.printStackTrace();
         });

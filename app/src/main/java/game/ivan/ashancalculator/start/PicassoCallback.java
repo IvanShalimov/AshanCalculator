@@ -6,7 +6,6 @@ import com.squareup.picasso.Callback;
 import com.squareup.picasso.Picasso;
 
 import game.ivan.ashancalculator.AshanApplication;
-import game.ivan.ashancalculator.R;
 
 /**
  * Created by ivan on 27.12.16.
@@ -23,7 +22,7 @@ public class PicassoCallback implements Callback {
     }
     @Override
     public void onSuccess() {
-        Picasso.with(AshanApplication.getInstante())
+        Picasso.with(AshanApplication.instance)
                 .load(resources)
                 .resize(view.getMeasuredWidth(), view.getMeasuredHeight())
                 .into(view);

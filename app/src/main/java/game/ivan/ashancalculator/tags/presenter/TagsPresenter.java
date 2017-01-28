@@ -40,7 +40,7 @@ public class TagsPresenter extends MvpBasePresenter<TagsView> {
     @Override
     public void attachView(TagsView view) {
         super.attachView(view);
-        databaseManager = new DatabaseTagsManager(AshanApplication.getInstante());
+        databaseManager = new DatabaseTagsManager(AshanApplication.instance);
     }
 
     public void detachView(boolean retainPresenterInstance){

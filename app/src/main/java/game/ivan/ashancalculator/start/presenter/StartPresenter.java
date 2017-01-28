@@ -15,7 +15,7 @@ public class StartPresenter extends MvpBasePresenter<StartView> {
     DatabaseTagsManager databaseManager;
 
     public StartPresenter(){
-        databaseManager = new DatabaseTagsManager(AshanApplication.getInstante());
+        databaseManager = new DatabaseTagsManager(AshanApplication.instance);
     }
 
     public void detachView(boolean retainPresenterInstance){

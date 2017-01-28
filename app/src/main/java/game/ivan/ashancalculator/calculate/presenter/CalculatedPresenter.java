@@ -1,7 +1,5 @@
 package game.ivan.ashancalculator.calculate.presenter;
 
-import android.util.Log;
-
 import com.hannesdorfmann.mosby.mvp.MvpBasePresenter;
 
 import java.util.ArrayList;
@@ -43,7 +41,7 @@ public class CalculatedPresenter extends MvpBasePresenter<CalculaterView> {
     @Override
     public void attachView(CalculaterView view) {
         super.attachView(view);
-        databaseManager = new DatabaseCalculateManager(AshanApplication.getInstante());
+        databaseManager = new DatabaseCalculateManager(AshanApplication.instance);
         calculator = new Calculator();
     }
 

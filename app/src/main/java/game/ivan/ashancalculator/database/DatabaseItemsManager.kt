@@ -4,7 +4,6 @@ import android.content.Context
 import android.database.sqlite.SQLiteDatabase
 import game.ivan.ashancalculator.database.models.Tags
 
-import game.ivan.ashancalculator.AshanApplication
 import game.ivan.ashancalculator.database.models.Item
 
 import nl.qbusict.cupboard.CupboardFactory.cupboard

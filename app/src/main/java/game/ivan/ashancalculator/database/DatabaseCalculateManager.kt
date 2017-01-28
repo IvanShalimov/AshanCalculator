@@ -5,7 +5,6 @@ import android.database.sqlite.SQLiteDatabase
 import android.util.Log
 import java.util.StringJoiner
 
-import game.ivan.ashancalculator.AshanApplication
 import game.ivan.ashancalculator.database.models.Item
 import game.ivan.ashancalculator.database.models.Tags
 
