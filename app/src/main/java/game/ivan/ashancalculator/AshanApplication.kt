@@ -8,7 +8,7 @@ import android.app.Application
 
 class AshanApplication : Application(){
     companion object {
-        lateinit var instance: AshanApplication
+        @JvmStatic lateinit var instance: AshanApplication
     }
 
     override fun onCreate() {
