@@ -15,7 +15,6 @@ import com.bluelinelabs.conductor.changehandler.HorizontalChangeHandler
 import com.hannesdorfmann.mosby.mvp.conductor.MvpController
 import game.ivan.ashancalculator.R
 import game.ivan.ashancalculator.calculate.controller.CalculateController
-import game.ivan.ashancalculator.items.controller.ItemsController
 import game.ivan.ashancalculator.service.ActionBarProvider
 import game.ivan.ashancalculator.start.presenter.StartPresenter
 import game.ivan.ashancalculator.start.view.StartView

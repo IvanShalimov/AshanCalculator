@@ -25,7 +25,8 @@ import com.afollestad.materialdialogs.MaterialDialog;
 import com.gun0912.tedpermission.PermissionListener;
 import com.gun0912.tedpermission.TedPermission;
 import com.hannesdorfmann.mosby.conductor.viewstate.MvpViewStateController;
-import com.hannesdorfmann.mosby.mvp.conductor.MvpController;
+
+import org.jetbrains.annotations.NotNull;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -45,7 +46,7 @@ import game.ivan.ashancalculator.items.view.ItemsView;
 
 public class ItemsController extends MvpViewStateController<ItemsView, ItemsPresenter,ItemViewState>
         implements ItemsView,
-        MaterialDialog.SingleButtonCallback, ItemListAdapter.ItemsListAdapterCallback,
+        MaterialDialog.SingleButtonCallback, ItemsListAdapterCallback,
         PermissionListener {
 
     private static final String EMPTY_STRING = "";
@@ -84,7 +85,7 @@ public class ItemsController extends MvpViewStateController<ItemsView, ItemsPres
         layoutManager = new LinearLayoutManager(getApplicationContext());
         list.setLayoutManager(layoutManager);
         adapter = new ItemListAdapter();
-        adapter.setCallback(this);
+        adapter.callback = this;
         list.setAdapter(adapter);
     }
 
@@ -173,7 +174,7 @@ public class ItemsController extends MvpViewStateController<ItemsView, ItemsPres
         }
 
         if(!picturePath.equals(EMPTY_STRING)) {
-            presenter.saveItem(new Item(name, picturePath, tagId, count, price));
+            presenter.saveItems(new Item(name, picturePath, tagId, count, price));
 
             picturePath = EMPTY_STRING;
         }
@@ -183,7 +184,7 @@ public class ItemsController extends MvpViewStateController<ItemsView, ItemsPres
     @Override
     public void onListItemSelect(Item item) {
         getViewState().setShowEditDialog();
-        getViewState().setEditableItem(item);
+        getViewState().setEditItem(item);
         showEditDialog(item);
     }
 
@@ -225,12 +226,6 @@ public class ItemsController extends MvpViewStateController<ItemsView, ItemsPres
 
     }
 
-    @Override
-    public void refreshView(List<Item> list) {
-        adapter.setItems(list);
-        getViewState().setItems(list);
-        getViewState().setShowContent();
-    }
 
     @Override
     public void setImagePath(String path) {
@@ -269,7 +264,7 @@ public class ItemsController extends MvpViewStateController<ItemsView, ItemsPres
                         item.price = DEFAULT_DOUBLE_VALUE;
                     }
 
-                    presenter.saveItem(item);
+                    presenter.saveItems(item);
                 })
                 .onNegative((dialog1, which) -> {
                     presenter.deleteItem(item);
@@ -328,5 +323,12 @@ public class ItemsController extends MvpViewStateController<ItemsView, ItemsPres
     @Override
     public void onNewViewStateInstance() {
         presenter.loadItems(false);
+    }
+
+    @Override
+    public void refreshView(@NotNull List<? extends Item> list) {
+        adapter.setItems((List<Item>) list);
+        getViewState().setItemsList((List<Item>) list);
+        getViewState().setShowContent();
     }
 }
