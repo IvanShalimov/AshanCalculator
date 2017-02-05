@@ -1,5 +1,5 @@
 <resources>
-    <string name="app_name">Калькулятор покупок</string>
+    <string name="app_name"> Калькулятор покупок</string>
     <string name="action_settings">Settings</string>
     <string name="create_tag">Добавить тэг</string>
     <string name="add_bag" >Добавить товар</string>
