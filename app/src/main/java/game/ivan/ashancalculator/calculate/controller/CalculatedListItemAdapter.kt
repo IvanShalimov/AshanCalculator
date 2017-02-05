@@ -14,12 +14,12 @@ import game.ivan.ashancalculator.database.models.Item
  */
 class  CalculatedListItemAdapter(): Adapter<ViewHolder>() {
 
-    internal var items: List<Item>? = listOf()
-    set(value) {
-        items = value
+    var items: List<Item> = listOf()
+
+    fun refreshDataSet(list:List<Item>){
+        items = list
         notifyDataSetChanged()
     }
-
 
     constructor(list:List<Item> ) : this() {
         items = list
@@ -35,8 +35,8 @@ class  CalculatedListItemAdapter(): Adapter<ViewHolder>() {
     override fun onBindViewHolder(holder: ViewHolder?, position: Int) {
         holder?.name?.setText(items?.get(position)?.name)
         holder?.count?.setText(items?.get(position)?.count.toString())
-        val a:Double = items?.get(position)?.count as Double
-        val b:Double = items?.get(position)?.price as Double
+        val a:Double = items?.get(position)?.count
+        val b:Double = items?.get(position)?.price
         val result = a*b
         holder?.price?.setText("$result")
     }

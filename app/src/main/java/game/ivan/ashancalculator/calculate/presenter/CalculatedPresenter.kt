@@ -1,5 +1,6 @@
 package game.ivan.ashancalculator.calculate.presenter
 
+import android.util.Log
 import com.hannesdorfmann.mosby.mvp.MvpBasePresenter
 
 import java.util.ArrayList
@@ -42,11 +43,12 @@ class CalculatedPresenter : MvpBasePresenter<CalculaterView>() {
 
     fun getDateForScreen(position: Int) {
         var position = position
-        val items = databaseManager.getItemForTag(++position)
+        var items = databaseManager.getItemForTag(++position)
+
         if (isViewAttached) {
-            view!!.refreshList(items)
-            view!!.showOneManPrice(calculator.oneManSum(items, databaseManager.getDivider(position)))
-            view!!.showSum(calculator.sum(items))
-        }
+             view!!.refreshList(items)
+             view!!.showOneManPrice(calculator.oneManSum(items, databaseManager.getDivider(position)))
+             view!!.showSum(calculator.sum(items))
+          }
     }
 }

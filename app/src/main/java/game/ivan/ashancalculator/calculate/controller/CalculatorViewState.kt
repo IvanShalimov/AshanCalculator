@@ -10,10 +10,10 @@ class CalculatorViewState: ViewState<CalculaterView> {
 
     companion object{
         @JvmStatic val  SHOW_CONTENT:Int = 0
-        @JvmStatic val NOT_SHOW_CONTENT:Int = 1
     }
 
     var currentState:Int = 0
+
     lateinit var labels:List<String>
 
 

@@ -88,7 +88,7 @@ class StartController: MvpController<StartView, StartPresenter>,StartView, View.
 
     override fun onClick(v: View?) {
         when(v?.id){
-            R.id.add_item_button -> openTagEditor()
+            R.id.add_item_button -> openProductBag()
             R.id.add_tag_button -> openTagEditor()
             R.id.clear_bag_button -> openCalculated()
         }
