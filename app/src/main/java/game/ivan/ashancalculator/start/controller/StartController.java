@@ -35,7 +35,7 @@ import game.ivan.ashancalculator.tags.controller.TagsController;
  * Created by ivan on 19.12.16.
  */
 
-public class StartController extends MvpController<StartView,StartPresenter> implements StartView {
+public class StartController extends MvpController<StartView, StartPresenter> implements StartView {
 
     @BindView(R.id.add_item_button)
     FloatingActionButton addItemButton;
@@ -46,24 +46,24 @@ public class StartController extends MvpController<StartView,StartPresenter> imp
 
     private Unbinder unbinder;
 
-    public StartController(){
+    public StartController() {
     }
 
     @NonNull
     @Override
     protected View onCreateView(@NonNull LayoutInflater inflater, @NonNull ViewGroup container) {
         View view = inflateView(inflater, container);
-        unbinder = ButterKnife.bind(this,view);
+        unbinder = ButterKnife.bind(this, view);
         onViewBound(view);
         return view;
     }
 
-    protected void onViewBound(View view){
+    protected void onViewBound(View view) {
         getActionBar().setIcon(R.mipmap.ic_launcher);
     }
 
     protected ActionBar getActionBar() {
-        ActionBarProvider actionBarProvider = ((ActionBarProvider)getActivity());
+        ActionBarProvider actionBarProvider = ((ActionBarProvider) getActivity());
         return actionBarProvider != null ? actionBarProvider.getSupportActionBar() : null;
     }
 
@@ -73,7 +73,7 @@ public class StartController extends MvpController<StartView,StartPresenter> imp
         return new StartPresenter();
     }
 
-    protected  View inflateView(@NonNull LayoutInflater inflater, @NonNull ViewGroup container){
+    protected View inflateView(@NonNull LayoutInflater inflater, @NonNull ViewGroup container) {
         return inflater.inflate(R.layout.start_controller_layout, container, false);
     }
 
@@ -95,20 +95,14 @@ public class StartController extends MvpController<StartView,StartPresenter> imp
         super.onChangeEnded(changeHandler, changeType);
     }
 
-    @OnClick(R.id.add_item_button)
     @Override
     public void openProductBag() {
-        if (presenter.isTagsListNotEmpty()){
-            getRouter().pushController(
-                    RouterTransaction.with(new ItemsController())
-                            .pushChangeHandler(new HorizontalChangeHandler())
-                            .popChangeHandler(new HorizontalChangeHandler()));
-        } else {
-            Toast.makeText(getApplicationContext(),  R.string.please_add_tags, Toast.LENGTH_SHORT).show();
-        }
+        getRouter().pushController(RouterTransaction.with(new ItemsController())
+                        .pushChangeHandler(new HorizontalChangeHandler())
+                        .popChangeHandler(new HorizontalChangeHandler()));
+
     }
 
-    @OnClick(R.id.add_tag_button)
     @Override
     public void openTagEditor() {
         getRouter().pushController(RouterTransaction.with(new TagsController())
@@ -116,15 +110,44 @@ public class StartController extends MvpController<StartView,StartPresenter> imp
                 .popChangeHandler(new HorizontalChangeHandler()));
     }
 
-    @OnClick(R.id.clear_bag_button)
     @Override
     public void openCalculated() {
-        if (presenter.isTagsListNotEmpty()){
-            getRouter().pushController(RouterTransaction.with(new CalculateController())
-                    .pushChangeHandler(new HorizontalChangeHandler())
-                    .popChangeHandler(new HorizontalChangeHandler()));
-        } else {
-            Toast.makeText(getApplicationContext(), R.string.please_add_tags, Toast.LENGTH_SHORT).show();
+        getRouter().pushController(RouterTransaction.with(new CalculateController())
+                .pushChangeHandler(new HorizontalChangeHandler())
+                .popChangeHandler(new HorizontalChangeHandler()));
+    }
+
+    @Override
+    public void showWarningMessage() {
+        Toast.makeText(getApplicationContext(),R.string.please_add_tags, Toast.LENGTH_SHORT).show();
+    }
+
+    @OnClick({R.id.clear_bag_button, R.id.add_tag_button, R.id.add_item_button})
+    public void onClick(View view) {
+        switch (view.getId()) {
+            case R.id.clear_bag_button:
+                presenter.isTagsListNotEmpty()
+                        .subscribe(aBoolean -> {
+                            if (aBoolean) {
+                                openCalculated();
+                            } else {
+                                showWarningMessage();
+                            }
+                        });
+                break;
+            case R.id.add_tag_button:
+                openTagEditor();
+                break;
+            case R.id.add_item_button:
+                presenter.isTagsListNotEmpty()
+                        .subscribe(aBoolean -> {
+                            if (aBoolean) {
+                                openProductBag();
+                            } else {
+                                showWarningMessage();
+                            }
+                        });
+                break;
         }
     }
 }

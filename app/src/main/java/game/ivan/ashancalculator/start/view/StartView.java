@@ -10,4 +10,5 @@ public interface StartView extends MvpView {
     void openProductBag();
     void openTagEditor();
     void openCalculated();
+    void showWarningMessage();
 }

@@ -57,7 +57,10 @@ dependencies {
     compile 'gun0912.ted:tedpermission:1.0.2'
     compile 'com.github.ganfra:material-spinner:1.1.1'
 
-    compile 'io.reactivex:rxjava:1.2.3'
+    compile 'io.reactivex.rxjava2:rxandroid:2.0.1'
+// Because RxAndroid releases are few and far between, it is recommended you also
+// explicitly depend on RxJava's latest version for bug fixes and new features.
+    compile 'io.reactivex.rxjava2:rxjava:2.0.1'
 
 }
 repositories {

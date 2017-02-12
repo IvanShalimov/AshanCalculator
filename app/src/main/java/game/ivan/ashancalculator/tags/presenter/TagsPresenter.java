@@ -25,14 +25,14 @@ public class TagsPresenter extends MvpBasePresenter<TagsView> {
     public void loadTags(boolean lock){
         if(!lock){
             if(isViewAttached()){
-                getView().refreshList(databaseManager.readAllRecord());
+                getView().refreshList(databaseManager.readAllRecord("test"));
             }
         }
 
     }
 
     public void deleteTag(Tags tag){
-        databaseManager.delteTag(tag);
+        databaseManager.deleteTag(tag);
         loadTags(false);
     }
 

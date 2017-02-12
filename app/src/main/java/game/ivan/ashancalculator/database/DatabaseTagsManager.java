@@ -7,6 +7,7 @@ import java.util.List;
 
 import game.ivan.ashancalculator.AshanApplication;
 import game.ivan.ashancalculator.database.models.Tags;
+import io.reactivex.Observable;
 
 import static nl.qbusict.cupboard.CupboardFactory.cupboard;
 
@@ -15,9 +16,9 @@ import static nl.qbusict.cupboard.CupboardFactory.cupboard;
  */
 
 public class DatabaseTagsManager {
-    SQLiteDatabase database;
+    private SQLiteDatabase database;
 
-    public SQLiteDatabase openConnection(Context context){
+    private SQLiteDatabase openConnection(Context context){
         DatabaseHelper dbHelper = new DatabaseHelper(context);
         database = dbHelper.getWritableDatabase();
         return database;
@@ -29,20 +30,27 @@ public class DatabaseTagsManager {
         closeConnection();
     }
 
-    public void delteTag(Tags tag){
+    public void deleteTag(Tags tag){
         openConnection(AshanApplication.getInstante());
         cupboard().withDatabase(database).delete(tag);
         closeConnection();
     }
 
-    public List<Tags> readAllRecord(){
+    public Observable<List<Tags>> readAllRecord(){
+        openConnection(AshanApplication.getInstante());
+        List<Tags> list = cupboard().withDatabase(database).query(Tags.class).list();
+        closeConnection();
+        return Observable.just(list);
+    }
+
+    public List<Tags> readAllRecord(String test){
         openConnection(AshanApplication.getInstante());
         List<Tags> list = cupboard().withDatabase(database).query(Tags.class).list();
         closeConnection();
         return list;
     }
 
-    public void closeConnection(){
+    private void closeConnection(){
         database.close();
     }
 }
