@@ -39,6 +39,10 @@ import game.ivan.ashancalculator.R;
 import game.ivan.ashancalculator.database.models.Item;
 import game.ivan.ashancalculator.items.presenter.ItemsPresenter;
 import game.ivan.ashancalculator.items.view.ItemsView;
+import io.reactivex.Observable;
+import io.reactivex.Scheduler;
+import io.reactivex.android.schedulers.AndroidSchedulers;
+import io.reactivex.schedulers.Schedulers;
 
 /**
  * Created by ivan on 21.12.16.
@@ -52,14 +56,14 @@ public class ItemsController extends MvpViewStateController<ItemsView, ItemsPres
     private static final String EMPTY_STRING = "";
     public static final int DEFAULT_DOUBLE_VALUE = 1;
     private static int REQUEST_TAKE_PHOTO = 1234;
-
     @BindString(R.string.no_name_item)
     String noNameItem;
     String[] unitLabel;
+
     private Unbinder unbinder;
+
     @BindView(R.id.list)
     RecyclerView list;
-    private RecyclerView.LayoutManager layoutManager;
     private ItemListAdapter adapter;
     private View dialogAdd;
     private String picturePath = EMPTY_STRING;
@@ -67,10 +71,6 @@ public class ItemsController extends MvpViewStateController<ItemsView, ItemsPres
     public ItemsController() {
         setHasOptionsMenu(true);
         setRetainViewMode(RetainViewMode.RETAIN_DETACH);
-    }
-
-    public ItemsController(Bundle args) {
-        setHasOptionsMenu(true);
     }
 
     @NonNull
@@ -83,7 +83,7 @@ public class ItemsController extends MvpViewStateController<ItemsView, ItemsPres
     }
 
     private void onViewBound(View view) {
-        layoutManager = new LinearLayoutManager(getApplicationContext());
+        RecyclerView.LayoutManager layoutManager = new LinearLayoutManager(getApplicationContext());
         list.setLayoutManager(layoutManager);
         adapter = new ItemListAdapter();
         adapter.setCallback(this);
@@ -180,10 +180,8 @@ public class ItemsController extends MvpViewStateController<ItemsView, ItemsPres
         )
                 .getSelectedItemId();
 
-        Log.d("Test","unitLabel = "+unitLabelId+" label = "+unitLabel[(int)unitLabelId]);
 
         int selectedItemUnit = (int)unitLabelId-1;
-        Log.d("Test","unitLabel = "+unitLabelId+" label = "+unitLabel[selectedItemUnit]);
         if(!picturePath.equals(EMPTY_STRING)) {
             presenter.saveItem(new Item(name, picturePath, tagId, count, price,unitLabel[selectedItemUnit]));
 
@@ -238,10 +236,15 @@ public class ItemsController extends MvpViewStateController<ItemsView, ItemsPres
     }
 
     @Override
-    public void refreshView(List<Item> list) {
-        adapter.setItems(list);
-        getViewState().setItems(list);
-        getViewState().setShowContent();
+    public void refreshView(Observable<List<Item>> listObservable) {
+        listObservable
+                .subscribeOn(Schedulers.io())
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribe(list1 -> {
+                    adapter.setItems(list1);
+                    getViewState().setItems(list1);
+                    getViewState().setShowContent();
+                });
     }
 
     @Override
@@ -289,7 +292,6 @@ public class ItemsController extends MvpViewStateController<ItemsView, ItemsPres
 
 
                     int selectedItemUnit = (int)unitLabelId-1;
-                    Log.d("Test","unitLabel = "+unitLabelId+" label = "+unitLabel[selectedItemUnit]);
                     item.unit = unitLabel[selectedItemUnit];
 
                     presenter.saveItem(item);

@@ -5,6 +5,7 @@ import com.hannesdorfmann.mosby.mvp.MvpView;
 import java.util.List;
 
 import game.ivan.ashancalculator.database.models.Item;
+import io.reactivex.Observable;
 
 /**
  * Created by ivan on 21.12.16.
@@ -12,7 +13,7 @@ import game.ivan.ashancalculator.database.models.Item;
 
 public interface ItemsView extends MvpView {
 
-    void refreshView(List<Item> list);
+    void refreshView(Observable<List<Item>> list);
 
     void setImagePath(String path);
 

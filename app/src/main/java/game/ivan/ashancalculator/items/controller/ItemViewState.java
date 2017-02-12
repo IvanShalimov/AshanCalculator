@@ -6,6 +6,7 @@ import java.util.List;
 
 import game.ivan.ashancalculator.database.models.Item;
 import game.ivan.ashancalculator.items.view.ItemsView;
+import io.reactivex.Observable;
 
 /**
  * Created by ivan on 05.01.2017.
@@ -35,14 +36,14 @@ public class ItemViewState implements ViewState<ItemsView> {
         switch (currentViewState)
         {
             case SHOW_CONTENT:
-                view.refreshView(items);
+                view.refreshView(Observable.just(items));
                 break;
             case SHOW_CREATE_DIALOG:
-                view.refreshView(items);
+                view.refreshView(Observable.just(items));
                 view.showCreateDialog();
                 break;
             case SHOW_EDIT_DIALOG:
-                view.refreshView(items);
+                view.refreshView(Observable.just(items));
                 view.showEditDialog(editableItem);
                 break;
         }

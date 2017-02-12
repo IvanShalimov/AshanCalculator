@@ -9,6 +9,7 @@ import java.util.List;
 import game.ivan.ashancalculator.AshanApplication;
 import game.ivan.ashancalculator.database.models.Item;
 import game.ivan.ashancalculator.database.models.Tags;
+import io.reactivex.Observable;
 
 import static nl.qbusict.cupboard.CupboardFactory.cupboard;
 
@@ -50,11 +51,11 @@ public class DatabaseItemsManager  {
         closeConnection();
     }
 
-    public List<Item> readAllRecord(){
+    public Observable<List<Item>> readAllRecord(){
         openConnection(AshanApplication.getInstante());
         List<Item> list = cupboard().withDatabase(database).query(Item.class).list();
         closeConnection();
-        return list;
+        return Observable.just(list);
     }
 
     public void closeConnection(){

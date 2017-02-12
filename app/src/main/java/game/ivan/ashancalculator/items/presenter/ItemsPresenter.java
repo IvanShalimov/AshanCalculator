@@ -24,16 +24,13 @@ import game.ivan.ashancalculator.service.RotateManager;
 public class ItemsPresenter extends MvpBasePresenter<ItemsView> {
 
     DatabaseItemsManager databaseManager;
+
     public ItemsPresenter(){
         databaseManager = new DatabaseItemsManager();
     }
 
-    // Called when Activity gets destroyed, so cancel running background task
     public void detachView(boolean retainPresenterInstance){
         super.detachView(retainPresenterInstance);
-/*        if (!retainPresenterInstance){
-            cancelGreetingTaskIfRunning();
-        }*/
     }
 
     public List<String> getListTag(){
@@ -51,8 +48,7 @@ public class ItemsPresenter extends MvpBasePresenter<ItemsView> {
     }
 
     public void loadItems(boolean lock){
-        if(!lock){
-            if(isViewAttached())
+        if(!lock && isViewAttached()){
                 getView().refreshView(databaseManager.readAllRecord());
         }
     }
