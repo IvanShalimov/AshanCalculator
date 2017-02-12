@@ -43,13 +43,10 @@ public class StartController extends MvpController<StartView,StartPresenter> imp
     FloatingActionButton addTagButton;
     @BindView(R.id.clear_bag_button)
     FloatingActionButton clearItemsButton;
+
     private Unbinder unbinder;
 
     public StartController(){
-    }
-
-    public StartController(Bundle args){
-
     }
 
     @NonNull
@@ -63,9 +60,7 @@ public class StartController extends MvpController<StartView,StartPresenter> imp
 
     protected void onViewBound(View view){
         getActionBar().setIcon(R.mipmap.ic_launcher);
-
     }
-
 
     protected ActionBar getActionBar() {
         ActionBarProvider actionBarProvider = ((ActionBarProvider)getActivity());

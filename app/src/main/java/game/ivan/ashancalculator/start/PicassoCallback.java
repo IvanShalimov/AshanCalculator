@@ -14,8 +14,8 @@ import game.ivan.ashancalculator.R;
 
 public class PicassoCallback implements Callback {
 
-    ImageView view;
-    int resources;
+    private ImageView view;
+    private int resources;
 
     public PicassoCallback(ImageView imageView, int drawable){
         view = imageView;
