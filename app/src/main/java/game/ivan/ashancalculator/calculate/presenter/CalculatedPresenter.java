@@ -12,6 +12,9 @@ import game.ivan.ashancalculator.database.DatabaseCalculateManager;
 import game.ivan.ashancalculator.database.models.Item;
 import game.ivan.ashancalculator.database.models.Tags;
 import game.ivan.ashancalculator.service.Calculator;
+import io.reactivex.Scheduler;
+import io.reactivex.android.schedulers.AndroidSchedulers;
+import io.reactivex.schedulers.Schedulers;
 
 /**
  * Created by ivan on 03.01.17.
@@ -21,33 +24,50 @@ public class CalculatedPresenter extends MvpBasePresenter<CalculaterView> {
 
     DatabaseCalculateManager databaseManager;
     Calculator calculator;
-    public CalculatedPresenter(){
+    int bufferPositon=0;
+
+    public CalculatedPresenter() {
         databaseManager = new DatabaseCalculateManager();
         calculator = new Calculator();
 
     }
 
-    public void getTags(){
-        List<String> labels = new ArrayList<>();
-        for (Tags tag:databaseManager.readAllTags()){
-            labels.add(tag.nameTags);
-        }
-        if (isViewAttached())
-            getView().setSpinnerData(labels);
+    public void getTags() {
+        databaseManager.readAllTags()
+                .subscribeOn(Schedulers.io())
+
+                .map(tags -> {
+                    List<String> labels = new ArrayList<>();
+                    for (Tags tag : tags) {
+                        labels.add(tag.nameTags);
+                    }
+                    return labels;
+                })
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribe(strings -> {
+                    if (isViewAttached())
+                        getView().setSpinnerData(strings);
+                });
+
+
     }
 
-    // Called when Activity gets destroyed, so cancel running background task
-    public void detachView(boolean retainPresenterInstance){
+    public void detachView(boolean retainPresenterInstance) {
         super.detachView(retainPresenterInstance);
     }
 
-    public void getDateForScreen(int position){
-        Log.d("Test","position =" + position);
-        List<Item> items = databaseManager.getItemForTag(++position);
-        if (isViewAttached()){
-            getView().refreshList(items);
-            getView().showOneManPrice(calculator.oneManSum(items,databaseManager.getDivider(position)));
-            getView().showSum(calculator.sum(items));
-        }
+
+    public void getDateForScreen(int position) {
+        bufferPositon = position;
+        databaseManager.getItemForTag(++position)
+                .subscribeOn(Schedulers.io())
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribe(list -> {
+                    if (isViewAttached()) {
+                        getView().refreshList(list);
+                        getView().showOneManPrice(calculator.oneManSum(list, databaseManager.getDivider(bufferPositon)));
+                        getView().showSum(calculator.sum(list));
+                    }
+                });
     }
 }

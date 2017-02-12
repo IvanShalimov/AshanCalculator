@@ -32,17 +32,17 @@ public class DatabaseItemsManager  {
         closeConnection();
     }
 
-    public void delteItem(Item item){
+    public void deleteItem(Item item){
         openConnection(AshanApplication.getInstante());
         cupboard().withDatabase(database).delete(item);
         closeConnection();
     }
 
-    public List<Tags> getTagsList(){
+    public Observable<List<Tags>> getTagsList(){
         openConnection(AshanApplication.getInstante());
         List<Tags> list = cupboard().withDatabase(database).query(Tags.class).list();
         closeConnection();
-        return list;
+        return Observable.just(list);
     }
 
     public void deleteAll(){

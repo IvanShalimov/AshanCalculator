@@ -10,6 +10,7 @@ import java.util.StringJoiner;
 import game.ivan.ashancalculator.AshanApplication;
 import game.ivan.ashancalculator.database.models.Item;
 import game.ivan.ashancalculator.database.models.Tags;
+import io.reactivex.Observable;
 
 import static nl.qbusict.cupboard.CupboardFactory.cupboard;
 
@@ -26,39 +27,29 @@ public class DatabaseCalculateManager {
         return database;
     }
 
-    public List<Tags> readAllTags(){
+    public Observable<List<Tags>> readAllTags(){
         openConnection(AshanApplication.getInstante());
         List<Tags> list = cupboard().withDatabase(database).query(Tags.class).list();
         closeConnection();
-        for (Tags tag:list){
-            Log.d("Test","tag.id ="+tag._id +" _ "+tag.divisionFactor);
-        }
-        return list;
+        return Observable.just(list);
     }
 
-    public List<Item> getItemForTag(int tagId){
+    public Observable<List<Item>> getItemForTag(int tagId){
         openConnection(AshanApplication.getInstante());
         List<Item> items = cupboard()
                 .withDatabase(database).query(Item.class)
                 .withSelection("tag_id = ?", String.valueOf(tagId))
                 .list();
         closeConnection();
-        return items;
+        return Observable.just(items);
     }
 
     public int getDivider(int tagId){
-        Log.d("Test","tagId = " + tagId);
-/*        int selectItem = tagId+1*/;
         openConnection(AshanApplication.getInstante());
         Tags tag = cupboard().withDatabase(database)
                 .query(Tags.class)
                 .withSelection("_id = ?", String.valueOf(tagId))
                 .get();
-/*        if (tag == null) {
-            tag = cupboard().withDatabase(database)
-                    .query(Tags.class)
-                    .get();
-        }*/
         closeConnection();
 
         return tag.divisionFactor;

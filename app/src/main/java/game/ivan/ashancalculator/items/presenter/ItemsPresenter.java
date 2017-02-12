@@ -54,7 +54,7 @@ public class ItemsPresenter extends MvpBasePresenter<ItemsView> {
     }
 
     public void deleteItem(Item item){
-        databaseManager.delteItem(item);
+        databaseManager.deleteItem(item);
         loadItems(false);
     }
 
