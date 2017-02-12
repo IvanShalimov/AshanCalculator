@@ -43,13 +43,6 @@ public class DatabaseTagsManager {
         return Observable.just(list);
     }
 
-    public List<Tags> readAllRecord(String test){
-        openConnection(AshanApplication.getInstante());
-        List<Tags> list = cupboard().withDatabase(database).query(Tags.class).list();
-        closeConnection();
-        return list;
-    }
-
     private void closeConnection(){
         database.close();
     }

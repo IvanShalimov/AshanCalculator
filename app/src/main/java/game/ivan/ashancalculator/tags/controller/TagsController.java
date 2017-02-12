@@ -20,6 +20,7 @@ import com.hannesdorfmann.mosby.conductor.viewstate.MvpViewStateController;
 import com.hannesdorfmann.mosby.mvp.conductor.MvpController;
 
 import java.util.List;
+import java.util.concurrent.ScheduledExecutorService;
 
 import butterknife.BindString;
 import butterknife.BindView;
@@ -29,6 +30,10 @@ import game.ivan.ashancalculator.R;
 import game.ivan.ashancalculator.database.models.Tags;
 import game.ivan.ashancalculator.tags.presenter.TagsPresenter;
 import game.ivan.ashancalculator.tags.view.TagsView;
+import io.reactivex.Observable;
+import io.reactivex.Scheduler;
+import io.reactivex.android.schedulers.AndroidSchedulers;
+import io.reactivex.schedulers.Schedulers;
 
 /**
  * Created by ivan on 20.12.16.
@@ -41,23 +46,17 @@ public class TagsController extends MvpViewStateController<TagsView, TagsPresent
     private Unbinder unbinder;
     @BindString(R.string.nameless)
     String namless;
+
     @BindView(R.id.list)
     RecyclerView list;
     RecyclerView.LayoutManager layoutManager;
-    /*Адптер списка*/
     TagsListAdapter adapter;
-    /*Маке идалога*/
     View dialogAdd;
     MaterialDialog dialog;
-
 
     public TagsController() {
         setHasOptionsMenu(true);
         setRetainViewMode(RetainViewMode.RETAIN_DETACH);
-    }
-
-    public TagsController(Bundle args) {
-        setHasOptionsMenu(true);
     }
 
     @NonNull
@@ -74,7 +73,7 @@ public class TagsController extends MvpViewStateController<TagsView, TagsPresent
         super.onAttach(view);
     }
 
-    protected void onViewBound(View view) {
+    private void onViewBound(View view) {
 
         layoutManager = new LinearLayoutManager(getApplicationContext());
         list.setLayoutManager(layoutManager);
@@ -157,10 +156,15 @@ public class TagsController extends MvpViewStateController<TagsView, TagsPresent
     }
 
     @Override
-    public void refreshList(List<Tags> list) {
-        adapter.setTags(list);
-        getViewState().setShowContentState();
-        getViewState().setTags(list);
+    public void refreshList(Observable<List<Tags>> listObservable) {
+        listObservable
+                .subscribeOn(Schedulers.io())
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribe(tags -> {
+                    adapter.setTags(tags);
+                    getViewState().setShowContentState();
+                    getViewState().setTags(tags);
+                });
     }
 
     @Override
@@ -252,7 +256,7 @@ public class TagsController extends MvpViewStateController<TagsView, TagsPresent
     }
 
     @Override
-    public void onListItemSelect(final Tags tag) {
+    public void onListItemSelect(Tags tag) {
         getViewState().setShowEditDialogState();
         getViewState().setEditableTag(tag);
         showEditDialog(tag);

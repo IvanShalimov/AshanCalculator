@@ -23,15 +23,11 @@ import game.ivan.ashancalculator.database.models.Tags;
  */
 public class TagsListAdapter extends RecyclerView.Adapter<TagsListAdapter.ViewHolder> {
 
-    List<Tags> tags;
-    TagsListAdapterCallback callback;
+    private List<Tags> tags;
+    private TagsListAdapterCallback callback;
 
-    public TagsListAdapter(){
+    TagsListAdapter(){
         tags = new ArrayList<>();
-    }
-
-    public TagsListAdapter(List<Tags> list){
-        tags = list;
     }
 
     public void setTags(List<Tags> tags) {

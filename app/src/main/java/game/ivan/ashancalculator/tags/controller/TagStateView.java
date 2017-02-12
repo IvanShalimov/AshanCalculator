@@ -6,6 +6,7 @@ import java.util.List;
 
 import game.ivan.ashancalculator.database.models.Tags;
 import game.ivan.ashancalculator.tags.view.TagsView;
+import io.reactivex.Observable;
 
 /**
  * Created by ivan on 05.01.2017.
@@ -34,14 +35,14 @@ public class TagStateView implements ViewState<TagsView> {
     public void apply(TagsView view, boolean retained) {
         switch (currentViewState){
             case SHOW_CONTENT:
-                view.refreshList(tags);
+                view.refreshList(Observable.just(tags));
                 break;
             case SHOW_CREATE_DIALOG:
-                view.refreshList(tags);
+                view.refreshList(Observable.just(tags));
                 view.showCreateDialog();
                 break;
             case SHOW_EDIT_DIALOG:
-                view.refreshList(tags);
+                view.refreshList(Observable.just(tags));
                 view.showEditDialog(editableTag);
                 break;
         }

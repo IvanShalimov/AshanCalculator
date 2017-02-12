@@ -11,7 +11,7 @@ import game.ivan.ashancalculator.tags.view.TagsView;
  */
 
 public class TagsPresenter extends MvpBasePresenter<TagsView> {
-    DatabaseTagsManager databaseManager;
+    private DatabaseTagsManager databaseManager;
 
     public TagsPresenter(){
         databaseManager = new DatabaseTagsManager();
@@ -23,12 +23,9 @@ public class TagsPresenter extends MvpBasePresenter<TagsView> {
     }
 
     public void loadTags(boolean lock){
-        if(!lock){
-            if(isViewAttached()){
-                getView().refreshList(databaseManager.readAllRecord("test"));
-            }
+        if(!lock && isViewAttached()){
+            getView().refreshList(databaseManager.readAllRecord());
         }
-
     }
 
     public void deleteTag(Tags tag){
@@ -36,7 +33,6 @@ public class TagsPresenter extends MvpBasePresenter<TagsView> {
         loadTags(false);
     }
 
-    // Called when Activity gets destroyed, so cancel running background task
     public void detachView(boolean retainPresenterInstance){
         super.detachView(retainPresenterInstance);
     }
