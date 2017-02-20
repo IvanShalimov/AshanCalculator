@@ -180,6 +180,10 @@ public class ItemsController extends MvpViewStateController<ItemsView, ItemsPres
         )
                 .getSelectedItemId();
 
+        if(unitLabelId == 0){
+            unitLabelId = 1;
+        }
+
 
         int selectedItemUnit = (int)unitLabelId-1;
         if(!picturePath.equals(EMPTY_STRING)) {
@@ -302,11 +306,14 @@ public class ItemsController extends MvpViewStateController<ItemsView, ItemsPres
                 .build();
 
         dialogAdd = dialog.getCustomView();
+        presenter.getListTag().subscribe(strings -> {
+            spinnerAdapter = new ArrayAdapter<>(
+                    getApplicationContext(),
+                    R.layout.spinner_item, strings);
+            ((fr.ganfra.materialspinner.MaterialSpinner) dialogAdd.findViewById(R.id.tag_spinner_list)).setAdapter(spinnerAdapter);
 
-        ArrayAdapter<String> spinnerAdapter = new ArrayAdapter<String>(
-                getApplicationContext(),
-                R.layout.spinner_item, presenter.getListTag());
-        ((fr.ganfra.materialspinner.MaterialSpinner) dialogAdd.findViewById(R.id.tag_spinner_list)).setAdapter(spinnerAdapter);
+        });
+
         ((fr.ganfra.materialspinner.MaterialSpinner) dialogAdd.findViewById(R.id.tag_spinner_list)).setSelection((int) item.tag_id);
 
         ArrayAdapter<String> unitSpinnerAdapter = new ArrayAdapter<String>(
@@ -331,6 +338,8 @@ public class ItemsController extends MvpViewStateController<ItemsView, ItemsPres
         dialog.show();
     }
 
+    ArrayAdapter<String> spinnerAdapter;
+
     @Override
     public void showCreateDialog() {
         MaterialDialog dialog;
@@ -346,10 +355,16 @@ public class ItemsController extends MvpViewStateController<ItemsView, ItemsPres
 
         dialogAdd = dialog.getCustomView();
 
-        ArrayAdapter<String> spinnerAdapter = new ArrayAdapter<String>(
-                getApplicationContext(),
-                R.layout.spinner_item, presenter.getListTag());
-        ((fr.ganfra.materialspinner.MaterialSpinner) dialogAdd.findViewById(R.id.tag_spinner_list)).setAdapter(spinnerAdapter);
+
+        presenter.getListTag().subscribe(strings -> {
+            spinnerAdapter = new ArrayAdapter<>(
+                    getApplicationContext(),
+                    R.layout.spinner_item, strings);
+
+            ((fr.ganfra.materialspinner.MaterialSpinner) dialogAdd.findViewById(R.id.tag_spinner_list)).setAdapter(spinnerAdapter);
+        } );
+
+
 
         ArrayAdapter<String> unitSpinnerAdapter = new ArrayAdapter<String>(
                 getApplicationContext(),

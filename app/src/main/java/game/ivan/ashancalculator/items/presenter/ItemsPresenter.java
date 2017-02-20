@@ -16,6 +16,11 @@ import game.ivan.ashancalculator.database.models.Item;
 import game.ivan.ashancalculator.database.models.Tags;
 import game.ivan.ashancalculator.items.view.ItemsView;
 import game.ivan.ashancalculator.service.RotateManager;
+import io.reactivex.Observable;
+import io.reactivex.android.schedulers.AndroidSchedulers;
+import io.reactivex.functions.Action;
+import io.reactivex.observers.DefaultObserver;
+import io.reactivex.schedulers.Schedulers;
 
 /**
  * Created by ivan on 21.12.16.
@@ -33,13 +38,17 @@ public class ItemsPresenter extends MvpBasePresenter<ItemsView> {
         super.detachView(retainPresenterInstance);
     }
 
-    public List<String> getListTag(){
-        List<Tags> listTags = databaseManager.getTagsList();
-        List<String> labels = new ArrayList<>();
-        for(Tags tag: listTags){
-            labels.add(tag.nameTags);
-        }
-        return labels;
+    public Observable<List<String>> getListTag(){
+        return databaseManager.getTagsList()
+                .subscribeOn(Schedulers.io())
+                .observeOn(AndroidSchedulers.mainThread())
+                .map(tagses -> {
+                    List<String> labels = new ArrayList<>();
+                    for(Tags tag: tagses){
+                        labels.add(tag.nameTags);
+                    }
+                    return labels;
+                });
     }
 
     public void saveItem(Item item){
