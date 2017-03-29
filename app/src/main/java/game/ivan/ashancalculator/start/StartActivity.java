@@ -34,6 +34,7 @@ public class StartActivity extends AppCompatActivity implements ActionBarProvide
 
         ButterKnife.bind(this);
         setSupportActionBar(toolbar);
+        //TODO  использовать стили
         toolbar.setTitleTextColor(colorAccent);
 
         router = Conductor.attachRouter(this, container, savedInstanceState);

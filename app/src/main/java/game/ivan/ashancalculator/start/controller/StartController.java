@@ -53,6 +53,7 @@ public class StartController extends MvpController<StartView, StartPresenter> im
     @Override
     protected View onCreateView(@NonNull LayoutInflater inflater, @NonNull ViewGroup container) {
         View view = inflateView(inflater, container);
+        //TODO бесполезно?
         unbinder = ButterKnife.bind(this, view);
         onViewBound(view);
         return view;
@@ -124,6 +125,7 @@ public class StartController extends MvpController<StartView, StartPresenter> im
 
     @OnClick({R.id.clear_bag_button, R.id.add_tag_button, R.id.add_item_button})
     public void onClick(View view) {
+        //TODO Разбить на отдельные методы и aBoolean переименуй
         switch (view.getId()) {
             case R.id.clear_bag_button:
                 presenter.isTagsListNotEmpty()

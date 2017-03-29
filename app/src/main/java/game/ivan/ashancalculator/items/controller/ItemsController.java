@@ -147,6 +147,7 @@ public class ItemsController extends MvpViewStateController<ItemsView, ItemsPres
 
     @Override
     public void onClick(@NonNull MaterialDialog dialog, @NonNull DialogAction which) {
+        //TODO refactor tefactor alarm
 
         String name = ((EditText) dialogAdd.findViewById(R.id.name_item_edit_field))
                 .getText().toString();
@@ -342,6 +343,7 @@ public class ItemsController extends MvpViewStateController<ItemsView, ItemsPres
 
     @Override
     public void showCreateDialog() {
+        //TODO refactor
         MaterialDialog dialog;
         boolean wrapInScrollView = true;
 

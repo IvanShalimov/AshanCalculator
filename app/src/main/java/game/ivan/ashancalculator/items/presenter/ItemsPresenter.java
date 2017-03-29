@@ -74,6 +74,7 @@ public class ItemsPresenter extends MvpBasePresenter<ItemsView> {
 
 
     public void saveImageFile(Bitmap bitmap){
+        //TODO refactor
         String root = Environment.getExternalStorageDirectory().toString();
         File myDirectory = new File(root + "/saved_images");
         if(!myDirectory.exists()){
@@ -93,7 +94,6 @@ public class ItemsPresenter extends MvpBasePresenter<ItemsView> {
                 getView().setImagePath(file.getAbsolutePath());
 
         } catch (Exception e) {
-            Log.d("Test","exception - " + e.toString());
             e.printStackTrace();
         }
 
