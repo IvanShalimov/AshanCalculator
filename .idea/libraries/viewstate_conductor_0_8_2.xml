@@ -1,8 +1,8 @@
 <component name="libraryTable">
   <library name="viewstate-conductor-0.8.2">
     <CLASSES>
-      <root url="jar://$PROJECT_DIR$/app/build/intermediates/exploded-aar/com.hannesdorfmann.mosby/viewstate-conductor/0.8.2/jars/classes.jar!/" />
-      <root url="file://$PROJECT_DIR$/app/build/intermediates/exploded-aar/com.hannesdorfmann.mosby/viewstate-conductor/0.8.2/res" />
+      <root url="jar://$USER_HOME$/.android/build-cache/d02eed686edcbf59597da957047a80844e2c239c/output/jars/classes.jar!/" />
+      <root url="file://$USER_HOME$/.android/build-cache/d02eed686edcbf59597da957047a80844e2c239c/output/res" />
     </CLASSES>
     <JAVADOC />
     <SOURCES>

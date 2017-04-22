@@ -1,8 +1,8 @@
 <component name="libraryTable">
   <library name="viewstate-2.0.1">
     <CLASSES>
-      <root url="file://$PROJECT_DIR$/app/build/intermediates/exploded-aar/com.hannesdorfmann.mosby/viewstate/2.0.1/res" />
-      <root url="jar://$PROJECT_DIR$/app/build/intermediates/exploded-aar/com.hannesdorfmann.mosby/viewstate/2.0.1/jars/classes.jar!/" />
+      <root url="jar://$USER_HOME$/.android/build-cache/74f198c60f73bc9824fc4fb1663aa0c5ceba05f0/output/jars/classes.jar!/" />
+      <root url="file://$USER_HOME$/.android/build-cache/74f198c60f73bc9824fc4fb1663aa0c5ceba05f0/output/res" />
     </CLASSES>
     <JAVADOC />
     <SOURCES>
