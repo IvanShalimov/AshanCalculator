@@ -1,5 +1,6 @@
 package game.ivan.ashancalculator.start;
 
+import android.graphics.Color;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
@@ -21,10 +22,10 @@ public class StartActivity extends AppCompatActivity implements ActionBarProvide
 
     @BindView(R.id.toolbar)
     Toolbar toolbar;
-    @BindView(R.id.container)
+    //@BindView(R.id.container)
     ViewGroup container;
 
-    @BindColor(R.color.colorAccent) int colorAccent;
+    //@BindColor(R.color.colorAccent) int colorAccent;
 
     Router router;
 
@@ -32,11 +33,13 @@ public class StartActivity extends AppCompatActivity implements ActionBarProvide
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_start);
-
         ButterKnife.bind(this);
+       // toolbar = (Toolbar)findViewById(R.id.toolbar);
+        container = (ViewGroup)findViewById(R.id.container);
         setSupportActionBar(toolbar);
         //TODO  использовать стили
-        toolbar.setTitleTextColor(colorAccent);
+        toolbar.setTitleTextColor(Color.parseColor("#00915b"));
+
 
         router = Conductor.attachRouter(this, container, savedInstanceState);
         if (!router.hasRootController()) {
