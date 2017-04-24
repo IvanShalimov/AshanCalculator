@@ -17,50 +17,46 @@ import static android.R.attr.bitmap;
 
 public class RotateManager {
 
-    public static void checkRotation(String filepath,Bitmap bitmap){
-        ExifInterface ei = null;
+    public  void checkRotation(String filepath, Bitmap bitmap) {
+        ExifInterface ei;
         try {
             ei = new ExifInterface(filepath);
             int orientation = ei.getAttributeInt(ExifInterface.TAG_ORIENTATION,
                     ExifInterface.ORIENTATION_UNDEFINED);
 
-            switch(orientation) {
-
+            switch (orientation) {
                 case ExifInterface.ORIENTATION_ROTATE_90:
-                    bitmap= rotateImage(bitmap, 90);
+                    bitmap = rotateImage(bitmap, 90);
                     break;
-
                 case ExifInterface.ORIENTATION_ROTATE_180:
                     bitmap = rotateImage(bitmap, 180);
                     break;
-
                 case ExifInterface.ORIENTATION_ROTATE_270:
                     bitmap = rotateImage(bitmap, 270);
                     break;
-
                 case ExifInterface.ORIENTATION_NORMAL:
 
                 default:
                     break;
             }
-            try {
-                File file = new File(filepath);
-                FileOutputStream out = new FileOutputStream(file);
-                bitmap.compress(Bitmap.CompressFormat.JPEG, 90, out);
-                out.flush();
-                out.close();
 
+            saveFile(filepath,bitmap);
 
-            } catch (Exception e) {
-                e.printStackTrace();
-            }
         } catch (IOException e) {
             e.printStackTrace();
         }
 
     }
 
-    public static Bitmap rotateImage(Bitmap source, float angle) {
+    private void saveFile(String filepath,Bitmap bitmap) throws IOException{
+        File file = new File(filepath);
+        FileOutputStream out = new FileOutputStream(file);
+        bitmap.compress(Bitmap.CompressFormat.JPEG, 90, out);
+        out.flush();
+        out.close();
+    }
+
+    private Bitmap rotateImage(Bitmap source, float angle) {
         Matrix matrix = new Matrix();
         matrix.postRotate(angle);
         return Bitmap.createBitmap(source, 0, 0, source.getWidth(), source.getHeight(),
