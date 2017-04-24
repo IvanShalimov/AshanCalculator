@@ -21,12 +21,10 @@ import com.squareup.picasso.Picasso;
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
-import butterknife.Unbinder;
 import game.ivan.ashancalculator.R;
 import game.ivan.ashancalculator.calculate.controller.CalculateController;
 import game.ivan.ashancalculator.items.controller.ItemsController;
 import game.ivan.ashancalculator.service.ActionBarProvider;
-import game.ivan.ashancalculator.start.PicassoCallback;
 import game.ivan.ashancalculator.start.presenter.StartPresenter;
 import game.ivan.ashancalculator.start.view.StartView;
 import game.ivan.ashancalculator.tags.controller.TagsController;
@@ -44,8 +42,6 @@ public class StartController extends MvpController<StartView, StartPresenter> im
     @BindView(R.id.clear_bag_button)
     FloatingActionButton clearItemsButton;
 
-    private Unbinder unbinder;
-
     public StartController() {
     }
 
@@ -53,17 +49,16 @@ public class StartController extends MvpController<StartView, StartPresenter> im
     @Override
     protected View onCreateView(@NonNull LayoutInflater inflater, @NonNull ViewGroup container) {
         View view = inflateView(inflater, container);
-        //TODO бесполезно?
-        unbinder = ButterKnife.bind(this, view);
+        ButterKnife.bind(this, view);
         onViewBound(view);
         return view;
     }
 
-    protected void onViewBound(View view) {
+    private void onViewBound(View view) {
         getActionBar().setIcon(R.mipmap.ic_launcher);
     }
 
-    protected ActionBar getActionBar() {
+    private ActionBar getActionBar() {
         ActionBarProvider actionBarProvider = ((ActionBarProvider) getActivity());
         return actionBarProvider != null ? actionBarProvider.getSupportActionBar() : null;
     }
@@ -74,7 +69,7 @@ public class StartController extends MvpController<StartView, StartPresenter> im
         return new StartPresenter();
     }
 
-    protected View inflateView(@NonNull LayoutInflater inflater, @NonNull ViewGroup container) {
+    private View inflateView(@NonNull LayoutInflater inflater, @NonNull ViewGroup container) {
         return inflater.inflate(R.layout.start_controller_layout, container, false);
     }
 
@@ -87,8 +82,6 @@ public class StartController extends MvpController<StartView, StartPresenter> im
     @Override
     protected void onDestroyView(View view) {
         super.onDestroyView(view);
-        unbinder.unbind();
-        unbinder = null;
     }
 
     @Override
@@ -125,12 +118,11 @@ public class StartController extends MvpController<StartView, StartPresenter> im
 
     @OnClick({R.id.clear_bag_button, R.id.add_tag_button, R.id.add_item_button})
     public void onClick(View view) {
-        //TODO Разбить на отдельные методы и aBoolean переименуй
         switch (view.getId()) {
             case R.id.clear_bag_button:
                 presenter.isTagsListNotEmpty()
-                        .subscribe(aBoolean -> {
-                            if (aBoolean) {
+                        .subscribe(notEmpty -> {
+                            if (notEmpty) {
                                 openCalculated();
                             } else {
                                 showWarningMessage();
@@ -142,8 +134,8 @@ public class StartController extends MvpController<StartView, StartPresenter> im
                 break;
             case R.id.add_item_button:
                 presenter.isTagsListNotEmpty()
-                        .subscribe(aBoolean -> {
-                            if (aBoolean) {
+                        .subscribe(notEmpty -> {
+                            if (notEmpty) {
                                 openProductBag();
                             } else {
                                 showWarningMessage();

@@ -22,10 +22,10 @@ public class StartActivity extends AppCompatActivity implements ActionBarProvide
 
     @BindView(R.id.toolbar)
     Toolbar toolbar;
-    //@BindView(R.id.container)
+    @BindView(R.id.container)
     ViewGroup container;
 
-    //@BindColor(R.color.colorAccent) int colorAccent;
+    @BindColor(R.color.colorAccent) int colorAccent;
 
     Router router;
 
@@ -34,12 +34,8 @@ public class StartActivity extends AppCompatActivity implements ActionBarProvide
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_start);
         ButterKnife.bind(this);
-       // toolbar = (Toolbar)findViewById(R.id.toolbar);
-        container = (ViewGroup)findViewById(R.id.container);
         setSupportActionBar(toolbar);
-        //TODO  использовать стили
-        toolbar.setTitleTextColor(Color.parseColor("#00915b"));
-
+        toolbar.setTitleTextColor(colorAccent);
 
         router = Conductor.attachRouter(this, container, savedInstanceState);
         if (!router.hasRootController()) {
