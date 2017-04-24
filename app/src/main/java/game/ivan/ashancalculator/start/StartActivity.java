@@ -12,6 +12,7 @@ import com.bluelinelabs.conductor.RouterTransaction;
 import butterknife.BindColor;
 import butterknife.BindView;
 import butterknife.ButterKnife;
+import game.ivan.ashancalculator.AshanApplication;
 import game.ivan.ashancalculator.R;
 import game.ivan.ashancalculator.service.ActionBarProvider;
 import game.ivan.ashancalculator.start.controller.StartController;

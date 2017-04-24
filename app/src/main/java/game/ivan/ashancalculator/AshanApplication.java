@@ -9,6 +9,16 @@ import android.app.Application;
 public class AshanApplication extends Application {
 
     public static AshanApplication instante;
+    private  AppComponent component;
+
+    @Override
+    public void onCreate() {
+        super.onCreate();
+        component =  DaggerAppComponent.builder().
+                appModule(new AppModule(this)).
+                build();
+        component.injectApp(this);
+    }
 
     public static AshanApplication getInstante(){
         if(instante == null){
@@ -19,6 +29,11 @@ public class AshanApplication extends Application {
 
     public AshanApplication(){
         instante = this;
+
+    }
+
+    public AppComponent getConmonent(){
+        return component;
     }
 
 }
