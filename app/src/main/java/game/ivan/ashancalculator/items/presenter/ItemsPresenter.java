@@ -99,4 +99,6 @@ public class ItemsPresenter extends MvpBasePresenter<ItemsView> {
 
         RotateManager.checkRotation(file.getAbsolutePath(),bitmap);
     }
+
+
 }

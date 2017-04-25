@@ -2,6 +2,8 @@ package game.ivan.ashancalculator;
 
 import android.app.Application;
 
+import dagger.internal.DaggerCollections;
+
 /**
  * Created by ivan on 27.12.16.
  */

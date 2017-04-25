@@ -2,8 +2,12 @@ package game.ivan.ashancalculator.tags.presenter;
 
 import com.hannesdorfmann.mosby.mvp.MvpBasePresenter;
 
+import javax.inject.Inject;
+
+import game.ivan.ashancalculator.AshanApplication;
 import game.ivan.ashancalculator.database.DatabaseTagsManager;
 import game.ivan.ashancalculator.database.models.Tags;
+import game.ivan.ashancalculator.tags.presenter.dagger.TagsPresenterComponent;
 import game.ivan.ashancalculator.tags.view.TagsView;
 
 /**
@@ -11,10 +15,18 @@ import game.ivan.ashancalculator.tags.view.TagsView;
  */
 
 public class TagsPresenter extends MvpBasePresenter<TagsView> {
-    private DatabaseTagsManager databaseManager;
+
+    public static final int DEFAULT_DIVISION_VALUE = 1;
+
+    @Inject
+    DatabaseTagsManager databaseManager;
+    TagsPresenterComponent component;
+
 
     public TagsPresenter(){
-        databaseManager = new DatabaseTagsManager();
+        component = AshanApplication.getComponent().createTagsPresenterComponent();
+        component.injectTagsPresenter(this);
+        //databaseManager = new DatabaseTagsManager();
     }
 
     public void addTag(Tags tag){
@@ -36,4 +48,14 @@ public class TagsPresenter extends MvpBasePresenter<TagsView> {
     public void detachView(boolean retainPresenterInstance){
         super.detachView(retainPresenterInstance);
     }
+
+    public int checkDivision(String division){
+        try {
+            return Integer.valueOf(division);
+        } catch(NumberFormatException | NullPointerException e){
+            return DEFAULT_DIVISION_VALUE;
+        }
+
+    }
+
 }

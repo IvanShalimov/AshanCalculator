@@ -22,6 +22,7 @@ import javax.inject.Inject;
 
 import butterknife.BindString;
 import butterknife.BindView;
+import butterknife.ButterKnife;
 import game.ivan.ashancalculator.AshanApplication;
 import game.ivan.ashancalculator.R;
 import game.ivan.ashancalculator.database.models.Tags;
@@ -32,6 +33,8 @@ import io.reactivex.Observable;
 import io.reactivex.android.schedulers.AndroidSchedulers;
 import io.reactivex.schedulers.Schedulers;
 
+import static game.ivan.ashancalculator.tags.presenter.TagsPresenter.DEFAULT_DIVISION_VALUE;
+
 /**
  * Created by ivan on 20.12.16.
  */
@@ -39,7 +42,7 @@ import io.reactivex.schedulers.Schedulers;
 public class TagsController extends MvpViewStateController<TagsView, TagsPresenter,TagStateView> implements TagsView,
         MaterialDialog.SingleButtonCallback, TagsListAdapter.TagsListAdapterCallback {
 
-    public static final int DEFAULT_DIVISION_VALUE = 1;
+
     @BindString(R.string.nameless)
     String namless;
 
@@ -58,14 +61,17 @@ public class TagsController extends MvpViewStateController<TagsView, TagsPresent
         setHasOptionsMenu(true);
         setRetainViewMode(RetainViewMode.RETAIN_DETACH);
 
-        component = AshanApplication.getComponent().createTagControllerComponent();
-        component.inhjectTagController(this);
+
     }
 
     @NonNull
     @Override
     protected View onCreateView(@NonNull LayoutInflater inflater, @NonNull ViewGroup container) {
+        component = AshanApplication.getComponent().createTagControllerComponent();
+        component.inhjectTagController(this);
         View view = inflateView(inflater, container);
+
+        ButterKnife.bind(this,view);
         onViewBound();
         return view;
     }
@@ -76,9 +82,7 @@ public class TagsController extends MvpViewStateController<TagsView, TagsPresent
     }
 
     private void onViewBound() {
-       // layoutManager = new LinearLayoutManager(getApplicationContext());
         list.setLayoutManager(layoutManager);
-        //adapter = new TagsListAdapter();
         adapter.setCallback(this);
         list.setAdapter(adapter);
     }
@@ -127,23 +131,16 @@ public class TagsController extends MvpViewStateController<TagsView, TagsPresent
     public void onClick(@NonNull MaterialDialog dialog, @NonNull DialogAction which) {
         View layout = dialog.getCustomView();
 
-        String name =
-                ((EditText) layout.findViewById(R.id.name_edit_field))
+        String name = ((EditText) layout.findViewById(R.id.name_edit_field))
                         .getText()
                         .toString();
+
         if(name.equals(""))
             name = namless;
 
-        int division;
-        try {
-            division = Integer
-                    .valueOf(
-                            ((EditText) layout.findViewById(R.id.count_edit_field))
-                                    .getText()
-                                    .toString());
-        } catch(NumberFormatException | NullPointerException e){
-            division = DEFAULT_DIVISION_VALUE;
-        }
+        int division =
+                presenter.checkDivision(((EditText) layout.findViewById(R.id.count_edit_field))
+                        .getText().toString());
 
         presenter.addTag(new Tags(name, division));
     }
