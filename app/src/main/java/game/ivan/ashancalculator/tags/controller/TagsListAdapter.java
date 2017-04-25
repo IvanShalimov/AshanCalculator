@@ -26,7 +26,7 @@ public class TagsListAdapter extends RecyclerView.Adapter<TagsListAdapter.ViewHo
     private List<Tags> tags;
     private TagsListAdapterCallback callback;
 
-    TagsListAdapter(){
+    public TagsListAdapter(){
         tags = new ArrayList<>();
     }
 

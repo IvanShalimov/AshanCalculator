@@ -1,11 +1,9 @@
 package game.ivan.ashancalculator.tags.controller;
 
 import android.content.Intent;
-import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuInflater;
@@ -17,21 +15,20 @@ import android.widget.EditText;
 import com.afollestad.materialdialogs.DialogAction;
 import com.afollestad.materialdialogs.MaterialDialog;
 import com.hannesdorfmann.mosby.conductor.viewstate.MvpViewStateController;
-import com.hannesdorfmann.mosby.mvp.conductor.MvpController;
 
 import java.util.List;
-import java.util.concurrent.ScheduledExecutorService;
+
+import javax.inject.Inject;
 
 import butterknife.BindString;
 import butterknife.BindView;
-import butterknife.ButterKnife;
-import butterknife.Unbinder;
+import game.ivan.ashancalculator.AshanApplication;
 import game.ivan.ashancalculator.R;
 import game.ivan.ashancalculator.database.models.Tags;
+import game.ivan.ashancalculator.tags.controller.dagger.TagControllerComponent;
 import game.ivan.ashancalculator.tags.presenter.TagsPresenter;
 import game.ivan.ashancalculator.tags.view.TagsView;
 import io.reactivex.Observable;
-import io.reactivex.Scheduler;
 import io.reactivex.android.schedulers.AndroidSchedulers;
 import io.reactivex.schedulers.Schedulers;
 
@@ -43,28 +40,33 @@ public class TagsController extends MvpViewStateController<TagsView, TagsPresent
         MaterialDialog.SingleButtonCallback, TagsListAdapter.TagsListAdapterCallback {
 
     public static final int DEFAULT_DIVISION_VALUE = 1;
-    private Unbinder unbinder;
     @BindString(R.string.nameless)
     String namless;
 
     @BindView(R.id.list)
     RecyclerView list;
+    @Inject
     RecyclerView.LayoutManager layoutManager;
+    @Inject
     TagsListAdapter adapter;
     View dialogAdd;
     MaterialDialog dialog;
 
+    TagControllerComponent component;
+
     public TagsController() {
         setHasOptionsMenu(true);
         setRetainViewMode(RetainViewMode.RETAIN_DETACH);
+
+        component = AshanApplication.getComponent().createTagControllerComponent();
+        component.inhjectTagController(this);
     }
 
     @NonNull
     @Override
     protected View onCreateView(@NonNull LayoutInflater inflater, @NonNull ViewGroup container) {
         View view = inflateView(inflater, container);
-        unbinder = ButterKnife.bind(this, view);
-        onViewBound(view);
+        onViewBound();
         return view;
     }
 
@@ -73,14 +75,12 @@ public class TagsController extends MvpViewStateController<TagsView, TagsPresent
         super.onAttach(view);
     }
 
-    private void onViewBound(View view) {
-
-        layoutManager = new LinearLayoutManager(getApplicationContext());
+    private void onViewBound() {
+       // layoutManager = new LinearLayoutManager(getApplicationContext());
         list.setLayoutManager(layoutManager);
-        adapter = new TagsListAdapter();
+        //adapter = new TagsListAdapter();
         adapter.setCallback(this);
         list.setAdapter(adapter);
-
     }
 
     @NonNull
@@ -121,8 +121,6 @@ public class TagsController extends MvpViewStateController<TagsView, TagsPresent
     @Override
     protected void onDestroyView(View view) {
         super.onDestroyView(view);
-        unbinder.unbind();
-        unbinder = null;
     }
 
     @Override

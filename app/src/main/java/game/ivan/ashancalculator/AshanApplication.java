@@ -9,7 +9,7 @@ import android.app.Application;
 public class AshanApplication extends Application {
 
     public static AshanApplication instante;
-    private  AppComponent component;
+    private static AppComponent component;
 
     @Override
     public void onCreate() {
@@ -32,7 +32,7 @@ public class AshanApplication extends Application {
 
     }
 
-    public AppComponent getConmonent(){
+    public static AppComponent getComponent(){
         return component;
     }
 
