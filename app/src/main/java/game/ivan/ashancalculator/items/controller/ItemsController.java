@@ -3,7 +3,6 @@ package game.ivan.ashancalculator.items.controller;
 import android.Manifest;
 import android.content.Intent;
 import android.graphics.Bitmap;
-import android.os.Bundle;
 import android.provider.MediaStore;
 import android.support.annotation.NonNull;
 import android.support.v7.widget.LinearLayoutManager;
@@ -25,22 +24,22 @@ import com.afollestad.materialdialogs.MaterialDialog;
 import com.gun0912.tedpermission.PermissionListener;
 import com.gun0912.tedpermission.TedPermission;
 import com.hannesdorfmann.mosby.conductor.viewstate.MvpViewStateController;
-import com.hannesdorfmann.mosby.mvp.conductor.MvpController;
 
 import java.util.ArrayList;
 import java.util.List;
 
-import butterknife.BindArray;
+import javax.inject.Inject;
+
 import butterknife.BindString;
 import butterknife.BindView;
 import butterknife.ButterKnife;
-import butterknife.Unbinder;
+import game.ivan.ashancalculator.AshanApplication;
 import game.ivan.ashancalculator.R;
 import game.ivan.ashancalculator.database.models.Item;
+import game.ivan.ashancalculator.items.controller.dagger.ItemsControllerComponent;
 import game.ivan.ashancalculator.items.presenter.ItemsPresenter;
 import game.ivan.ashancalculator.items.view.ItemsView;
 import io.reactivex.Observable;
-import io.reactivex.Scheduler;
 import io.reactivex.android.schedulers.AndroidSchedulers;
 import io.reactivex.schedulers.Schedulers;
 
@@ -56,36 +55,43 @@ public class ItemsController extends MvpViewStateController<ItemsView, ItemsPres
     private static final String EMPTY_STRING = "";
     public static final int DEFAULT_DOUBLE_VALUE = 1;
     private static int REQUEST_TAKE_PHOTO = 1234;
+
     @BindString(R.string.no_name_item)
     String noNameItem;
-    String[] unitLabel;
-
-    private Unbinder unbinder;
+    private String[] unitLabel;
 
     @BindView(R.id.list)
     RecyclerView list;
-    private ItemListAdapter adapter;
+
+    @Inject
+    ItemListAdapter adapter;
+
     private View dialogAdd;
     private String picturePath = EMPTY_STRING;
+
+    ItemsControllerComponent component;
 
     public ItemsController() {
         setHasOptionsMenu(true);
         setRetainViewMode(RetainViewMode.RETAIN_DETACH);
+
+        component = AshanApplication.getComponent().createItemsConrtollerComponent();
+        component.injectItemsController(this);
     }
 
     @NonNull
     @Override
     protected View onCreateView(@NonNull LayoutInflater inflater, @NonNull ViewGroup container) {
         View view = inflateView(inflater, container);
-        unbinder = ButterKnife.bind(this, view);
-        onViewBound(view);
+        ButterKnife.bind(this, view);
+        onViewBound();
         return view;
     }
 
-    private void onViewBound(View view) {
+    private void onViewBound() {
         RecyclerView.LayoutManager layoutManager = new LinearLayoutManager(getApplicationContext());
         list.setLayoutManager(layoutManager);
-        adapter = new ItemListAdapter();
+        //adapter = new ItemListAdapter();
         adapter.setCallback(this);
         list.setAdapter(adapter);
     }
@@ -141,8 +147,6 @@ public class ItemsController extends MvpViewStateController<ItemsView, ItemsPres
     @Override
     protected void onDestroyView(View view) {
         super.onDestroyView(view);
-        unbinder.unbind();
-        unbinder = null;
     }
 
     @Override

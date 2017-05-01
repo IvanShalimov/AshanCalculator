@@ -31,5 +31,6 @@
         <item>Л.</item>
         <item>г.</item>
     </string-array>
+    <string name="empty_string"></string>
 
 </resources>

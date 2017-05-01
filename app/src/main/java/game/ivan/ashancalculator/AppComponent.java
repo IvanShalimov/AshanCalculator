@@ -3,6 +3,7 @@ package game.ivan.ashancalculator;
 import javax.inject.Singleton;
 
 import dagger.Component;
+import game.ivan.ashancalculator.items.controller.dagger.ItemsControllerComponent;
 import game.ivan.ashancalculator.items.presenter.dagger.ItemsPresenterComponent;
 import game.ivan.ashancalculator.tags.controller.dagger.TagControllerComponent;
 import game.ivan.ashancalculator.tags.presenter.dagger.TagsPresenterComponent;
@@ -22,4 +23,6 @@ public interface AppComponent {
     TagsPresenterComponent createTagsPresenterComponent();
 
     ItemsPresenterComponent createItemsPresenterComponent();
+
+    ItemsControllerComponent createItemsConrtollerComponent();
 }
