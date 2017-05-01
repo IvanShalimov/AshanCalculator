@@ -17,11 +17,16 @@ import com.hannesdorfmann.mosby.mvp.conductor.MvpController;
 
 import java.util.List;
 
+import javax.inject.Inject;
+
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.Unbinder;
+import game.ivan.ashancalculator.AshanApplication;
 import game.ivan.ashancalculator.R;
+import game.ivan.ashancalculator.calculate.controller.dagger.CalculaterControllerComponent;
 import game.ivan.ashancalculator.calculate.presenter.CalculatedPresenter;
+import game.ivan.ashancalculator.calculate.presenter.dagger.CalculaterPresenterComponent;
 import game.ivan.ashancalculator.calculate.view.CalculaterView;
 import game.ivan.ashancalculator.database.models.Item;
 import game.ivan.ashancalculator.items.controller.ItemListAdapter;
@@ -33,7 +38,6 @@ import game.ivan.ashancalculator.items.controller.ItemListAdapter;
 public class CalculateController extends MvpViewStateController<CalculaterView,CalculatedPresenter,CalculatorViewState>
         implements CalculaterView,AdapterView.OnItemSelectedListener {
 
-    private Unbinder unbinder;
     @BindView(R.id.tag_spinner)
     Spinner tagSpinner;
     @BindView(R.id.list_header_label)
@@ -45,19 +49,25 @@ public class CalculateController extends MvpViewStateController<CalculaterView,C
     @BindView(R.id.list_item_position)
     RecyclerView itemPositionList;
     RecyclerView.LayoutManager layoutManager;
+    @Inject
     CalculatedListItemAdapter adapter;
     double onePrice,sumPrice;
+
+    CalculaterControllerComponent component;
 
 
     public CalculateController(){
         setRetainViewMode(RetainViewMode.RETAIN_DETACH);
+
+        component = AshanApplication.getComponent().createCalculaterControllerComponent();
+        component.injectCalculateController(this);
     }
 
     @NonNull
     @Override
     protected View onCreateView(@NonNull LayoutInflater inflater, @NonNull ViewGroup container) {
         View view = inflateView(inflater, container);
-        unbinder = ButterKnife.bind(this, view);
+        ButterKnife.bind(this,view);
         onViewBound(view);
         return view;
     }
@@ -65,7 +75,6 @@ public class CalculateController extends MvpViewStateController<CalculaterView,C
     protected void onViewBound(View view) {
         layoutManager = new LinearLayoutManager(getApplicationContext());
         itemPositionList.setLayoutManager(layoutManager);
-        adapter = new CalculatedListItemAdapter();
         itemPositionList.setAdapter(adapter);
     }
 
@@ -93,8 +102,6 @@ public class CalculateController extends MvpViewStateController<CalculaterView,C
     @Override
     protected void onDestroyView(View view) {
         super.onDestroyView(view);
-        unbinder.unbind();
-        unbinder = null;
     }
 
     @Override

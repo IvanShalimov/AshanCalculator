@@ -19,6 +19,7 @@ import static nl.qbusict.cupboard.CupboardFactory.cupboard;
  */
 
 public class DatabaseCalculateManager {
+
     SQLiteDatabase database;
 
     public SQLiteDatabase openConnection(Context context){

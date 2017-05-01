@@ -1,11 +1,17 @@
 package game.ivan.ashancalculator.calculate.presenter;
 
 
+import android.util.Log;
+
 import com.hannesdorfmann.mosby.mvp.MvpBasePresenter;
 
 import java.util.ArrayList;
 import java.util.List;
 
+import javax.inject.Inject;
+
+import game.ivan.ashancalculator.AshanApplication;
+import game.ivan.ashancalculator.calculate.presenter.dagger.CalculaterPresenterComponent;
 import game.ivan.ashancalculator.calculate.view.CalculaterView;
 import game.ivan.ashancalculator.database.DatabaseCalculateManager;
 import game.ivan.ashancalculator.database.models.Tags;
@@ -19,14 +25,17 @@ import io.reactivex.schedulers.Schedulers;
 
 public class CalculatedPresenter extends MvpBasePresenter<CalculaterView> {
 
+    @Inject
     DatabaseCalculateManager databaseManager;
+    @Inject
     Calculator calculator;
+
     int bufferPositon=0;
+    CalculaterPresenterComponent component;
 
     public CalculatedPresenter() {
-        databaseManager = new DatabaseCalculateManager();
-        calculator = new Calculator();
-
+        component = AshanApplication.getComponent().createCalculaterPresenterComponent();
+        component.injectCalculatedPresenter(this);
     }
 
     public void getTags() {
@@ -62,7 +71,7 @@ public class CalculatedPresenter extends MvpBasePresenter<CalculaterView> {
                 .subscribe(list -> {
                     if (isViewAttached()) {
                         getView().refreshList(list);
-                        getView().showOneManPrice(calculator.oneManSum(list, databaseManager.getDivider(bufferPositon)));
+                        getView().showOneManPrice(calculator.oneManSum(list, databaseManager.getDivider(++bufferPositon)));
                         getView().showSum(calculator.sum(list));
                     }
                 });

@@ -4,6 +4,9 @@ import android.content.Context;
 import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
 
+import javax.inject.Inject;
+
+import game.ivan.ashancalculator.AshanApplication;
 import game.ivan.ashancalculator.database.models.Item;
 import game.ivan.ashancalculator.database.models.Tags;
 
@@ -22,6 +25,7 @@ public class DatabaseHelper extends SQLiteOpenHelper {
         // register our models
         cupboard().register(Tags.class);
         cupboard().register(Item.class);
+
     }
 
     public DatabaseHelper(Context context, String name, SQLiteDatabase.CursorFactory factory, int version) {
