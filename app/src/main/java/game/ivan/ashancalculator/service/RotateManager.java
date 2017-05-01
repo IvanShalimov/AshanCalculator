@@ -17,7 +17,7 @@ import static android.R.attr.bitmap;
 
 public class RotateManager {
 
-    public static void checkRotation(String filepath, Bitmap bitmap) {
+    public  void checkRotation(String filepath, Bitmap bitmap) {
         ExifInterface ei;
         try {
             ei = new ExifInterface(filepath);
@@ -48,7 +48,7 @@ public class RotateManager {
 
     }
 
-    private static void saveFile(String filepath,Bitmap bitmap) throws IOException{
+    private void saveFile(String filepath,Bitmap bitmap) throws IOException{
         File file = new File(filepath);
         FileOutputStream out = new FileOutputStream(file);
         bitmap.compress(Bitmap.CompressFormat.JPEG, 90, out);
@@ -56,7 +56,7 @@ public class RotateManager {
         out.close();
     }
 
-    private static Bitmap rotateImage(Bitmap source, float angle) {
+    private Bitmap rotateImage(Bitmap source, float angle) {
         Matrix matrix = new Matrix();
         matrix.postRotate(angle);
         return Bitmap.createBitmap(source, 0, 0, source.getWidth(), source.getHeight(),

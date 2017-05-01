@@ -26,7 +26,6 @@ public class TagsPresenter extends MvpBasePresenter<TagsView> {
     public TagsPresenter(){
         component = AshanApplication.getComponent().createTagsPresenterComponent();
         component.injectTagsPresenter(this);
-        //databaseManager = new DatabaseTagsManager();
     }
 
     public void addTag(Tags tag){

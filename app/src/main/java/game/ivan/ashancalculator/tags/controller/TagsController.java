@@ -39,8 +39,9 @@ import static game.ivan.ashancalculator.tags.presenter.TagsPresenter.DEFAULT_DIV
  * Created by ivan on 20.12.16.
  */
 
-public class TagsController extends MvpViewStateController<TagsView, TagsPresenter,TagStateView> implements TagsView,
-        MaterialDialog.SingleButtonCallback, TagsListAdapter.TagsListAdapterCallback {
+public class TagsController extends MvpViewStateController<TagsView, TagsPresenter,TagStateView>
+        implements TagsView, MaterialDialog.SingleButtonCallback,
+        TagsListAdapter.TagsListAdapterCallback {
 
 
     @BindString(R.string.nameless)
@@ -60,8 +61,6 @@ public class TagsController extends MvpViewStateController<TagsView, TagsPresent
     public TagsController() {
         setHasOptionsMenu(true);
         setRetainViewMode(RetainViewMode.RETAIN_DETACH);
-
-
     }
 
     @NonNull

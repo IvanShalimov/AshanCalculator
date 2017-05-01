@@ -11,9 +11,13 @@ import java.io.FileOutputStream;
 import java.util.ArrayList;
 import java.util.List;
 
+import javax.inject.Inject;
+
+import game.ivan.ashancalculator.AshanApplication;
 import game.ivan.ashancalculator.database.DatabaseItemsManager;
 import game.ivan.ashancalculator.database.models.Item;
 import game.ivan.ashancalculator.database.models.Tags;
+import game.ivan.ashancalculator.items.presenter.dagger.ItemsPresenterComponent;
 import game.ivan.ashancalculator.items.view.ItemsView;
 import game.ivan.ashancalculator.service.RotateManager;
 import io.reactivex.Observable;
@@ -28,10 +32,18 @@ import io.reactivex.schedulers.Schedulers;
 
 public class ItemsPresenter extends MvpBasePresenter<ItemsView> {
 
+    @Inject
     DatabaseItemsManager databaseManager;
+    @Inject
+    RotateManager rotateManager;
+
+    ItemsPresenterComponent component;
+
 
     public ItemsPresenter(){
-        databaseManager = new DatabaseItemsManager();
+        component = AshanApplication.getComponent().createItemsPresenterComponent();
+        component.injectItemsPresenter(this);
+        //databaseManager = new DatabaseItemsManager();
     }
 
     public void detachView(boolean retainPresenterInstance){
@@ -72,7 +84,6 @@ public class ItemsPresenter extends MvpBasePresenter<ItemsView> {
         loadItems(false);
     }
 
-
     public void saveImageFile(Bitmap bitmap){
         //TODO refactor
         String root = Environment.getExternalStorageDirectory().toString();
@@ -97,7 +108,7 @@ public class ItemsPresenter extends MvpBasePresenter<ItemsView> {
             e.printStackTrace();
         }
 
-        RotateManager.checkRotation(file.getAbsolutePath(),bitmap);
+        rotateManager.checkRotation(file.getAbsolutePath(),bitmap);
     }
 
 
