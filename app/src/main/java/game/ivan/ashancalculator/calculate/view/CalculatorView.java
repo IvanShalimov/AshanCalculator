@@ -10,7 +10,7 @@ import game.ivan.ashancalculator.database.models.Item;
  * Created by ivan on 03.01.17.
  */
 
-public interface CalculaterView extends MvpView {
+public interface CalculatorView extends MvpView {
     void setSpinnerData(List<String> list);
     void refreshList(List<Item> list);
     void showOneManPrice(double price);

@@ -6,7 +6,6 @@ import javax.inject.Singleton;
 
 import dagger.Module;
 import dagger.Provides;
-import game.ivan.ashancalculator.service.RotateManager;
 
 /**
  * Created by ivan on 24.04.2017.

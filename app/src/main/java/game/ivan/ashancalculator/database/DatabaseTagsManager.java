@@ -25,19 +25,19 @@ public class DatabaseTagsManager {
     }
 
     public void insertTag(Tags tag){
-        openConnection(AshanApplication.getInstante());
+        openConnection(AshanApplication.getInstance());
         cupboard().withDatabase(database).put(tag);
         closeConnection();
     }
 
     public void deleteTag(Tags tag){
-        openConnection(AshanApplication.getInstante());
+        openConnection(AshanApplication.getInstance());
         cupboard().withDatabase(database).delete(tag);
         closeConnection();
     }
 
     public Observable<List<Tags>> readAllRecord(){
-        openConnection(AshanApplication.getInstante());
+        openConnection(AshanApplication.getInstance());
         List<Tags> list = cupboard().withDatabase(database).query(Tags.class).list();
         closeConnection();
         return Observable.just(list);

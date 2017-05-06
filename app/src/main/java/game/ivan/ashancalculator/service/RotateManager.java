@@ -3,13 +3,11 @@ package game.ivan.ashancalculator.service;
 import android.graphics.Bitmap;
 import android.graphics.Matrix;
 import android.media.ExifInterface;
-import android.util.Log;
 
 import java.io.File;
 import java.io.FileOutputStream;
 import java.io.IOException;
 
-import static android.R.attr.bitmap;
 
 /**
  * Created by ivan on 08.01.2017.

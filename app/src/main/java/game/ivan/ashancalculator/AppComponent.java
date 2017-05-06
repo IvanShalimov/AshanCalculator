@@ -3,8 +3,8 @@ package game.ivan.ashancalculator;
 import javax.inject.Singleton;
 
 import dagger.Component;
-import game.ivan.ashancalculator.calculate.controller.dagger.CalculaterControllerComponent;
-import game.ivan.ashancalculator.calculate.presenter.dagger.CalculaterPresenterComponent;
+import game.ivan.ashancalculator.calculate.controller.dagger.CalculatorControllerComponent;
+import game.ivan.ashancalculator.calculate.presenter.dagger.CalculatorPresenterComponent;
 import game.ivan.ashancalculator.items.controller.dagger.ItemsControllerComponent;
 import game.ivan.ashancalculator.items.presenter.dagger.ItemsPresenterComponent;
 import game.ivan.ashancalculator.tags.controller.dagger.TagControllerComponent;
@@ -26,9 +26,9 @@ public interface AppComponent {
 
     ItemsPresenterComponent createItemsPresenterComponent();
 
-    ItemsControllerComponent createItemsConrtollerComponent();
+    ItemsControllerComponent createItemsControllerComponent();
 
-    CalculaterPresenterComponent createCalculaterPresenterComponent();
+    CalculatorPresenterComponent createCalculatorPresenterComponent();
 
-    CalculaterControllerComponent createCalculaterControllerComponent();
+    CalculatorControllerComponent createCalculatorControllerComponent();
 }

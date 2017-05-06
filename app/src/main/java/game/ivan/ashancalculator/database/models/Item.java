@@ -1,6 +1,5 @@
 package game.ivan.ashancalculator.database.models;
 
-import nl.qbusict.cupboard.annotation.Column;
 
 /**
  * Created by ivan on 31.12.16.

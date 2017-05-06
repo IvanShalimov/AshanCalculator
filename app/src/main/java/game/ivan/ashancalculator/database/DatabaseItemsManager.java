@@ -8,7 +8,6 @@ import java.util.List;
 
 import game.ivan.ashancalculator.AshanApplication;
 import game.ivan.ashancalculator.database.models.Item;
-import game.ivan.ashancalculator.database.models.Tags;
 import io.reactivex.Observable;
 
 import static nl.qbusict.cupboard.CupboardFactory.cupboard;
@@ -27,32 +26,32 @@ public class DatabaseItemsManager  {
     }
 
     public void insertItem(Item item){
-        openConnection(AshanApplication.getInstante());
+        openConnection(AshanApplication.getInstance());
         cupboard().withDatabase(database).put(item);
         closeConnection();
     }
 
     public void deleteItem(Item item){
-        openConnection(AshanApplication.getInstante());
+        openConnection(AshanApplication.getInstance());
         cupboard().withDatabase(database).delete(item);
         closeConnection();
     }
 
     public Observable<List<Tags>> getTagsList(){
-        openConnection(AshanApplication.getInstante());
+        openConnection(AshanApplication.getInstance());
         List<Tags> list = cupboard().withDatabase(database).query(Tags.class).list();
         closeConnection();
         return Observable.just(list);
     }
 
     public void deleteAll(){
-        openConnection(AshanApplication.getInstante());
+        openConnection(AshanApplication.getInstance());
         cupboard().withDatabase(database).delete(Item.class,null);
         closeConnection();
     }
 
     public Observable<List<Item>> readAllRecord(){
-        openConnection(AshanApplication.getInstante());
+        openConnection(AshanApplication.getInstance());
         List<Item> list = cupboard().withDatabase(database).query(Item.class).list();
         closeConnection();
         return Observable.just(list);

@@ -31,6 +31,8 @@
         <item>Л.</item>
         <item>г.</item>
     </string-array>
-    <string name="empty_string"></string>
+    <string name="empty_string" />
+    <string name="toolbar_title">Калькулятор покупок</string>
+    <string name="photo_icon_description">photo_icon</string>
 
 </resources>

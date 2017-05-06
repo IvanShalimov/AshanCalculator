@@ -3,7 +3,6 @@ package game.ivan.ashancalculator.calculate.controller;
 import android.support.annotation.NonNull;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -13,7 +12,6 @@ import android.widget.Spinner;
 import android.widget.TextView;
 
 import com.hannesdorfmann.mosby.conductor.viewstate.MvpViewStateController;
-import com.hannesdorfmann.mosby.mvp.conductor.MvpController;
 
 import java.util.List;
 
@@ -21,27 +19,24 @@ import javax.inject.Inject;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
-import butterknife.Unbinder;
 import game.ivan.ashancalculator.AshanApplication;
 import game.ivan.ashancalculator.R;
-import game.ivan.ashancalculator.calculate.controller.dagger.CalculaterControllerComponent;
+import game.ivan.ashancalculator.calculate.controller.dagger.CalculatorControllerComponent;
 import game.ivan.ashancalculator.calculate.presenter.CalculatedPresenter;
-import game.ivan.ashancalculator.calculate.presenter.dagger.CalculaterPresenterComponent;
-import game.ivan.ashancalculator.calculate.view.CalculaterView;
+import game.ivan.ashancalculator.calculate.view.CalculatorView;
 import game.ivan.ashancalculator.database.models.Item;
-import game.ivan.ashancalculator.items.controller.ItemListAdapter;
 
 /**
  * Created by ivan on 03.01.17.
  */
 
-public class CalculateController extends MvpViewStateController<CalculaterView,CalculatedPresenter,CalculatorViewState>
-        implements CalculaterView,AdapterView.OnItemSelectedListener {
+public class CalculateController extends MvpViewStateController<CalculatorView,CalculatedPresenter,CalculatorViewState>
+        implements CalculatorView,AdapterView.OnItemSelectedListener {
 
     @BindView(R.id.tag_spinner)
     Spinner tagSpinner;
     @BindView(R.id.list_header_label)
-    TextView headerLsit;
+    TextView headerList;
     @BindView(R.id.one_man_label)
     TextView oneManPrice;
     @BindView(R.id.sum_label)
@@ -53,13 +48,13 @@ public class CalculateController extends MvpViewStateController<CalculaterView,C
     CalculatedListItemAdapter adapter;
     double onePrice,sumPrice;
 
-    CalculaterControllerComponent component;
+    CalculatorControllerComponent component;
 
 
     public CalculateController(){
         setRetainViewMode(RetainViewMode.RETAIN_DETACH);
 
-        component = AshanApplication.getComponent().createCalculaterControllerComponent();
+        component = AshanApplication.getComponent().createCalculatorControllerComponent();
         component.injectCalculateController(this);
     }
 
@@ -106,7 +101,7 @@ public class CalculateController extends MvpViewStateController<CalculaterView,C
 
     @Override
     public void setSpinnerData(List<String> list) {
-        ArrayAdapter<String> spinnerAdapter = new ArrayAdapter<String>(
+        ArrayAdapter<String> spinnerAdapter = new ArrayAdapter<>(
                 getApplicationContext(),
                 R.layout.spinner_item, list);
         tagSpinner.setAdapter(spinnerAdapter);

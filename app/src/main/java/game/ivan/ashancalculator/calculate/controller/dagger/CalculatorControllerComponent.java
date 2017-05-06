@@ -6,8 +6,8 @@ import game.ivan.ashancalculator.calculate.controller.CalculateController;
 /**
  * Created by ivan on 01.05.2017.
  */
-@Subcomponent(modules = {CalculatorContorllerModule.class})
-public interface CalculaterControllerComponent {
+@Subcomponent(modules = {CalculatorControllerModule.class})
+public interface CalculatorControllerComponent {
 
     void injectCalculateController(CalculateController controller);
 }

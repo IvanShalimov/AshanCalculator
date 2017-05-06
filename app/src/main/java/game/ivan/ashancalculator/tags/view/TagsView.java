@@ -15,7 +15,7 @@ public interface TagsView extends MvpView {
 
     void refreshList(Observable<List<Tags>> list);
 
-    public void showEditDialog(Tags tag);
+    void showEditDialog(Tags tag);
 
     void showCreateDialog();
 }

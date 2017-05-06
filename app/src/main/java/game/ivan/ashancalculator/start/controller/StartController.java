@@ -1,13 +1,11 @@
 package game.ivan.ashancalculator.start.controller;
 
-import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.design.widget.FloatingActionButton;
 import android.support.v7.app.ActionBar;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.ImageView;
 import android.widget.Toast;
 
 import com.bluelinelabs.conductor.ControllerChangeHandler;
@@ -15,9 +13,8 @@ import com.bluelinelabs.conductor.ControllerChangeType;
 import com.bluelinelabs.conductor.RouterTransaction;
 import com.bluelinelabs.conductor.changehandler.HorizontalChangeHandler;
 import com.hannesdorfmann.mosby.mvp.conductor.MvpController;
-import com.squareup.picasso.Callback;
-import com.squareup.picasso.Picasso;
 
+import butterknife.BindString;
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
@@ -28,6 +25,7 @@ import game.ivan.ashancalculator.service.ActionBarProvider;
 import game.ivan.ashancalculator.start.presenter.StartPresenter;
 import game.ivan.ashancalculator.start.view.StartView;
 import game.ivan.ashancalculator.tags.controller.TagsController;
+
 
 /**
  * Created by ivan on 19.12.16.
@@ -41,6 +39,8 @@ public class StartController extends MvpController<StartView, StartPresenter> im
     FloatingActionButton addTagButton;
     @BindView(R.id.clear_bag_button)
     FloatingActionButton clearItemsButton;
+    @BindString(R.string.toolbar_title)
+    String toolbarTitle;
 
     public StartController() {
     }
@@ -50,12 +50,13 @@ public class StartController extends MvpController<StartView, StartPresenter> im
     protected View onCreateView(@NonNull LayoutInflater inflater, @NonNull ViewGroup container) {
         View view = inflateView(inflater, container);
         ButterKnife.bind(this, view);
-        onViewBound(view);
+        onViewBound();
         return view;
     }
 
-    private void onViewBound(View view) {
+    private void onViewBound() {
         getActionBar().setIcon(R.mipmap.ic_launcher);
+        getActionBar().setTitle(" "+toolbarTitle);
     }
 
     private ActionBar getActionBar() {

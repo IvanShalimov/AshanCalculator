@@ -2,7 +2,6 @@ package game.ivan.ashancalculator.tags.controller;
 
 import android.content.Intent;
 import android.support.annotation.NonNull;
-import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.Menu;
@@ -45,7 +44,7 @@ public class TagsController extends MvpViewStateController<TagsView, TagsPresent
 
 
     @BindString(R.string.nameless)
-    String namless;
+    String nameless;
 
     @BindView(R.id.list)
     RecyclerView list;
@@ -67,7 +66,7 @@ public class TagsController extends MvpViewStateController<TagsView, TagsPresent
     @Override
     protected View onCreateView(@NonNull LayoutInflater inflater, @NonNull ViewGroup container) {
         component = AshanApplication.getComponent().createTagControllerComponent();
-        component.inhjectTagController(this);
+        component.injectTagController(this);
         View view = inflateView(inflater, container);
 
         ButterKnife.bind(this,view);
@@ -135,7 +134,7 @@ public class TagsController extends MvpViewStateController<TagsView, TagsPresent
                         .toString();
 
         if(name.equals(""))
-            name = namless;
+            name = nameless;
 
         int division =
                 presenter.checkDivision(((EditText) layout.findViewById(R.id.count_edit_field))
@@ -174,7 +173,7 @@ public class TagsController extends MvpViewStateController<TagsView, TagsPresent
                     .onPositive((dialog12, which) -> {
                         String name = ((EditText)dialog.findViewById(R.id.name_edit_field)).getText().toString();
                         if(name.equals("")){
-                            name = namless;
+                            name = nameless;
                         } else {
                             tag.nameTags = name;
                         }
@@ -201,7 +200,7 @@ public class TagsController extends MvpViewStateController<TagsView, TagsPresent
                     .onPositive((dialog1, which) -> {
                         String name = ((EditText)dialog.findViewById(R.id.name_edit_field)).getText().toString();
                         if(name.equals("")){
-                            name = namless;
+                            name = nameless;
                         } else {
                             tag.nameTags = name;
                         }

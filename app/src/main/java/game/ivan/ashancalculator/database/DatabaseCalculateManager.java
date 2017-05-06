@@ -2,10 +2,8 @@ package game.ivan.ashancalculator.database;
 
 import android.content.Context;
 import android.database.sqlite.SQLiteDatabase;
-import android.util.Log;
 
 import java.util.List;
-import java.util.StringJoiner;
 
 import game.ivan.ashancalculator.AshanApplication;
 import game.ivan.ashancalculator.database.models.Item;
@@ -29,14 +27,14 @@ public class DatabaseCalculateManager {
     }
 
     public Observable<List<Tags>> readAllTags(){
-        openConnection(AshanApplication.getInstante());
+        openConnection(AshanApplication.getInstance());
         List<Tags> list = cupboard().withDatabase(database).query(Tags.class).list();
         closeConnection();
         return Observable.just(list);
     }
 
     public Observable<List<Item>> getItemForTag(int tagId){
-        openConnection(AshanApplication.getInstante());
+        openConnection(AshanApplication.getInstance());
         List<Item> items = cupboard()
                 .withDatabase(database).query(Item.class)
                 .withSelection("tag_id = ?", String.valueOf(tagId))
@@ -46,7 +44,7 @@ public class DatabaseCalculateManager {
     }
 
     public int getDivider(int tagId){
-        openConnection(AshanApplication.getInstante());
+        openConnection(AshanApplication.getInstance());
         Tags tag = cupboard().withDatabase(database)
                 .query(Tags.class)
                 .withSelection("_id = ?", String.valueOf(tagId))

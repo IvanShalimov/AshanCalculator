@@ -9,5 +9,5 @@ import game.ivan.ashancalculator.tags.controller.TagsController;
 @Subcomponent(modules = {TagControllerModule.class})
 public interface TagControllerComponent {
 
-    void inhjectTagController(TagsController controller);
+    void injectTagController(TagsController controller);
 }

@@ -75,7 +75,7 @@ public class ItemsController extends MvpViewStateController<ItemsView, ItemsPres
         setHasOptionsMenu(true);
         setRetainViewMode(RetainViewMode.RETAIN_DETACH);
 
-        component = AshanApplication.getComponent().createItemsConrtollerComponent();
+        component = AshanApplication.getComponent().createItemsControllerComponent();
         component.injectItemsController(this);
     }
 
@@ -151,7 +151,6 @@ public class ItemsController extends MvpViewStateController<ItemsView, ItemsPres
 
     @Override
     public void onClick(@NonNull MaterialDialog dialog, @NonNull DialogAction which) {
-        //TODO refactor tefactor alarm
 
         String name = ((EditText) dialogAdd.findViewById(R.id.name_item_edit_field))
                 .getText().toString();
@@ -305,9 +304,7 @@ public class ItemsController extends MvpViewStateController<ItemsView, ItemsPres
 
                     presenter.saveItem(item);
                 })
-                .onNegative((dialog1, which) -> {
-                    presenter.deleteItem(item);
-                })
+                .onNegative((dialog1, which) -> presenter.deleteItem(item))
                 .build();
 
         dialogAdd = dialog.getCustomView();
@@ -321,7 +318,7 @@ public class ItemsController extends MvpViewStateController<ItemsView, ItemsPres
 
         ((fr.ganfra.materialspinner.MaterialSpinner) dialogAdd.findViewById(R.id.tag_spinner_list)).setSelection((int) item.tag_id);
 
-        ArrayAdapter<String> unitSpinnerAdapter = new ArrayAdapter<String>(
+        ArrayAdapter<String> unitSpinnerAdapter = new ArrayAdapter<>(
                 getApplicationContext(),
                 R.layout.spinner_item, unitLabel);
         ((fr.ganfra.materialspinner.MaterialSpinner) dialogAdd.findViewById(R.id.unit_spinner)).setAdapter(unitSpinnerAdapter);
@@ -372,7 +369,7 @@ public class ItemsController extends MvpViewStateController<ItemsView, ItemsPres
 
 
 
-        ArrayAdapter<String> unitSpinnerAdapter = new ArrayAdapter<String>(
+        ArrayAdapter<String> unitSpinnerAdapter = new ArrayAdapter<>(
                 getApplicationContext(),
                 R.layout.spinner_item, unitLabel);
         ((fr.ganfra.materialspinner.MaterialSpinner) dialogAdd.findViewById(R.id.unit_spinner)).setAdapter(unitSpinnerAdapter);

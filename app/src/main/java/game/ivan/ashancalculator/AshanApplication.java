@@ -2,7 +2,6 @@ package game.ivan.ashancalculator;
 
 import android.app.Application;
 
-import dagger.internal.DaggerCollections;
 
 /**
  * Created by ivan on 27.12.16.
@@ -10,7 +9,7 @@ import dagger.internal.DaggerCollections;
 
 public class AshanApplication extends Application {
 
-    public static AshanApplication instante;
+    public static AshanApplication instance;
     private static AppComponent component;
 
     @Override
@@ -22,15 +21,15 @@ public class AshanApplication extends Application {
         component.injectApp(this);
     }
 
-    public static AshanApplication getInstante(){
-        if(instante == null){
-            instante = new AshanApplication();
+    public static AshanApplication getInstance(){
+        if(instance == null){
+            instance = new AshanApplication();
         }
-        return instante;
+        return instance;
     }
 
     public AshanApplication(){
-        instante = this;
+        instance = this;
 
     }
 

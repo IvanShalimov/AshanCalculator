@@ -2,7 +2,6 @@ package game.ivan.ashancalculator.items.presenter;
 
 import android.graphics.Bitmap;
 import android.os.Environment;
-import android.util.Log;
 
 import com.hannesdorfmann.mosby.mvp.MvpBasePresenter;
 
@@ -22,8 +21,6 @@ import game.ivan.ashancalculator.items.view.ItemsView;
 import game.ivan.ashancalculator.service.RotateManager;
 import io.reactivex.Observable;
 import io.reactivex.android.schedulers.AndroidSchedulers;
-import io.reactivex.functions.Action;
-import io.reactivex.observers.DefaultObserver;
 import io.reactivex.schedulers.Schedulers;
 
 /**
@@ -54,9 +51,9 @@ public class ItemsPresenter extends MvpBasePresenter<ItemsView> {
         return databaseManager.getTagsList()
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
-                .map(tagses -> {
+                .map(tags -> {
                     List<String> labels = new ArrayList<>();
-                    for(Tags tag: tagses){
+                    for(Tags tag: tags){
                         labels.add(tag.nameTags);
                     }
                     return labels;

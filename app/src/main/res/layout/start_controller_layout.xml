@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
-<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<android.support.constraint.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/content_start"
@@ -14,24 +14,31 @@
         android:clickable="true"
         app:fabSize="normal"
         app:srcCompat="@drawable/tag_button_icon"
-        android:layout_centerVertical="true"
-        android:layout_centerHorizontal="true"
         android:id="@+id/add_tag_button"
-        android:layout_margin="5dp"
-        app:rippleColor="@color/rippleAccent"/>
+        app:rippleColor="@color/rippleAccent"
+        tools:layout_constraintTop_creator="1"
+        tools:layout_constraintLeft_creator="1"
+        app:layout_constraintTop_toTopOf="@+id/add_item_button"
+        app:layout_constraintLeft_toRightOf="@+id/add_item_button"
+        android:layout_marginLeft="10dp"
+        android:layout_marginStart="10dp"/>
 
     <android.support.design.widget.FloatingActionButton
+        android:id="@+id/add_item_button"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:clickable="true"
         app:fabSize="normal"
         app:srcCompat="@drawable/items_button_icon"
-        android:layout_toLeftOf="@+id/add_tag_button"
-        android:layout_toStartOf="@+id/add_tag_button"
-        android:id="@+id/add_item_button"
-        android:layout_margin="5dp"
-        android:layout_centerVertical="true"
-        app:rippleColor="@color/rippleAccent"/>
+        app:rippleColor="@color/rippleAccent"
+        tools:layout_constraintTop_creator="1"
+        tools:layout_constraintBottom_creator="1"
+        app:layout_constraintBottom_toBottomOf="parent"
+        tools:layout_constraintLeft_creator="1"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        android:layout_marginLeft="98dp"
+        android:layout_marginStart="98dp"/>
 
     <android.support.design.widget.FloatingActionButton
         android:layout_width="wrap_content"
@@ -39,10 +46,12 @@
         android:clickable="true"
         app:fabSize="normal"
         app:srcCompat="@drawable/result_button_icon"
-        android:layout_toRightOf="@+id/add_tag_button"
-        android:layout_toEndOf="@+id/add_tag_button"
         android:id="@+id/clear_bag_button"
-        android:layout_margin="5dp"
-        android:layout_centerVertical="true"
-        app:rippleColor="@color/rippleAccent"/>
-</RelativeLayout>
+        app:rippleColor="@color/rippleAccent"
+        tools:layout_constraintTop_creator="1"
+        tools:layout_constraintLeft_creator="1"
+        app:layout_constraintTop_toTopOf="@+id/add_tag_button"
+        app:layout_constraintLeft_toRightOf="@+id/add_tag_button"
+        android:layout_marginLeft="10dp"
+        android:layout_marginStart="10dp"/>
+</android.support.constraint.ConstraintLayout>

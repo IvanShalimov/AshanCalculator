@@ -1,6 +1,5 @@
 package game.ivan.ashancalculator.start;
 
-import android.graphics.Color;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
@@ -13,10 +12,10 @@ import com.bluelinelabs.conductor.RouterTransaction;
 import butterknife.BindColor;
 import butterknife.BindView;
 import butterknife.ButterKnife;
-import game.ivan.ashancalculator.AshanApplication;
 import game.ivan.ashancalculator.R;
 import game.ivan.ashancalculator.service.ActionBarProvider;
 import game.ivan.ashancalculator.start.controller.StartController;
+
 
 public class StartActivity extends AppCompatActivity implements ActionBarProvider {
 
@@ -34,6 +33,7 @@ public class StartActivity extends AppCompatActivity implements ActionBarProvide
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_start);
         ButterKnife.bind(this);
+
         setSupportActionBar(toolbar);
         toolbar.setTitleTextColor(colorAccent);
 

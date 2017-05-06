@@ -4,9 +4,6 @@ import android.content.Context;
 import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
 
-import javax.inject.Inject;
-
-import game.ivan.ashancalculator.AshanApplication;
 import game.ivan.ashancalculator.database.models.Item;
 import game.ivan.ashancalculator.database.models.Tags;
 

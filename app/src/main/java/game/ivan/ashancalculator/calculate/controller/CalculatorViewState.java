@@ -4,13 +4,13 @@ import com.hannesdorfmann.mosby.mvp.viewstate.ViewState;
 
 import java.util.List;
 
-import game.ivan.ashancalculator.calculate.view.CalculaterView;
+import game.ivan.ashancalculator.calculate.view.CalculatorView;
 
 /**
  * Created by ivan on 04.01.2017.
  */
 
-public class CalculatorViewState implements ViewState<CalculaterView> {
+public class CalculatorViewState implements ViewState<CalculatorView> {
 
     public final static int SHOW_CONTENT = 0;
 
@@ -31,7 +31,7 @@ public class CalculatorViewState implements ViewState<CalculaterView> {
     int currentState=0;
 
     @Override
-    public void apply(CalculaterView view, boolean retained) {
+    public void apply(CalculatorView view, boolean retained) {
         switch (currentState){
             case SHOW_CONTENT:
                 view.setSpinnerData(labels);
