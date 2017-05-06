@@ -2,27 +2,28 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     package="game.ivan.ashancalculator">
 
-    <uses-permission
-        android:name="android.permission.WRITE_EXTERNAL_STORAGE"/>
-    <uses-permission
-        android:name="android.permission.READ_EXTERNAL_STORAGE" />
-    <uses-permission android:name="android.permission.STORAGE"/>
+    <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
+    <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE" />
+    <uses-permission android:name="android.permission.STORAGE" />
+
     <permission-group android:name="android.permission-group.STORAGE" />
 
-    <supports-screens android:smallScreens="true"
-        android:normalScreens="true"
+    <supports-screens
+        android:compatibleWidthLimitDp="600"
         android:largeScreens="false"
-        android:xlargeScreens="false"
-    android:requiresSmallestWidthDp="480"
-    android:compatibleWidthLimitDp="600"
-    android:largestWidthLimitDp="720" />
+        android:largestWidthLimitDp="720"
+        android:normalScreens="true"
+        android:requiresSmallestWidthDp="480"
+        android:smallScreens="true"
+        android:xlargeScreens="false" />
+
     <application
+        android:name=".AshanApplication"
         android:allowBackup="true"
         android:icon="@mipmap/ic_launcher"
         android:label="@string/app_name"
         android:supportsRtl="true"
-        android:theme="@style/AppTheme"
-        android:name=".AshanApplication">
+        android:theme="@style/AppTheme">
         <activity
             android:name=".start.StartActivity"
             android:label="@string/app_name"
@@ -33,6 +34,7 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
+        <activity android:name=".SettingsActivity"></activity>
     </application>
 
 </manifest>

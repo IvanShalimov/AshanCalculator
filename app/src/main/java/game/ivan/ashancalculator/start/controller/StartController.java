@@ -1,9 +1,14 @@
 package game.ivan.ashancalculator.start.controller;
 
+import android.Manifest;
+import android.content.Intent;
 import android.support.annotation.NonNull;
 import android.support.design.widget.FloatingActionButton;
 import android.support.v7.app.ActionBar;
 import android.view.LayoutInflater;
+import android.view.Menu;
+import android.view.MenuInflater;
+import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Toast;
@@ -12,6 +17,7 @@ import com.bluelinelabs.conductor.ControllerChangeHandler;
 import com.bluelinelabs.conductor.ControllerChangeType;
 import com.bluelinelabs.conductor.RouterTransaction;
 import com.bluelinelabs.conductor.changehandler.HorizontalChangeHandler;
+import com.gun0912.tedpermission.TedPermission;
 import com.hannesdorfmann.mosby.mvp.conductor.MvpController;
 
 import butterknife.BindString;
@@ -19,6 +25,7 @@ import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
 import game.ivan.ashancalculator.R;
+import game.ivan.ashancalculator.SettingsActivity;
 import game.ivan.ashancalculator.calculate.controller.CalculateController;
 import game.ivan.ashancalculator.items.controller.ItemsController;
 import game.ivan.ashancalculator.service.ActionBarProvider;
@@ -43,6 +50,7 @@ public class StartController extends MvpController<StartView, StartPresenter> im
     String toolbarTitle;
 
     public StartController() {
+        setHasOptionsMenu(true);
     }
 
     @NonNull
@@ -144,5 +152,24 @@ public class StartController extends MvpController<StartView, StartPresenter> im
                         });
                 break;
         }
+    }
+
+    @Override
+    public void onCreateOptionsMenu(@NonNull Menu menu, @NonNull MenuInflater inflater) {
+        super.onCreateOptionsMenu(menu, inflater);
+        inflater.inflate(R.menu.menu_start, menu);
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        int id = item.getItemId();
+        switch (id) {
+            case R.id.action_settings:
+                Intent intent = new Intent(getApplicationContext(), SettingsActivity.class);
+                startActivity(intent);
+                break;
+        }
+
+        return super.onOptionsItemSelected(item);
     }
 }
