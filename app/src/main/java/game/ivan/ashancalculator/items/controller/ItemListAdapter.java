@@ -1,5 +1,6 @@
 package game.ivan.ashancalculator.items.controller;
 
+import android.support.constraint.ConstraintLayout;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -28,11 +29,11 @@ public class ItemListAdapter extends RecyclerView.Adapter<ItemListAdapter.ViewHo
     List<Item> items;
     ItemsListAdapterCallback callback;
 
-    public ItemListAdapter(){
+    public ItemListAdapter() {
         items = new ArrayList<>();
     }
 
-    public ItemListAdapter(List<Item> list){
+    public ItemListAdapter(List<Item> list) {
         items = list;
     }
 
@@ -47,25 +48,26 @@ public class ItemListAdapter extends RecyclerView.Adapter<ItemListAdapter.ViewHo
     public void onBindViewHolder(ViewHolder holder, int position) {
         holder.nameLabel.setText(items.get(position).name);
         holder.priceLabel.setText(String.valueOf(
-                items.get(position).price*items.get(position).count));
+                items.get(position).price * items.get(position).count));
 
         Picasso.Builder builder = new Picasso.Builder(AshanApplication.getInstance());
         builder.listener((picasso, uri, exception) -> exception.printStackTrace());
 
-        try {
-            builder.build().load("file://"+items.get(position).photoPath)
-                    .resize(100,100)
-                    .rotate(90)
-                    .centerCrop()
-                    .error(R.mipmap.ic_launcher)
-                    .into(holder.itemIcon);
+        if (!items.get(position).photoPath.equals(""))
+            try {
+                builder.build().load("file://" + items.get(position).photoPath)
+                        .resize(100, 100)
+                        .rotate(90)
+                        .centerCrop()
+                        .error(R.mipmap.ic_launcher)
+                        .into(holder.itemIcon);
 
-        }catch(Exception exception){
-            exception.printStackTrace();
-        }
+            } catch (Exception exception) {
+                exception.printStackTrace();
+            }
 
         holder.item_container.setOnClickListener(view -> {
-            if(callback != null){
+            if (callback != null) {
                 callback.onListItemSelect(items.get(position));
             }
         });
@@ -76,20 +78,20 @@ public class ItemListAdapter extends RecyclerView.Adapter<ItemListAdapter.ViewHo
         return items.size();
     }
 
-    class ViewHolder extends RecyclerView.ViewHolder{
+    class ViewHolder extends RecyclerView.ViewHolder {
 
         @BindView(R.id.price_label)
         TextView priceLabel;
         @BindView(R.id.name_label)
         TextView nameLabel;
         @BindView(R.id.item_list_container)
-        RelativeLayout item_container;
+        ConstraintLayout item_container;
         @BindView(R.id.item_icon)
         ImageView itemIcon;
 
         public ViewHolder(View itemView) {
             super(itemView);
-            ButterKnife.bind(this,itemView);
+            ButterKnife.bind(this, itemView);
         }
     }
 

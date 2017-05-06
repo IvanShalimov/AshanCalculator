@@ -47,7 +47,7 @@ import io.reactivex.schedulers.Schedulers;
  * Created by ivan on 21.12.16.
  */
 
-public class ItemsController extends MvpViewStateController<ItemsView, ItemsPresenter,ItemViewState>
+public class ItemsController extends MvpViewStateController<ItemsView, ItemsPresenter, ItemViewState>
         implements ItemsView,
         MaterialDialog.SingleButtonCallback, ItemListAdapter.ItemsListAdapterCallback,
         PermissionListener {
@@ -132,12 +132,15 @@ public class ItemsController extends MvpViewStateController<ItemsView, ItemsPres
                 presenter.clearAll();
                 break;
             case R.id.add_item:
-                new TedPermission(getApplicationContext())
+                if(presenter.mode())
+                    new TedPermission(getApplicationContext())
                         .setPermissionListener(this)
                         .setDeniedMessage("Если вы отвергаете разрешение, вы не можете воспользоваться этой услугой" +
                                 "\n\nПожалуйста, включите разрешения на [Настройки] > [Разрешение]")
                         .setPermissions(Manifest.permission.WRITE_EXTERNAL_STORAGE)
                         .check();
+                else
+                    showCreateDialog();
                 break;
         }
 
@@ -154,27 +157,27 @@ public class ItemsController extends MvpViewStateController<ItemsView, ItemsPres
 
         String name = ((EditText) dialogAdd.findViewById(R.id.name_item_edit_field))
                 .getText().toString();
-        if(name.equals(EMPTY_STRING)){
+        if (name.equals(EMPTY_STRING)) {
             name = noNameItem;
         }
         long tagId = (
                 (fr.ganfra.materialspinner.MaterialSpinner) dialogAdd
-                .findViewById(R.id.tag_spinner_list)
+                        .findViewById(R.id.tag_spinner_list)
         )
                 .getSelectedItemId();
 
-            double count;
-        try{
-             count = Double.valueOf(((EditText) dialogAdd.findViewById(R.id.count_item_picker))
+        double count;
+        try {
+            count = Double.valueOf(((EditText) dialogAdd.findViewById(R.id.count_item_picker))
                     .getText().toString());
-        }catch(NumberFormatException | NullPointerException exception){
-            count= DEFAULT_DOUBLE_VALUE;
+        } catch (NumberFormatException | NullPointerException exception) {
+            count = DEFAULT_DOUBLE_VALUE;
         }
-            double price;
-        try{
+        double price;
+        try {
             price = Double.valueOf(((EditText) dialogAdd.findViewById(R.id.price_item_field))
                     .getText().toString());
-        }catch(NumberFormatException | NullPointerException exception){
+        } catch (NumberFormatException | NullPointerException exception) {
             price = 1;
         }
 
@@ -184,17 +187,15 @@ public class ItemsController extends MvpViewStateController<ItemsView, ItemsPres
         )
                 .getSelectedItemId();
 
-        if(unitLabelId == 0){
+        if (unitLabelId == 0) {
             unitLabelId = 1;
         }
 
 
-        int selectedItemUnit = (int)unitLabelId-1;
-        if(!picturePath.equals(EMPTY_STRING)) {
-            presenter.saveItem(new Item(name, picturePath, tagId, count, price,unitLabel[selectedItemUnit]));
+        int selectedItemUnit = (int) unitLabelId - 1;
+        presenter.saveItem(new Item(name, picturePath, tagId, count, price, unitLabel[selectedItemUnit]));
 
-            picturePath = EMPTY_STRING;
-        }
+        picturePath = EMPTY_STRING;
 
     }
 
@@ -225,18 +226,18 @@ public class ItemsController extends MvpViewStateController<ItemsView, ItemsPres
     public void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
         if (requestCode == REQUEST_TAKE_PHOTO) {
-            try{
+            try {
                 Bitmap bitmap = (Bitmap) data.getExtras().get("data");
                 if (bitmap != null) {
                     presenter.saveImageFile(bitmap);
-                    if (getViewState()!= null)
+                    if (getViewState() != null)
                         getViewState().setShowCreateDialog();
                     showCreateDialog();
                 } else {
                     Toast.makeText(this.getApplicationContext(), R.string.picture_not_taken, Toast.LENGTH_SHORT)
                             .show();
                 }
-            }catch(NullPointerException exception){
+            } catch (NullPointerException exception) {
                 //Press back button
             }
         }
@@ -272,7 +273,7 @@ public class ItemsController extends MvpViewStateController<ItemsView, ItemsPres
                 .onPositive((dialog12, which) -> {
                     String name = ((EditText) dialogAdd.findViewById(R.id.name_item_edit_field))
                             .getText().toString();
-                    if(name.equals(EMPTY_STRING)){
+                    if (name.equals(EMPTY_STRING)) {
                         name = noNameItem;
                     }
                     item.name = name;
@@ -280,7 +281,7 @@ public class ItemsController extends MvpViewStateController<ItemsView, ItemsPres
                     try {
                         item.count = Double.valueOf(((EditText) dialogAdd.findViewById(R.id.count_item_picker))
                                 .getText().toString());
-                    }catch(NumberFormatException | NullPointerException exception){
+                    } catch (NumberFormatException | NullPointerException exception) {
                         item.count = DEFAULT_DOUBLE_VALUE;
                     }
 
@@ -288,7 +289,7 @@ public class ItemsController extends MvpViewStateController<ItemsView, ItemsPres
                     try {
                         item.price = Double.valueOf(((EditText) dialogAdd.findViewById(R.id.price_item_field))
                                 .getText().toString());
-                    }catch(NumberFormatException | NullPointerException exception){
+                    } catch (NumberFormatException | NullPointerException exception) {
                         item.price = DEFAULT_DOUBLE_VALUE;
                     }
 
@@ -299,7 +300,7 @@ public class ItemsController extends MvpViewStateController<ItemsView, ItemsPres
                             .getSelectedItemId();
 
 
-                    int selectedItemUnit = (int)unitLabelId-1;
+                    int selectedItemUnit = (int) unitLabelId - 1;
                     item.unit = unitLabel[selectedItemUnit];
 
                     presenter.saveItem(item);
@@ -323,10 +324,10 @@ public class ItemsController extends MvpViewStateController<ItemsView, ItemsPres
                 R.layout.spinner_item, unitLabel);
         ((fr.ganfra.materialspinner.MaterialSpinner) dialogAdd.findViewById(R.id.unit_spinner)).setAdapter(unitSpinnerAdapter);
 
-        for(int i =0;i<unitLabel.length;i++){
-            if(unitLabel[i].equals(item.unit)){
-                Log.d("Test","i = " + i);
-                int select = i+1;
+        for (int i = 0; i < unitLabel.length; i++) {
+            if (unitLabel[i].equals(item.unit)) {
+                Log.d("Test", "i = " + i);
+                int select = i + 1;
                 ((fr.ganfra.materialspinner.MaterialSpinner) dialogAdd.findViewById(R.id.unit_spinner)).setSelection(select);
                 break;
             }
@@ -365,8 +366,7 @@ public class ItemsController extends MvpViewStateController<ItemsView, ItemsPres
                     R.layout.spinner_item, strings);
 
             ((fr.ganfra.materialspinner.MaterialSpinner) dialogAdd.findViewById(R.id.tag_spinner_list)).setAdapter(spinnerAdapter);
-        } );
-
+        });
 
 
         ArrayAdapter<String> unitSpinnerAdapter = new ArrayAdapter<>(

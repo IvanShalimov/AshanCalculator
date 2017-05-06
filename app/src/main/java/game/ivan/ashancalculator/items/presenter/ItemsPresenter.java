@@ -18,6 +18,8 @@ import game.ivan.ashancalculator.database.models.Item;
 import game.ivan.ashancalculator.database.models.Tags;
 import game.ivan.ashancalculator.items.presenter.dagger.ItemsPresenterComponent;
 import game.ivan.ashancalculator.items.view.ItemsView;
+import game.ivan.ashancalculator.repository.PreferencesRepository;
+import game.ivan.ashancalculator.repository.Repository;
 import game.ivan.ashancalculator.service.RotateManager;
 import io.reactivex.Observable;
 import io.reactivex.android.schedulers.AndroidSchedulers;
@@ -33,6 +35,8 @@ public class ItemsPresenter extends MvpBasePresenter<ItemsView> {
     DatabaseItemsManager databaseManager;
     @Inject
     RotateManager rotateManager;
+    @Inject
+    Repository repository;
 
     ItemsPresenterComponent component;
 
@@ -40,7 +44,6 @@ public class ItemsPresenter extends MvpBasePresenter<ItemsView> {
     public ItemsPresenter(){
         component = AshanApplication.getComponent().createItemsPresenterComponent();
         component.injectItemsPresenter(this);
-        //databaseManager = new DatabaseItemsManager();
     }
 
     public void detachView(boolean retainPresenterInstance){
@@ -108,5 +111,7 @@ public class ItemsPresenter extends MvpBasePresenter<ItemsView> {
         rotateManager.checkRotation(file.getAbsolutePath(),bitmap);
     }
 
-
+    public boolean mode(){
+        return repository.checkAddMode();
+    }
 }
