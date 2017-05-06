@@ -10,10 +10,10 @@ android {
         applicationId "game.ivan.ashancalculator"
         minSdkVersion 16
         targetSdkVersion 25
-        versionCode 4
-        versionName "1.04"
+        versionCode 5
+        versionName "1.05"
         testInstrumentationRunner "android.support.test.runner.AndroidJUnitRunner"
-        vectorDrawables.useSupportLibrary=true
+        vectorDrawables.useSupportLibrary = true
     }
     buildTypes {
         release {
@@ -35,41 +35,39 @@ dependencies {
     androidTestCompile('com.android.support.test.espresso:espresso-core:2.2.2', {
         exclude group: 'com.android.support', module: 'support-annotations'
     })
-    compile 'com.android.support:appcompat-v7:25.3.1'
     compile 'com.android.support:design:25.3.1'
-    compile 'com.android.support:design:25.3.1'
-    testCompile 'junit:junit:4.12'
-
 
     //mosby-conducor
+
+
+    compile "org.jetbrains.kotlin:kotlin-stdlib:$kotlin_version"
+
+    // Because RxAndroid releases are few and far between, it is recommended you also
+// explicitly depend on RxJava's latest version for bug fixes and new features.
+
+// Butter Knife
+    // Dagger 2
+
+    compile 'com.android.support:appcompat-v7:25.3.1'
+    compile 'com.android.support:design:25.3.1'
     compile 'com.hannesdorfmann.mosby:mvp-conductor:0.8.2'
     compile 'com.hannesdorfmann.mosby:viewstate-conductor:0.8.2'
     compile 'com.android.support:recyclerview-v7:25.3.1'
-
     compile 'com.afollestad.material-dialogs:commons:0.9.1.0'
-
     compile 'nl.qbusict:cupboard:2.2.0'
-    compile "org.jetbrains.kotlin:kotlin-stdlib:$kotlin_version"
-
     compile 'com.squareup.picasso:picasso:2.5.2'
-
     compile 'gun0912.ted:tedpermission:1.0.2'
     compile 'com.github.ganfra:material-spinner:1.1.1'
-
     compile 'io.reactivex.rxjava2:rxandroid:2.0.1'
-// Because RxAndroid releases are few and far between, it is recommended you also
-// explicitly depend on RxJava's latest version for bug fixes and new features.
     compile 'io.reactivex.rxjava2:rxjava:2.0.1'
-
-// Butter Knife
     compile 'com.jakewharton:butterknife:8.4.0'
-    apt 'com.jakewharton:butterknife-compiler:8.4.0'
-// Dagger 2
-    apt 'com.google.dagger:dagger-compiler:2.10'
     compile 'com.google.dagger:dagger:2.10'
-    provided 'javax.annotation:jsr250-api:1.0'
-
     compile 'com.android.support.constraint:constraint-layout:1.0.2'
+    testCompile 'junit:junit:4.12'
+    apt 'com.jakewharton:butterknife-compiler:8.4.0'
+    apt 'com.google.dagger:dagger-compiler:2.10'
+    provided 'javax.annotation:jsr250-api:1.0'
+    compile 'im.dacer:AndroidCharts:1.0.3'
 }
 repositories {
     mavenCentral()

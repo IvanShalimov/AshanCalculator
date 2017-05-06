@@ -1,9 +1,13 @@
 package game.ivan.ashancalculator.calculate.controller;
 
+import android.content.Intent;
 import android.support.annotation.NonNull;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
+import android.view.Menu;
+import android.view.MenuInflater;
+import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
@@ -25,6 +29,7 @@ import game.ivan.ashancalculator.calculate.controller.dagger.CalculatorControlle
 import game.ivan.ashancalculator.calculate.presenter.CalculatedPresenter;
 import game.ivan.ashancalculator.calculate.view.CalculatorView;
 import game.ivan.ashancalculator.database.models.Item;
+import game.ivan.ashancalculator.graphics.GraphicsActivity;
 
 /**
  * Created by ivan on 03.01.17.
@@ -52,6 +57,7 @@ public class CalculateController extends MvpViewStateController<CalculatorView,C
 
 
     public CalculateController(){
+        setHasOptionsMenu(true);
         setRetainViewMode(RetainViewMode.RETAIN_DETACH);
 
         component = AshanApplication.getComponent().createCalculatorControllerComponent();
@@ -153,5 +159,24 @@ public class CalculateController extends MvpViewStateController<CalculatorView,C
     @Override
     public void onNewViewStateInstance() {
         presenter.getTags();
+    }
+
+    @Override
+    public void onCreateOptionsMenu(@NonNull Menu menu, @NonNull MenuInflater inflater) {
+        super.onCreateOptionsMenu(menu, inflater);
+        inflater.inflate(R.menu.menu_calculator, menu);
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        int id = item.getItemId();
+
+        if (id == R.id.show_graphic) {
+            Intent intent = new Intent(getApplicationContext(), GraphicsActivity.class);
+            startActivity(intent);
+            return true;
+        }
+
+        return super.onOptionsItemSelected(item);
     }
 }

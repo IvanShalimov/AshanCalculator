@@ -5,36 +5,59 @@
     android:layout_width="match_parent"
     android:layout_height="wrap_content">
 
-    <TextView
-        android:layout_width="wrap_content"
+    <RelativeLayout
+        android:layout_width="0dp"
         android:layout_height="wrap_content"
-        android:id="@+id/name_calculated_item"
-        app:layout_constraintRight_toLeftOf="parent"
-        tools:layout_constraintRight_creator="1"
-        app:layout_constraintBaseline_toBaselineOf="parent"
-        tools:layout_constraintBaseline_creator="1"
-        tools:layout_constraintLeft_creator="1"
-        app:layout_constraintLeft_toLeftOf="parent" />
-
-    <TextView
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:id="@+id/count_calculated_item"
-        tools:layout_constraintRight_creator="1"
+        android:layout_marginLeft="0dp"
+        android:layout_marginRight="0dp"
+        android:layout_marginTop="-16dp"
+        app:layout_constraintHorizontal_bias="0.0"
+        app:layout_constraintLeft_toLeftOf="parent"
         app:layout_constraintRight_toRightOf="parent"
-        app:layout_constraintBaseline_toBaselineOf="parent"
-        tools:layout_constraintBaseline_creator="1"
-        tools:layout_constraintLeft_creator="1"
-        app:layout_constraintLeft_toLeftOf="parent" />
+        app:layout_constraintTop_toTopOf="parent">
 
-    <TextView
-        android:id="@+id/price_calculated_item"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        tools:layout_constraintRight_creator="1"
-        app:layout_constraintRight_toRightOf="parent"
-        app:layout_constraintBaseline_toBaselineOf="parent"
-        tools:layout_constraintBaseline_creator="1"
-        tools:layout_constraintLeft_creator="1"
-        app:layout_constraintLeft_toRightOf="parent" />
+        <TextView
+            android:id="@+id/price_calculated_item"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="price"
+            app:layout_constraintBaseline_toBaselineOf="parent"
+            app:layout_constraintLeft_toRightOf="parent"
+            app:layout_constraintRight_toRightOf="parent"
+            tools:layout_constraintBaseline_creator="1"
+            tools:layout_constraintLeft_creator="1"
+            tools:layout_constraintRight_creator="1"
+            android:layout_alignParentTop="true"
+            android:layout_alignParentRight="true"
+            android:layout_alignParentEnd="true" />
+
+        <TextView
+            android:id="@+id/count_calculated_item"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:gravity="center_horizontal"
+            android:text="count"
+            app:layout_constraintBaseline_toBaselineOf="parent"
+            app:layout_constraintLeft_toLeftOf="parent"
+            app:layout_constraintRight_toRightOf="parent"
+            tools:layout_constraintBaseline_creator="1"
+            tools:layout_constraintLeft_creator="1"
+            tools:layout_constraintRight_creator="1" />
+
+        <TextView
+            android:id="@+id/name_calculated_item"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="name"
+            app:layout_constraintBaseline_toBaselineOf="parent"
+            app:layout_constraintLeft_toLeftOf="parent"
+            app:layout_constraintRight_toLeftOf="parent"
+            tools:layout_constraintBaseline_creator="1"
+            tools:layout_constraintLeft_creator="1"
+            tools:layout_constraintRight_creator="1"
+            android:layout_alignParentTop="true"
+            android:layout_centerHorizontal="true" />
+
+    </RelativeLayout>
+
 </android.support.constraint.ConstraintLayout>
