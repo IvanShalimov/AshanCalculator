@@ -1,8 +1,8 @@
 <component name="libraryTable">
   <library name="mvp-2.0.1">
     <CLASSES>
-      <root url="file://$USER_HOME$/.android/build-cache/9de0e8f2969b1e5f9befd0331f0a5710234e5b40/output/res" />
-      <root url="jar://$USER_HOME$/.android/build-cache/9de0e8f2969b1e5f9befd0331f0a5710234e5b40/output/jars/classes.jar!/" />
+      <root url="file://$USER_HOME$/.gradle/caches/transforms-1/files-1.1/mvp-2.0.1.aar/1b78548079a8720baeb2e5fa3a68c2dd/res" />
+      <root url="jar://$USER_HOME$/.gradle/caches/transforms-1/files-1.1/mvp-2.0.1.aar/1b78548079a8720baeb2e5fa3a68c2dd/jars/classes.jar!/" />
     </CLASSES>
     <JAVADOC />
     <SOURCES>

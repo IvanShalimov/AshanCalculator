@@ -1,8 +1,8 @@
 <component name="libraryTable">
   <library name="AndroidCharts-1.0.3">
     <CLASSES>
-      <root url="file://$USER_HOME$/.android/build-cache/139c1efc9f53df33fda7f6a89e9041e2e06c12bf/output/res" />
-      <root url="jar://$USER_HOME$/.android/build-cache/139c1efc9f53df33fda7f6a89e9041e2e06c12bf/output/jars/classes.jar!/" />
+      <root url="file://$USER_HOME$/.gradle/caches/transforms-1/files-1.1/AndroidCharts-1.0.3.aar/1b7bdb71411e3adb581cacbbddcd590c/res" />
+      <root url="jar://$USER_HOME$/.gradle/caches/transforms-1/files-1.1/AndroidCharts-1.0.3.aar/1b7bdb71411e3adb581cacbbddcd590c/jars/classes.jar!/" />
     </CLASSES>
     <JAVADOC />
     <SOURCES>

@@ -1,8 +1,8 @@
 <component name="libraryTable">
   <library name="viewstate-conductor-0.8.2">
     <CLASSES>
-      <root url="jar://$USER_HOME$/.android/build-cache/d02eed686edcbf59597da957047a80844e2c239c/output/jars/classes.jar!/" />
-      <root url="file://$USER_HOME$/.android/build-cache/d02eed686edcbf59597da957047a80844e2c239c/output/res" />
+      <root url="jar://$USER_HOME$/.gradle/caches/transforms-1/files-1.1/viewstate-conductor-0.8.2.aar/c46030303562a637016804337fa9d308/jars/classes.jar!/" />
+      <root url="file://$USER_HOME$/.gradle/caches/transforms-1/files-1.1/viewstate-conductor-0.8.2.aar/c46030303562a637016804337fa9d308/res" />
     </CLASSES>
     <JAVADOC />
     <SOURCES>
